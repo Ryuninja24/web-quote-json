@@ -1,17 +1,19 @@
 <div class="container">
 
     <div>
-        <H1>Hello there</H1>
+        <H1>{{title}}</H1>
     </div>
     <div class="col-md-12">
-        <h1><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></a> Schema Form Example</h1>
-
         <div class="row">
             <div class="col-sm-4">
-                <h3>The Generated Form</h3>
-
                 <form name="ngform" sf-model="modelData" sf-form="form" sf-schema="schema"
                       ng-submit="submitForm(ngform,modelData)"></form>
+
+                <div ng-show="ngform.$valid"><em>Form is valid</em></div>
+                <div ng-show="ngform.$invalid"><em>Form is not valid</em></div>
+
+                <h3>Model</h3>
+                <pre ng-cloak>{{pretty()}}</pre>
             </div>
         </div>
     </div>
