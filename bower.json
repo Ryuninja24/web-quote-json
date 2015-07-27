@@ -2,10 +2,11 @@
   "name": "webQuoteJson",
   "version": "0.0.0",
   "dependencies": {
+    "tv4":"1.0.17",
     "angular-animate": "~1.4.0",
     "angular-cookies": "~1.4.0",
     "angular-touch": "~1.4.0",
-    "angular-sanitize": "~1.4.0",
+    "angular-sanitize":"1.4.3",
     "jquery": "~2.1.4",
     "restangular": "~1.5.1",
     "angular-ui-router": "~0.2.15",
@@ -15,7 +16,9 @@
     "toastr": "~2.1.1",
     "moment": "~2.10.3",
     "animate.css": "~3.3.0",
-    "angular": "~1.4.0"
+    "angular": "~1.4.0",
+    "objectpath":"1.1.0",
+    "angular-schema-form":"0.8.4"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"
