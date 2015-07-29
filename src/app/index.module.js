@@ -11,6 +11,7 @@
             'restangular',
             'ui.router',
             'ui.bootstrap',
-            'schemaForm'
+            'schemaForm',
+            'mgcrea.ngStrap'
         ])
 })();
