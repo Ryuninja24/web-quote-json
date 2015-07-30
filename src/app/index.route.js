@@ -22,26 +22,57 @@
                     form: 'dahs form'
                 }
             })
-            .state('postalCodeDetails', {
-                url: '/postal-code',
+            .state('vehicle-entry', {
+                url: '/vehicle',
                 templateUrl: 'app/quote/quote.html',
                 controller: 'QuoteController',
                 data: {
                     schema: {
                         "type": "object",
-                        "title": "Postal Code",
+                        "title": "Vehicle Entry",
                         "properties": {
-                            "postal": {
-                                "title": "Please enter a postal code",
+                            "vinyesno": {
+                                "title": "Do you have a VIN?",
+                                "type": "boolean",
+                                default: null
+                            },
+                            "vin": {
+                                "title": "Vehicle Identification number",
                                 "type": "string"
-                            }
+                            },
+                            "vehicleSelection": {
+                                "title": "Vehicle Year Make and Model",
+                                type: 'string',
+                                format: 'vehicleSelector'
+                            },
                         },
                         "required": [
-                            "postal"
+                            "vinyesno"
                         ]
                     },
                     form: [
-                        "postal",
+                        {
+                            "key": "vinyesno",
+                            "type": "radiobuttons",
+                            "titleMap": [
+                                {
+                                    "value": false,
+                                    "name": "No"
+                                },
+                                {
+                                    "value": true,
+                                    "name": "Yes"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "vin",
+                            "condition": "modelData.vinyesno && modelData.vinyesno != null"
+                        },
+                        {
+                            "key": "vehicleSelection",
+                            "condition": "!modelData.vinyesno && modelData.vinyesno != null"
+                        },
                         {
                             "type": "submit",
                             "style": "btn-info",
@@ -71,7 +102,7 @@
                                 "type": "string",
                                 "title": "No enum, but forms says it's a select"
                             },
-                            "select": {
+                            "funSelect": {
                                 title: 'Single Select',
                                 type: 'string',
                                 format: 'strapselect',
@@ -135,7 +166,7 @@
                             ]
                         },
                         {
-                            key: 'select'
+                            key: 'funSelect'
                         },
                         {
                             key: 'multiselect'

@@ -1,32 +1,3 @@
-<script type='text/javascript'>
-    angular.module('webQuoteJson').controller('StrapSelectController', ['$scope', '$http', function ($scope, $http) {
-        $scope.getItem = {
-            readOnly: true
-        };
-
-        $scope.init = function(category, name) {
-          console.log('init is called', name);
-          $scope.getItem.category = category;
-          $scope.getItem.name = name;
-        };
-
-        $scope.items = [];
-
-        $scope.fetchResult = function () {
-            return  [
-                {value: 'multi1', label: 'blah'},
-                {value: 'multi2', label: 'fun'},
-                {value: 'multi3', label: 'some blah fun'}
-            ];
-//            $http.post('http://www.networknt.com/api/rs', $scope.getItem)
-//                    .success(function (result, status, headers, config) {
-//                        $scope.items = result;
-//                        console.log('items', $scope.items);
-//                    })
-        };
-        $scope.fetchResult();
-    }]);
-</script>
 <div class="form-group" ng-class="{'has-error': hasError(), 'has-success': hasSuccess()}">
   <label class="control-label" ng-show="showTitle()">{{form.title}}</label>
   <div class="form-group" ng-controller="StrapSelectController" ng-init="init(form.options.category, form.options.name)">

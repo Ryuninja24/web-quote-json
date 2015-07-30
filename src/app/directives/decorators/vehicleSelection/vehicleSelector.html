@@ -1,0 +1,103 @@
+<ng-form name="vehicleForm">
+    <div class="form-group" ng-controller="VehicleSelectorController as vehicleSelectorCntrl" ng-init="init(this, form)">
+        <!--<div class="form-group {{form.htmlClass}}" ng-class="{'has-error': hasError()}">-->
+        <!--<label class="control-label" ng-show="showTitle()">{{form.title}}</label>-->
+
+        <!--<div ng-class="{'input-group': (form.fieldAddonLeft || form.fieldAddonRight)}">-->
+        <!--<span ng-if="form.fieldAddonLeft"-->
+        <!--class="input-group-addon"-->
+        <!--ng-bind-html="form.fieldAddonLeft"></span>-->
+        <!--<input ng-show="form.key"-->
+        <!--style="background-color: white"-->
+        <!--type="text"-->
+        <!--class="form-control {{form.fieldHtmlClass}}"-->
+        <!--schema-validate="form"-->
+        <!--ng-model="$$value$$.year"-->
+        <!--ng-disabled="form.readonly"-->
+        <!--pick-a-vehicle="form.pickAVehicle"-->
+        <!--name="{{form.key.slice(-1)[0]}}"-->
+        <!--format="form.format"/>-->
+        <!--<span ng-if="form.fieldAddonRight"-->
+        <!--class="input-group-addon"-->
+        <!--ng-bind-html="form.fieldAddonRight"></span>-->
+        <!--</div>-->
+        <!--<span class="help-block">{{ (hasError() && errorMessage(schemaError())) || form.description}}</span>-->
+        <!--</div>-->
+
+        <div class="form-group"
+             ng-class="{true: 'has-error'}[formSubmitted && vehicleForm.vehicleYear.$invalid]">
+            <label class="control-label form-left">
+                <span>Year</span>
+            </label>
+
+            <div ng-messages="vehicleForm.vehicleYear.$error" ng-if="formSubmitted">
+                <div ng-message="required">Please enter vehicle year.</div>
+                <div ng-message="invalidYear">Please enter a 4 digit year.</div>
+                <div ng-message="vehicleAge">Please select a year between 1981 and {{vehicleSummary.currentYear}}.</div>
+            </div>
+            <input class="form-control form-right" maxlength="4" name="vehicleYear" type="tel"
+                   ng-change="updateYear(vehicle.Year)" ng-disabled="vehicleSummary.yearsDisabled"
+                   ng-model="vehicle.Year" required/>
+        </div>
+
+        <!-- Make -->
+        <div class="form-group" ng-class="{'has-error': hasError(), 'has-success': hasSuccess()}">
+            <label class="control-label form-left">
+                <span>Make</span>
+            </label>
+
+            <div ng-messages="vehicleForm.vehicleMake.$error" ng-if="formSubmitted">
+                <div ng-message="required">Please enter vehicle make.</div>
+            </div>
+            <select class="form-control form-right" name="vehicleMake"
+                    ng-model="$$value$$.MakeId"
+                    ng-disabled="vehicleMakes.length === 0"
+                    ng-change="getVinIsoModels(vehicle.MakeId)"
+                    ng-options="vehicleMake.MakeId as vehicleMake.Links[0].Rel for vehicleMake in vehicleMakes"
+                    required>
+                <option value="">Select</option>
+            </select>
+        </div>
+
+        <!-- Model -->
+        <div class="form-group" ng-class="{'has-error': hasError(), 'has-success': hasSuccess()}">
+            <label class="control-label form-left">
+                <span>Model</span>
+            </label>
+
+            <select class="form-control form-right" name="vehicleModel"
+                    ng-model="vehicle.ModelId"
+                    ng-disabled="vehicleModels.length === 0"
+                    ng-options="vehicleModels.ModelId as vehicleModels.Links[0].Rel for vehicleModels in vehicleModels"
+                    ng-change="getVinIsoBodyStyles(vehicle.ModelId)"
+                    required>
+                <option value="">Select</option>
+            </select>
+
+        </div>
+
+        <!-- Body Style -->
+        <div class="form-group" ng-class="{'has-error': hasError(), 'has-success': hasSuccess()}">
+            <label class="control-label form-left">
+                <span>Body Style</span>
+            </label>
+
+            <div ng-if="vehicleBodyStyles.length == 1">
+                <div class="control-label form-right">{{ vehicle.Style }}</div>
+            </div>
+            <div ng-if="vehicleBodyStyles.length > 1 || vehicleBodyStyles.length === 0">
+                <div ng-messages="form.vehicleBodyStyle.$error" ng-if="formSubmitted">
+                    <div ng-message="required">Please enter vehicle body style.</div>
+                </div>
+                <select class="form-control form-right" name="vehicleBodyStyle"
+                        ng-model="vehicle.YearStyleId"
+                        ng-disabled="vehicleBodyStyles.length === 0"
+                        ng-options="vehicleBodyStyle.YearStyleId as vehicleBodyStyle.Links[0].Rel for vehicleBodyStyle in vehicleBodyStyles"
+                        ng-change="saveVinIsoBodyStyle(vehicle.YearStyleId)"
+                        required>
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</ng-form>

@@ -12,6 +12,8 @@
             'ui.router',
             'ui.bootstrap',
             'schemaForm',
-            'mgcrea.ngStrap'
+            'mgcrea.ngStrap',
+            'platform.apiservices',
+            'platform.tracking'
         ])
 })();
