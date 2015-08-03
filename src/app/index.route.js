@@ -18,8 +18,32 @@
                 templateUrl: 'app/quote/quote.html',
                 controller: 'QuoteController',
                 data: {
-                    schema: 'dahs schema',
-                    form: 'dahs form'
+                    schema: {
+                        "type": "object",
+                        "properties": {
+                            "birthDate": {
+                                "title": "Bday",
+                                "type": "string",
+                                "format": "date"
+                            }
+                        },
+                        "required": [
+                            "birthDate"
+                        ]
+                    },
+                    form: [
+                        {
+                            "key": "birthDate",
+                            "minDate": "1995-09-01",
+                            "maxDate": new Date(),
+                            "format": "yyyy-mm-dd"
+                        },
+                        {
+                            "type": "submit",
+                            "style": "btn-info",
+                            "title": "OK"
+                        }
+                    ]
                 }
             })
             .state('vehicle-entry', {
@@ -54,6 +78,7 @@
                         {
                             "key": "vinyesno",
                             "type": "radiobuttons",
+
                             "titleMap": [
                                 {
                                     "value": false,

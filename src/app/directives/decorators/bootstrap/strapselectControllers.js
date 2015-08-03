@@ -2,7 +2,7 @@
  * Created by gabello on 7/29/2015.
  */
 angular.module('schemaForm')
-    .controller('StrapSelectController', ['$scope', '$http', function ($scope, $http) {
+    .controller('StrapSelectController', ['$scope', function ($scope) {
         $scope.getItem = {
             readOnly: true
         };
@@ -21,11 +21,6 @@ angular.module('schemaForm')
                 {value: 'single2', label: 'single funner'},
                 {value: 'single3', label: 'single stuff'}
             ];
-            //            $http.post('http://www.networknt.com/api/rs', $scope.getItem)
-            //                    .success(function (result, status, headers, config) {
-            //                        $scope.items = result;
-            //                        console.log('items', $scope.items);
-            //                    })
         };
         $scope.fetchResult();
     }]);

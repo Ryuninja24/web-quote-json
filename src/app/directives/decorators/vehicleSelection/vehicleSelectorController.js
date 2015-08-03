@@ -2,7 +2,12 @@
  * Created by gabello on 7/29/2015.
  */
 angular.module('schemaForm')
-    .controller('VehicleSelectorController', ['$scope', 'vinIsoDataService', function ($scope, vinIsoDataService) {
+    .controller('VehicleSelectorController', ['$scope', '$q', 'vinIsoDataService', function ($scope, $q, vinIsoDataService) {
+        "use strict";
+
+        $scope.$on('schemaFormValidate', function() {
+            $scope.vehicleSummary.formSubmitted = true;
+        });
 
         var initialize = function (scopeInstance) {
             scopeInstance.vehicleMakes = [];
@@ -28,9 +33,64 @@ angular.module('schemaForm')
             return _.max($scope.vehicleSummary.years);
         };
 
-        $scope.init = function (object, form) {
-            $scope.vehicleSummary.vehicleForm = object;
+        var getVinIsoMakes = function (year) {
+            return vinIsoDataService.getVinIsoMakes(year);
         };
+
+        var getVinIsoVehicleStuff = function (href) {
+            return vinIsoDataService.getVinIsoVehicleData(href);
+        };
+
+        var fillMakes = function (vehicleYear) {
+            var newResDeferred = $q.defer();
+            getVinIsoMakes(vehicleYear).then(function (yearResponse) {
+                var fun = yearResponse.data.YearMakeModelRecords;
+                _.each(yearResponse.data.YearMakeModelRecords, function (item) {
+                    if (!item.DoNotInsure) {
+                        $scope.vehicleMakes.push({value:item.MakeId.toString(), label:item.Links[0].Rel.toString(), item:item});
+                    }
+                });
+                newResDeferred.resolve(true);
+            }, function (error) {
+                errorService.showModalError('VinIsoVehicle: VinIso data service call to retrieve makes failed with error', error);
+                newResDeferred.reject(false);
+            });
+            return newResDeferred.promise;
+        };
+
+        var fillModels = function (href, collection) {
+            var newResDeferred = $q.defer();
+            getVinIsoVehicleStuff(href).then(function (makeResponse) {
+                _.each(makeResponse.data.YearMakeModelRecords, function (item) {
+                    if (!item.DoNotInsure) {
+                        collection.push({value:item.ModelId.toString(), label:item.Links[0].Rel.toString(), item:item});
+                    }
+                });
+                newResDeferred.resolve(true);
+            }, function (error) {
+                errorService.showModalError('VinIsoVehicle: VinIso data service call to retrieve vehicle items failed with error', error);
+                newResDeferred.reject(false);
+            });
+            return newResDeferred.promise;
+        };
+
+        var fillBodyStyles = function (href, collection) {
+            var newResDeferred = $q.defer();
+            getVinIsoVehicleStuff(href).then(function (makeResponse) {
+                _.each(makeResponse.data.YearMakeModelRecords, function (item) {
+                    if (!item.DoNotInsure) {
+                        collection.push({value:item.YearStyleId.toString(), label:item.Links[0].Rel.toString(), item:item});
+                    }
+                });
+                newResDeferred.resolve(true);
+            }, function (error) {
+                errorService.showModalError('VinIsoVehicle: VinIso data service call to retrieve vehicle items failed with error', error);
+                newResDeferred.reject(false);
+            });
+            return newResDeferred.promise;
+        };
+
+        $scope.vehicle = {};
 
         $scope.vehicleSummary = {
             removeCall: 'removingVehicle',
@@ -43,7 +103,7 @@ angular.module('schemaForm')
             useNewVinIso: true,
             years: [],
             yearsDisabled:true,
-            vehicleForm:null
+            formSubmitted:false
         };
 
         vinIsoDataService.getVinIsoYears().then(function(yearData) {
@@ -64,7 +124,7 @@ angular.module('schemaForm')
 
         $scope.updateYear = function () {
 
-            if (!$scope.vehicle.Year) {
+            if (!$scope.vehicleForm.vehicleYear.$modelValue) {
                 return;
             }
             $scope.initializeScope();
@@ -74,48 +134,65 @@ angular.module('schemaForm')
                 $scope.vehicleSummary.vehicleDNQs = [];
             }
 
-            if ($scope.vehicle.Year && $scope.vehicle.Year.length == 4) {
-                $scope.vehicleSummary.vehicleForm.vehicleYear.$setValidity('invalidYear', true);
+            if ($scope.vehicleForm.vehicleYear.$modelValue && $scope.vehicleForm.vehicleYear.$modelValue.length === 4) {
+                $scope.vehicleForm.vehicleYear.$setValidity('invalidYear', true);
 
-                if ($scope.vehicle.Year >= getMinVehicleYear() && $scope.vehicle.Year <= getMaxVehicleYear()) {
-                    $scope.vehicleSummary.vehicleForm.vehicleYear.$setValidity('vehicleAge', true);
+                if ($scope.vehicleForm.vehicleYear.$modelValue >= getMinVehicleYear() && $scope.vehicleForm.vehicleYear.$modelValue<= getMaxVehicleYear()) {
+                    $scope.vehicleForm.vehicleYear.$setValidity('vehicleAge', true);
                     $scope.alerts = [];
-                    //if ($scope.vehicleSummary.useNewVinIso) {
-                    //    fillMakes($scope.vehicle.Year);
-                    //} else {
-                    //    getMakes(vehicleDataService, $scope.vehicle.Year).then(function (yearResponse) {
-                    //        _.each(yearResponse.data, function (yearItem) {
-                    //            $scope.vehicleMakes.push(yearItem.Value);
-                    //        });
-                    //    }, function (error) {
-                    //        errorService.showModalError('VehicleCtrl: Vehicle data service call to retrieve makes failed with error', error);
-                    //    });
-                    //}
+                       fillMakes($scope.vehicleForm.vehicleYear.$modelValue);
                 }
-                else if ($scope.vehicle.Year < getMinVehicleYear()) {
-                    $scope.vehicleSummary.vehicleForm.vehicleYear.$setValidity('vehicleAge', false);
-                    $scope.alerts.push({msg: String.format('Sorry, we do not insure pre-{0} vehicles online. Please call {1} to continue your quote.', quoteDataService.getMinVehicleYear(), elephantContactInfo.exoticVehiclePhone)});
+                else if ($scope.vehicleForm.vehicleYear.$modelValue < getMinVehicleYear()) {
+                    $scope.vehicleForm.vehicleYear.$setValidity('vehicleAge', false);
+                    $scope.alerts.push({msg: String.format('Sorry, we do not insure pre-{0} vehicles online. Please call {1} to continue your quote.', getMinVehicleYear(), elephantContactInfo.exoticVehiclePhone)});
                 }
                 else {
-                    $scope.vehicleSummary.vehicleForm.vehicleYear.$setValidity('vehicleAge', false);
-                    $scope.alerts.push({msg: String.format('Please select a year between {0} and {1}.', quoteDataService.getMinVehicleYear(), quoteDataService.getMaxVehicleYear())});
+                    $scope.vehicleForm.vehicleYear.$setValidity('vehicleAge', false);
+                    $scope.alerts.push({msg: String.format('Please select a year between {0} and {1}.', getMinVehicleYear(), getMaxVehicleYear())});
                 }
             }
         };
 
-        $scope.items = [];
-
-        $scope.fetchResult = function () {
-            $scope.items = [
-                {value: 'single1', label: 'single test'},
-                {value: 'single2', label: 'single funner'},
-                {value: 'single3', label: 'single stuff'}
-            ];
-            //            $http.post('http://www.networknt.com/api/rs', $scope.getItem)
-            //                    .success(function (result, status, headers, config) {
-            //                        $scope.items = result;
-            //                        console.log('items', $scope.items);
-            //                    })
+        $scope.setInsideModel = function(someValue){
+          var fun = someValue;
         };
-        $scope.fetchResult();
+
+        $scope.getVinIsoModels = function (makeId) {
+            $scope.vehicleModels = [];
+            $scope.vehicleBodyStyles = [];
+            $scope.vehicle.Model = null;
+            $scope.vehicle.ModelId = null;
+            $scope.vehicle.YearStyleId = null;
+            $scope.vehicle.Vin = null;
+            if (!makeId) {
+                return;
+            }
+            var makeObj = _.findWhere($scope.vehicleMakes, {value: makeId});
+            if (makeObj) {
+                $scope.vehicle.Make = makeObj.label;
+                $scope.vehicle.ModelId = null;
+                $scope.vehicle.YearStyleId = null;
+                fillModels(makeObj.item.Links[0].Href, $scope.vehicleModels);
+            }
+        };
+
+        $scope.getVinIsoBodyStyles = function (modelId) {
+            $scope.vehicleBodyStyles = [];
+            $scope.vehicle.YearStyleId = null;
+            $scope.vehicle.Vin = null;
+            if (!modelId) {
+                return;
+            }
+            var modelObj = _.findWhere($scope.vehicleModels, {value: modelId});
+            if (modelObj) {
+                $scope.vehicle.Model = modelObj.label;
+                fillBodyStyles(modelObj.item.Links[0].Href, $scope.vehicleBodyStyles).then(function(response){
+                    var fun = response;
+                    if($scope.vehicleBodyStyles && $scope.vehicleBodyStyles.length == 1){
+                        $scope.vehicle.Style = $scope.vehicleBodyStyles[0].item.Links[0].Rel;
+                        $scope.vehicle.YearStyleId = $scope.vehicleBodyStyles[0].value;
+                    }
+                });
+            }
+        };
     }]);

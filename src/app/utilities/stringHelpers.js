@@ -2,6 +2,7 @@
  * Created by gabello on 10/7/2014.
  */
 String.format = function() {
+    "use strict"
     // The string containing the format items (e.g. "{0}")
     // will and always has to be the first argument.
     var theString = arguments[0];
@@ -18,10 +19,12 @@ String.format = function() {
 };
 
 String.prototype.trim = function() {
+    "use strict";
     return this.replace(/^\s+|\s+$/g,"");
-}
+};
 
 String.prototype.trimRight = function(charlist) {
+    "use strict";
     if (charlist === undefined)
         charlist = "\s";
 
@@ -29,6 +32,7 @@ String.prototype.trimRight = function(charlist) {
 };
 
 String.randomString = function randomString(len, charSet) {
+    "use strict";
     charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var randomString = '';
     for (var i = 0; i < len; i++) {
@@ -39,6 +43,7 @@ String.randomString = function randomString(len, charSet) {
 };
 
 String.getString = function(item){
+    "use strict";
     if(_.isString(item)){
         return item.trim();
     }else if(_.isArray(item) && item.length > 0){
@@ -49,6 +54,7 @@ String.getString = function(item){
 };
 
 String.capitalizeFirst = function(item){
+    "use strict";
     if(item && item.length > 0) {
         var trimedString = item.trim().toLowerCase();
         return trimedString.charAt(0).toUpperCase() + trimedString.substring(1)

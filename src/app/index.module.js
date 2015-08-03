@@ -4,9 +4,6 @@
     angular
         .module('webQuoteJson',
         [
-            'ngAnimate',
-            'ngCookies',
-            'ngTouch',
             'ngSanitize',
             'restangular',
             'ui.router',
@@ -14,6 +11,7 @@
             'schemaForm',
             'mgcrea.ngStrap',
             'platform.apiservices',
-            'platform.tracking'
-        ])
+            'platform.tracking',
+            'ngMessages',
+        ]);
 })();

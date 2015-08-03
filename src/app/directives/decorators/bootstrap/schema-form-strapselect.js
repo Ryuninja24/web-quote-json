@@ -1,9 +1,9 @@
 angular.module('schemaForm')
     .config(['schemaFormProvider', 'schemaFormDecoratorsProvider', 'sfPathProvider',
         function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
-
+            "use strict";
             var select = function (name, schema, options) {
-                if (schema.type === 'string' && schema.format == 'strapselect') {
+                if (schema.type === 'string' && schema.format === 'strapselect') {
                     var f = schemaFormProvider.stdFormObj(name, schema, options);
                     f.key = options.path;
                     f.type = 'strapselect';
@@ -15,7 +15,7 @@ angular.module('schemaForm')
             schemaFormProvider.defaults.string.unshift(select);
 
             var multiselect = function (name, schema, options) {
-                if (schema.type === 'array' && schema.format == 'strapselect') {
+                if (schema.type === 'array' && schema.format === 'strapselect') {
                     var f = schemaFormProvider.stdFormObj(name, schema, options);
                     f.key = options.path;
                     f.type = 'strapmultiselect';
@@ -27,7 +27,7 @@ angular.module('schemaForm')
             schemaFormProvider.defaults.array.unshift(multiselect);
 
             var selectdynamic = function (name, schema, options) {
-                if (schema.type === 'string' && schema.format == 'strapselectdynamic') {
+                if (schema.type === 'string' && schema.format === 'strapselectdynamic') {
                     var f = schemaFormProvider.stdFormObj(name, schema, options);
                     f.key = options.path;
                     f.type = 'strapselectdynamic';
@@ -39,7 +39,7 @@ angular.module('schemaForm')
             schemaFormProvider.defaults.string.unshift(selectdynamic);
 
             var multiselectdynamic = function (name, schema, options) {
-                if (schema.type === 'array' && schema.format == 'strapselectdynamic') {
+                if (schema.type === 'array' && schema.format === 'strapselectdynamic') {
                     var f = schemaFormProvider.stdFormObj(name, schema, options);
                     f.key = options.path;
                     f.type = 'strapmultiselectdynamic';
