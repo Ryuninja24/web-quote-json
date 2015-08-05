@@ -176,7 +176,7 @@ angular.module('schemaForm')
             }
         };
 
-        $scope.getVinIsoBodyStyles = function (modelId) {
+        $scope.getVinIsoBodyStyles = function (parentScope, modelId) {
             $scope.vehicleBodyStyles = [];
             $scope.vehicle.YearStyleId = null;
             $scope.vehicle.Vin = null;
@@ -189,10 +189,20 @@ angular.module('schemaForm')
                 fillBodyStyles(modelObj.item.Links[0].Href, $scope.vehicleBodyStyles).then(function(response){
                     var fun = response;
                     if($scope.vehicleBodyStyles && $scope.vehicleBodyStyles.length == 1){
-                        $scope.vehicle.Style = $scope.vehicleBodyStyles[0].item.Links[0].Rel;
-                        $scope.vehicle.YearStyleId = $scope.vehicleBodyStyles[0].value;
+                        parentScope.vehicle.Style = $scope.vehicleBodyStyles[0].item.Links[0].Rel;
+                        parentScope.vehicle.YearStyleId = $scope.vehicleBodyStyles[0].value;
                     }
                 });
+            }
+        };
+
+        $scope.saveVinIsoBodyStyle = function (parentScope, bodyStyleId) {
+            if (!bodyStyleId) {
+                return;
+            }
+            var bodyStyleObj = _.findWhere($scope.vehicleBodyStyles, {YearStyleId: bodyStyleId});
+            if (bodyStyleObj) {
+                parentScope.vehicle.Style = bodyStyleObj.Links[0].Rel;
             }
         };
     }]);

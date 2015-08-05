@@ -48,9 +48,9 @@
 
 
       <!--CONTENT-->
-      <div id="content" class="">
+      <div id="content" class="row">
         <div class="loading"></div>
-        <div id="mainContent" ui-view></div>
+        <div id="mainContent" class="col-sm-12" ui-view></div>
       </div>
 
       <!-- FOOTER -->
@@ -84,6 +84,244 @@
     <!-- angular templates will be automatically converted in js and inserted here -->
     <!-- endinject -->
     <!-- endbuild -->
+
+    <script type="application/json" id="journey">
+      {
+        "currentPage": "",
+        "states": {
+          "Vehicle": {
+            "pageName": "vehicle",
+            "pageUrl": "/vehicle/",
+            "conditions": [
+              {
+                "test": "addAnotherVehicle",
+                "expected": true,
+                "nextPage": "vehicle"
+              },
+              {
+                "test": "addAnotherVehicle",
+                "expected": false,
+                "nextPage": "policyHolder"
+              },
+              {
+                "test": "AssignmentsNeeded",
+                "expected": true,
+                "nextPage": "driverAssignment"
+              },
+              {
+                "test": "AssignmentsNeeded",
+                "expected": false,
+                "nextPage": "discounts"
+              }
+            ],
+            "startPage": false
+          },
+          "PolicyHolder": {
+            "pageName": "policyHolder",
+            "nextPage": "driver",
+            "pageUrl": "/policy-holder",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "Driver": {
+            "pageName": "driver",
+            "nextPage": "driverDetails",
+            "pageUrl": "/driver/",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "DriverDetails": {
+            "pageName": "driverDetails",
+            "pageUrl": "/driver-details/",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [
+              {
+                "test": "AdditionalDrivers",
+                "expected": "Yes",
+                "nextPage": "additionalDriver",
+                "includeArgs": false
+              },
+              {
+                "test": "AdditionalDrivers",
+                "expected": "No",
+                "nextPage": "driverHistory"
+              }
+            ],
+            "startPage": false
+          },
+          "AdditionalDriver": {
+            "pageName": "additionalDriver",
+            "nextPage": "driverHistory",
+            "pageUrl": "/additional-driver/",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "DriverHistory": {
+            "pageName": "driverHistory",
+            "pageUrl": "/driver-history/",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [
+              {
+                "test": "HasConviction",
+                "expected": "Yes",
+                "nextPage": "additionalHistory",
+                "includeArgs": false
+              },
+              {
+                "test": "HasConviction",
+                "expected": "No",
+                "nextPage": "vehicle"
+              },
+              {
+                "test": "HasConviction",
+                "expected": null,
+                "nextPage": "vehicle"
+              },
+              {
+                "test": "HasConviction",
+                "expected": "Unsure",
+                "nextPage": "vehicle"
+              }
+            ],
+            "startPage": false
+          },
+          "AdditionalHistory": {
+            "pageName": "additionalHistory",
+            "nextPage": "vehicle",
+            "pageUrl": "/additional-history",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "DriverAssignment": {
+            "pageName": "driverAssignment",
+            "nextPage": "discounts",
+            "pageUrl": "/driver-assignment",
+            "breadCrumb": "Vehicles",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "Discounts": {
+            "pageName": "discounts",
+            "nextPage": "quote",
+            "pageUrl": "/discounts",
+            "breadCrumb": "Vehicles",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "Quote": {
+            "pageName": "quote",
+            "pageUrl": "/quote",
+            "breadCrumb": "Quote",
+            "touched": null,
+            "current": false,
+            "conditions": [
+              {
+                "test": "LicenseNumberNeeded",
+                "expected": true,
+                "nextPage": "confirmDriver"
+              },
+              {
+                "test": "LicenseNumberNeeded",
+                "expected": false,
+                "nextPage": "confirmVehicle"
+              }
+            ],
+            "startPage": false
+          },
+          "ConfirmDriver": {
+            "pageName": "confirmDriver",
+            "nextPage": "confirmVehicle",
+            "pageUrl": "/confirm-driver",
+            "breadCrumb": "Confirm",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "ConfirmVehicle": {
+            "pageName": "confirmVehicle",
+            "nextPage": "payment",
+            "pageUrl": "/confirm-vehicle",
+            "breadCrumb": "Confirm",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "Payment": {
+            "pageName": "payment",
+            "nextPage": "billing",
+            "pageUrl": "/payment",
+            "breadCrumb": "Payment",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "Billing": {
+            "pageName": "billing",
+            "nextPage": "congratulations",
+            "pageUrl": "/billing",
+            "breadCrumb": "Payment",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "QuoteOverview": {
+            "pageName": "overview",
+            "nextPage": "",
+            "pageUrl": "/overview",
+            "breadCrumb": "Payment",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "Congratulations": {
+            "pageName": "congratulations",
+            "nextPage": "ancillaryCheckout",
+            "pageUrl": "/congratulations",
+            "breadCrumb": "",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          },
+          "AncillaryCheckout": {
+            "pageName": "ancillaryCheckout",
+            "nextPage": "congratulations",
+            "pageUrl": "/ancillary-checkout",
+            "breadCrumb": "",
+            "touched": null,
+            "current": false,
+            "conditions": [],
+            "startPage": false
+          }
+        }
+      }
+
+    </script>
 
   </body>
 </html>

@@ -9,15 +9,7 @@
         .controller('QuoteController', QuoteController);
 
     /** @ngInject */
-    function QuoteController($scope, $state) {
-
-        //$scope.selectedIcon = 'Globe';
-        //$scope.selectedIcons = ['Globe','Heart'];
-        //$scope.icons = [
-        //    {'value':'Gear','label':'<i class=\'fa fa-gear\'></i> Gear'},
-        //    {'value':'Globe','label':'<i class=\'fa fa-globe\'></i> Globe'},
-        //    {'value':'Heart','label':'<i class=\'fa fa-heart\'></i> Heart'},
-        //    {'value':'Camera','label':'<i class=\'fa fa-camera\'></i> Camera'}];
+    function QuoteController($scope, $state, NavigationService) {
 
         $scope.schema = $state.current.data.schema;
         $scope.form = $state.current.data.form;
@@ -31,7 +23,7 @@
             $scope.$broadcast('schemaFormValidate');
             // Then we check if the form is valid
             if (form.$valid) {
-                alert('You did it!');
+                NavigationService.getNextStep($scope.modelData, null);
             }
         };
         $scope.modelData  = {};

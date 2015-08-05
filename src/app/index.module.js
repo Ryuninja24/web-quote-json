@@ -12,6 +12,12 @@
             'mgcrea.ngStrap',
             'platform.apiservices',
             'platform.tracking',
-            'ngMessages',
-        ]);
+            'ngMessages'
+        ])
+        .provider('NavigationService', NavigationService())
+        .config(['NavigationServiceProvider', function (navigationServiceProvider) {
+            var data = $('#journey').html();
+            navigationServiceProvider.addJourney(JSON.parse(data));
+
+        }]);
 })();

@@ -56,7 +56,7 @@
                     ng-model="$$value$$.vehicle.modelId"
                     ng-disabled="vehicleModels.length === 0"
                     ng-options="vehicleModel.value as vehicleModel.label for vehicleModel in vehicleModels"
-                    ng-change="getVinIsoBodyStyles($$value$$.vehicle.modelId)"
+                    ng-change="getVinIsoBodyStyles($$value$$, $$value$$.vehicle.modelId)"
                     required>
                 <option value="">Select</option>
             </select>
@@ -70,7 +70,7 @@
             </label>
 
             <div ng-if="vehicleBodyStyles.length == 1">
-                <div class="control-label form-right">{{ vehicle.Style }}</div>
+                <div class="control-label form-right">{{ $$value$$.vehicle.Style }}</div>
             </div>
             <div ng-if="vehicleBodyStyles.length > 1 || vehicleBodyStyles.length === 0">
                 <div ng-messages="vehicleForm.vehicleBodyStyle.$error" ng-if="formSubmitted">
@@ -80,7 +80,7 @@
                         ng-model="$$value$$.vehicle.YearStyleId"
                         ng-disabled="vehicleBodyStyles.length === 0"
                         ng-options="vehicleBodyStyle.value as vehicleBodyStyle.label for vehicleBodyStyle in vehicleBodyStyles"
-                        ng-change="saveVinIsoBodyStyle($$value$$.vehicle.YearStyleId)"
+                        ng-change="saveVinIsoBodyStyle($$value$$, $$value$$.vehicle.YearStyleId)"
                         required>
                     <option value="">Select</option>
                 </select>

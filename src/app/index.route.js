@@ -13,8 +13,8 @@
                 templateUrl: 'app/main/main.html',
                 controller: 'MainController'
             })
-            .state('quoteHome', {
-                url: '/quotes',
+            .state('postalCodeDetails', {
+                url: '/postal-code',
                 templateUrl: 'app/quote/quote.html',
                 controller: 'QuoteController',
                 data: {
@@ -46,8 +46,8 @@
                     ]
                 }
             })
-            .state('vehicle-entry', {
-                url: '/vehicle',
+            .state('vehicle', {
+                url: '/vehicle/{vehicleId}',
                 templateUrl: 'app/quote/quote.html',
                 controller: 'QuoteController',
                 data: {
@@ -69,9 +69,55 @@
                                 type: 'string',
                                 format: 'vehicleSelector'
                             },
+                            "customEquipment": {
+                                "title": "Custom equipment",
+                                "type": "boolean",
+                                default: null
+                            },
+                            "customEquipmentAmount": {
+                                "title": "Custom equipment amount",
+                                "type": "string",
+                                "enum": ["Up to $1000","$1001 - $1500","$1501 - $1999"]
+                            },
+                            "primaryUse": {
+                                "title": "Primary use",
+                                "type": "string",
+                                "enum": ["Work/School","Business","Pleasure"]
+                            },
+                            "ownership": {
+                                "title": "Ownership",
+                                "type": "string",
+                                "enum": ["Paid Off","Lease/Financed"]
+                            },
+                            "annualMileage": {
+                                "title": "Annual mileage",
+                                "type": "string",
+                                "enum": ["Less than 4000","4000 - 5999","6000 - 7999"]
+                            },
+                            "orginalOwner": {
+                                "title": "Are you the original owner?",
+                                "type": "boolean",
+                                default: null
+                            },
+                            "yearsOwned": {
+                                "title": "Years of ownership",
+                                "type": "string",
+                                "enum": ["Less than 4000","4000 - 5999","6000 - 7999"]
+                            },
+                            "addAnotherVehicle": {
+                                "title": "Add another vehicle?",
+                                "type": "boolean",
+                                default: null
+                            },
                         },
                         "required": [
-                            "vinyesno"
+                            "vinyesno",
+                            "vin",
+                            "customEquipment",
+                            "primaryUse",
+                            "ownership",
+                            "annualMileage",
+                            "addAnother"
                         ]
                     },
                     form: [
@@ -81,12 +127,12 @@
 
                             "titleMap": [
                                 {
-                                    "value": false,
-                                    "name": "No"
-                                },
-                                {
                                     "value": true,
                                     "name": "Yes"
+                                },
+                                {
+                                    "value": false,
+                                    "name": "No"
                                 }
                             ]
                         },
@@ -99,10 +145,68 @@
                             "condition": "!modelData.vinyesno && modelData.vinyesno != null"
                         },
                         {
+                            "key": "customEquipment",
+                            "type": "radiobuttons",
+
+                            "titleMap": [
+                                {
+                                    "value": true,
+                                    "name": "Yes"
+                                },
+                                {
+                                    "value": false,
+                                    "name": "No"
+                                }
+
+                            ]
+                        },
+                        {
+                            "key": "customEquipmentAmount",
+                            "condition": "modelData.customEquipment && modelData.customEquipment != null"
+                        },
+                        "primaryUse",
+                        "ownership",
+                        "annualMileage",
+                        {
+                            "key": "orginalOwner",
+                            "type": "radiobuttons",
+
+                            "titleMap": [
+                                {
+                                    "value": true,
+                                    "name": "Yes"
+                                },
+                                {
+                                    "value": false,
+                                    "name": "No"
+                                }
+
+                            ]
+                        },
+                        "yearsOwned",
+                        {
+                            "key": "addAnotherVehicle",
+                            "type": "radiobuttons",
+
+                            "titleMap": [
+                                {
+                                    "value": true,
+                                    "name": "Yes"
+                                },
+                                {
+                                    "value": false,
+                                    "name": "No"
+                                }
+
+                            ]
+                        },
+
+                        {
                             "type": "submit",
                             "style": "btn-info",
                             "title": "OK"
-                        }
+                        },
+
                     ]
                 }
             })
@@ -115,92 +219,136 @@
                         "type": "object",
                         "title": "Policy Holder",
                         "properties": {
-                            "name": {
-                                "title": "Please enter your first name",
-                                "type": "string"
+                            "firstName": {
+                                "type": "string",
+                                "pattern": "^[^/]*$",
+                                "minLength": 2
                             },
                             "middleName": {
-                                "title": "Please enter your first name",
+                                "type": "string",
+                                "minLength": 0,
+                                "maxLength": 1
+                            },
+                            "lastName": {
+                                "type": "string",
+                                "pattern": "^[^/]*$",
+                                "minLength": 2
+                            },
+                            "suffix": {
+                                "type": "string",
+                                "enum": ["Jr.","Sr.","I"]
+                            },
+                            "garagingAddress": {
+                                type: 'string',
+                                "pattern": "/^(?=.*(\d))(?=.*[a-zA-Z])(?=.*(\W)).{5,64}$/"
+                            },
+                            "garagingApt": {
+                                type: 'string'
+                            },
+                            "garagingCity": {
+                                type: 'string'
+                            },
+                            "garagingState": {
+                                type: 'string'
+                            },
+                            "garagingPostalCode":{
+                              type: 'string'
+                            },
+                            "birthDate": {
+                                "type": "string",
+                                "pattern": "^[^/]*$"
+                            },
+                            "phoneNumber": {
                                 "type": "string"
                             },
-                            "noenum": {
+                            "email": {
                                 "type": "string",
-                                "title": "No enum, but forms says it's a select"
-                            },
-                            "funSelect": {
-                                title: 'Single Select',
-                                type: 'string',
-                                format: 'strapselect',
-                                description: 'Only single item is allowed',
-                                placeholder: 'Select One',
-                                items: [
-                                    {value: 'value1', label: 'Single1'},
-                                    {value: 'value2', label: 'Single2'},
-                                    {value: 'value3', label: 'Single3'}
-                                ]
-                            },
-                            "multiselect": {
-                                title: 'Multi Select',
-                                type: 'array',
-                                format: 'strapselect',
-                                description: 'Multi single items are allowed',
-                                placeholder: 'Select One',
-                                items: [
-                                    {value: 'value1', label: 'Multi1'},
-                                    {value: 'value2', label: 'Multi2'},
-                                    {value: 'value3', label: 'Multi3'}
-                                ]
-                            },
-                            "selectDynamic": {
-                                title: 'Single Select Dynamic',
-                                type: 'string',
-                                format: 'strapselectdynamic',
-                                placeholder: 'Select One',
-                                description: 'Only single item is allowed'
-                            },
-                            "multiselectDynamic": {
-                                title: 'Multi Select Dynamic',
-                                type: 'array',
-                                format: 'strapselectdynamic',
-                                placeholder: 'Select One',
-                                description: 'Multi single items are allowed'
+                                "minLength": 5
                             }
+
                         },
                         "required": [
-                            "name"
+                            "firstName",
+                            "lastName",
+                            "garagingAddress",
+                            "garagingCity"
                         ]
                     },
                     form: [
-                        "name",
                         {
-                            "key": "noenum",
-                            "type": "select",
-                            "titleMap": [
+                            "type": "section",
+                            "htmlClass": "row",
+                            "items": [
                                 {
-                                    "value": "a",
-                                    "name": "A"
+                                    "type": "section",
+                                    "htmlClass": "col-xs-4",
+                                    "items": [{
+                                        key:"firstName",
+                                        placeholder:"First Name",
+                                        title:"First name"
+                                    }]
+
                                 },
                                 {
-                                    "value": "b",
-                                    "name": "B"
-                                },
-                                {
-                                    "value": "c",
-                                    "name": "C"
+                                    "type": "section",
+                                    "htmlClass": "col-xs-2",
+                                    "items": [{
+                                        key:"middleName",
+                                        placeholder:"M",
+                                        title:"Middle name",
+                                        notitle:true
+                                    }]
                                 }
                             ]
                         },
                         {
-                            key: 'funSelect'
+                            "type": "section",
+                            "htmlClass": "row",
+                            "items": [
+                                {
+                                    "type": "section",
+                                    "htmlClass": "col-xs-4",
+                                    "items": [{
+                                        key:"lastName",
+                                        placeholder:"Last Name",
+                                        title:"Last name"
+                                    }]
+                                },
+                                {
+                                    "type": "section",
+                                    "htmlClass": "col-xs-2",
+                                    "items": [{
+                                        key:"suffix",
+                                        placeholder:"Suffix",
+                                        title:"Suffix"
+                                    }]
+                                }
+                            ]
                         },
                         {
-                            key: 'multiselect'
-                        },
-                        {
-                            key: 'selectDynamic'
-                        },
-                        {
-                            key: 'multiselectDynamic'
+                            "type": "section",
+                            "htmlClass": "row",
+                            "items": [
+                                {
+                                    "type": "section",
+                                    "htmlClass": "col-xs-4",
+                                    "items": [{
+                                        key:"garagingAddress",
+                                        title:"Garaging Address",
+                                        placeholder:"Address"
+
+                                    }]
+                                },
+                                {
+                                    "type": "section",
+                                    "htmlClass": "col-xs-2",
+                                    "items": [{
+                                        key:"garagingApt",
+                                        notitle:true,
+                                        placeholder:"Apt #"
+                                    }]
+                                }
+                            ]
                         },
                         {
                             "type": "submit",
