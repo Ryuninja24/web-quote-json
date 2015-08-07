@@ -17,26 +17,38 @@
                 url: '/postal-code',
                 templateUrl: 'app/quote/quote.html',
                 controller: 'QuoteController',
+                resolve:{
+                    modelData: function($q, $stateParams){
+                        var model = {};
+                        var deferred = $q.defer();
+                        deferred.resolve(model);
+                        return deferred.promise;
+                    }
+                },
+                onExit: function(modelData){
+                    console.dir(modelData);
+                },
                 data: {
                     schema: {
                         "type": "object",
                         "properties": {
-                            "birthDate": {
-                                "title": "Bday",
-                                "type": "string",
-                                "format": "date"
+                            "address": {
+                                type: 'string',
+                                format: 'postalCodeSelector',
+                               // pattern: "/\d{5}/",
+                                minLength: 5,
+                                maxLength: 5
                             }
                         },
                         "required": [
-                            "birthDate"
+                            "address"
                         ]
                     },
                     form: [
                         {
-                            "key": "birthDate",
-                            "minDate": "1995-09-01",
-                            "maxDate": new Date(),
-                            "format": "yyyy-mm-dd"
+                            key:"address",
+                            placeholder:"Zip Code",
+                            notitle:true
                         },
                         {
                             "type": "submit",
@@ -50,6 +62,28 @@
                 url: '/vehicle/{vehicleId}',
                 templateUrl: 'app/quote/quote.html',
                 controller: 'QuoteController',
+                resolve:{
+                    modelData: function($q, $stateParams){
+                        var model = {};
+                        var deferred = $q.defer();
+                        deferred.resolve(model);
+                        return deferred.promise;
+                    }
+                },
+                onExit: function(modelData){
+                    console.dir(modelData);
+                },
+                //resolve:{
+                //    greeting: function($q, $stateParams){
+                //        var vehicleId = $stateParams.vehicleId;
+                //        if(!vehicleId || vehicleId == '0'){
+                //            vehicleId = String.createGuid();
+                //        }
+                //        var deferred = $q.defer();
+                //        deferred.resolve(String.format('Vehicle {0}', vehicleId));
+                //        return deferred.promise;
+                //    }
+                //},
                 data: {
                     schema: {
                         "type": "object",

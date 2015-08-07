@@ -9,10 +9,11 @@
         .controller('QuoteController', QuoteController);
 
     /** @ngInject */
-    function QuoteController($scope, $state, NavigationService) {
+    function QuoteController($scope, $state, NavigationService, modelData) {
 
         $scope.schema = $state.current.data.schema;
         $scope.form = $state.current.data.form;
+        $scope.modelData  = modelData;
 
         $scope.pretty = function(){
             return typeof $scope.modelData  === 'string' ? $scope.modelData  : JSON.stringify($scope.modelData , undefined, 2);
@@ -26,7 +27,7 @@
                 NavigationService.getNextStep($scope.modelData, null);
             }
         };
-        $scope.modelData  = {};
+
 
 
     }
