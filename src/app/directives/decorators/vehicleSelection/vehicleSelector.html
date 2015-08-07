@@ -11,7 +11,7 @@
                 <div ng-message="invalidYear">Please enter a 4 digit year.</div>
                 <div ng-message="vehicleAge">Please select a year between 1981 and {{vehicleSummary.currentYear}}.</div>
             </div>
-            <input class="form-control form-right"
+            <input class="form-control form-right form-50"
                    schema-validate="form"
                    maxlength="4"
                    name="vehicleYear" type="tel"
@@ -30,7 +30,7 @@
             <div ng-messages="vehicleForm.vehicleMake.$error" ng-if="vehicleSummary.formSubmitted">
                 <div ng-message="required">Please enter vehicle make.</div>
             </div>
-            <select class="form-control form-right" name="vehicleMake"
+            <select class="form-control form-right form-50" name="vehicleMake"
                     schema-validate="form"
                     ng-model="$$value$$.vehicle.makeId"
                     ng-disabled="vehicleMakes.length === 0"
@@ -44,7 +44,7 @@
         <!-- Model -->
         <div class="form-group" collapse="vehicleModels == null || vehicleModels.length === 0"
              ng-class="{true: 'has-error'}[formSubmitted && vehicleForm.vehicleModel.$invalid]">
-            <label class="control-label form-left">
+            <label class="control-label form-left form-50">
                 <span>Model</span>
             </label>
 
@@ -70,7 +70,7 @@
             </label>
 
             <div ng-if="vehicleBodyStyles.length == 1">
-                <div class="control-label form-right">{{ $$value$$.vehicle.Style }}</div>
+                <div class="control-label form-right form-50">{{ $$value$$.vehicle.Style }}</div>
             </div>
             <div ng-if="vehicleBodyStyles.length > 1 || vehicleBodyStyles.length === 0">
                 <div ng-messages="vehicleForm.vehicleBodyStyle.$error" ng-if="formSubmitted">

@@ -158,6 +158,7 @@
                         {
                             "key": "vinyesno",
                             "type": "radiobuttons",
+                            "labelHtmlClass": "float-left",
 
                             "titleMap": [
                                 {
@@ -172,14 +173,18 @@
                         },
                         {
                             "key": "vin",
+                            "labelHtmlClass": "float-left",
+                            "fieldHtmlClass": "float-right form-50",
                             "condition": "modelData.vinyesno && modelData.vinyesno != null"
                         },
                         {
                             "key": "vehicleSelection",
-                            "condition": "!modelData.vinyesno && modelData.vinyesno != null"
+                            "labelHtmlClass": "float-left",
+                            "condition": "!modelData.vinyesno && modelData.vinyesno != null",
                         },
                         {
                             "key": "customEquipment",
+                            "labelHtmlClass": "float-left",
                             "type": "radiobuttons",
 
                             "titleMap": [
@@ -196,13 +201,28 @@
                         },
                         {
                             "key": "customEquipmentAmount",
+                            "labelHtmlClass": "float-left",
+                            "fieldHtmlClass": "float-right form-50",
                             "condition": "modelData.customEquipment && modelData.customEquipment != null"
                         },
-                        "primaryUse",
-                        "ownership",
-                        "annualMileage",
+                        {
+                          "key": "primaryUse",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "htmlClass": "test"
+                        },
+                        {
+                          "key": "ownership",
+                          "fieldHtmlClass": "float-right form-50"
+                        },
+                        {
+                          "key": "annualMileage",
+                          "fieldHtmlClass": "float-right form-50"
+                        },
                         {
                             "key": "orginalOwner",
+                            "labelHtmlClass": "float-left",
+                            "fieldHtmlClass": "float-right form-50",
                             "type": "radiobuttons",
 
                             "titleMap": [
@@ -217,9 +237,14 @@
 
                             ]
                         },
-                        "yearsOwned",
+                        {
+                          "key": "yearsOwned",
+                          "fieldHtmlClass": "float-right form-50"
+                        },
+
                         {
                             "key": "addAnotherVehicle",
+                            "labelHtmlClass": "float-left",
                             "type": "radiobuttons",
 
                             "titleMap": [
@@ -236,6 +261,7 @@
                         },
 
                         {
+                            "htmlClass": "float-right",
                             "type": "submit",
                             "style": "btn-info",
                             "title": "OK"

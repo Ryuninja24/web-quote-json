@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container-fluid">
+  <div class="row">
 
     <div>
         <H1>{{greeting}}</H1>
     </div>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-12">
+    <div class="col-sm-12 col-md-offset-3 col-lg-offset-3 col-md-7 col-lg-5 margin animated fadeIn">
+
+            <div class="panel">
                 <form name="ngform" sf-model="modelData" sf-form="form" sf-schema="schema"
                       ng-submit="submitForm(ngform,modelData)"></form>
 
@@ -15,8 +16,9 @@
                 <h3>Model</h3>
                 <pre ng-cloak>{{pretty()}}</pre>
             </div>
-        </div>
+
     </div>
+  </div>
 </div>
 
 <!--<label>Single select:&nbsp;</label>-->
