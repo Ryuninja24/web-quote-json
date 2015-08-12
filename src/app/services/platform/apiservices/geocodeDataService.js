@@ -1,7 +1,7 @@
 /**
  * Created by gabello on 8/6/2015.
  */
-angular.module('platform.apiservices', ['restangular'])
+angular.module('platform.geoCodeService', ['restangular'])
     .factory('geoCodeService', ['Restangular', 'environmentLink', function (Restangular, environmentLink) {
         return Restangular.withConfig(function (restangularConfigurer) {
             restangularConfigurer.setFullResponse(true);

@@ -2,7 +2,7 @@
  * Created by gabello on 3/5/2015.
  */
 
-angular.module('platform.apiservices', ['restangular'])
+angular.module('platform.vinIsoService', ['restangular'])
   .factory('vinIsoService', ['Restangular', 'environmentLink', function (Restangular, environmentLink) {
     return Restangular.withConfig(function (restangularConfigurer) {
       restangularConfigurer.setFullResponse(true);

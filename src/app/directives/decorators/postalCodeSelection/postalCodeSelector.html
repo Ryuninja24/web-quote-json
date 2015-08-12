@@ -1,29 +1,34 @@
 <div class="input-group" ng-controller="PostalCodeSelectorController">
-    <ng-form name="autoZipForm">
-        <div id="postal-block">
-            <span id="postal-header">Savings ahead!</span><br/>
-            <span id="postal-message">Get an auto insurance quote<br/>
-            online and save up to 12%</span>
-        </div>
-        <div class="form-group" ng-class="{'has-error': form.disableErrorState !== true &&  hasError(), 'has-success': form.disableSuccessState !== true &&  hasSuccess()}">
+  <ng-form name="autoZipForm">
+    <div id="step-postal-code">
+      <div id="postal-code" class="">
+        <div class="input-group">
+          <div class="form-group"
+               ng-class="{true: 'has-error'}[postalSummary.formSubmitted && autoZipForm.customerZip.$invalid]">
 
-            <div class="help-block" sf-message="form.description"></div>
             <div ng-messages="autoZipForm.customerZip.$error" ng-if="postalSummary.formSubmitted">
-                <div ng-message="pattern">Please enter a valid postal code.</div>
-                <div ng-message="invalidCode">Please verify your postal code.</div>
+              <div ng-message="required">Please enter a postal code.</div>
+              <div ng-message="pattern">Please enter a valid postal code.</div>
+              <div ng-message="invalidCode">Please verify your postal code.</div>
             </div>
-            <input type="tel" id="customerZip" name="customerZip" class="form-control {{form.fieldHtmlClass}}"
-                   sf-changed="form"
-                   placeholder="{{form.placeholder}}"
-                   ng-disabled="form.readonly"
-                   ng-model="$$value$$.zipCode"
-                   ng-model-options="form.ngModelOptions"
-                   schema-validate="form"
-                   ng-change="updatePostalCode($$value$$.zipCode)"
+            <input id="customerZip" name="customerZip" class="form-control {{form.fieldHtmlClass}}"
                    type="tel"
                    ng-pattern="/\d{5}/"
-                   maxlength="5">
-
+                   maxlength="5"
+                   placeholder="{{form.placeholder}}"
+                   ng-disabled="form.readonly"
+                   ng-model-options="form.ngModelOptions"
+                   ng-model="$$value$$"
+                   required>
+          </div>
+          <div class="button-continue">
+            <button class="" style="font-size:20px;" id="btnStartMe"
+                    ng-click="getZipCode(autoZipForm.$valid, $$value$$)">
+              <span>Start Me</span>
+            </button>
+          </div>
         </div>
-    </ng-form>
+      </div>
+    </div>
+  </ng-form>
 </div>

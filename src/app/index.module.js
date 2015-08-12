@@ -10,9 +10,11 @@
             'ui.bootstrap',
             'schemaForm',
             'mgcrea.ngStrap',
-            'platform.apiservices',
+            'platform.geoCodeService',
+            'platform.vinIsoService',
             'platform.tracking',
-            'ngMessages'
+            'ngMessages',
+            'quotes.persistence'
         ])
         .provider('NavigationService', NavigationService())
         .config(['NavigationServiceProvider', function (navigationServiceProvider) {

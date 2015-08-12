@@ -7,14 +7,16 @@
     <div class="col-sm-12 col-md-offset-3 col-lg-offset-3 col-md-7 col-lg-5 margin animated fadeIn">
 
             <div class="panel">
-                <form name="ngform" sf-model="modelData" sf-form="form" sf-schema="schema"
-                      ng-submit="submitForm(ngform,modelData)"></form>
+                <form name="ngform" sf-model="modelData" sf-form="form" sf-schema="schema"></form>
 
                 <div ng-show="ngform.$valid"><em>Form is valid</em></div>
                 <div ng-show="ngform.$invalid"><em>Form is not valid</em></div>
 
-                <h3>Model</h3>
-                <pre ng-cloak>{{pretty()}}</pre>
+              <h3>Current Model</h3>
+              <pre ng-cloak>{{pretty()}}</pre>
+
+                <h3>Master Model</h3>
+                <pre ng-cloak>{{prettyMaster()}}</pre>
             </div>
 
     </div>
