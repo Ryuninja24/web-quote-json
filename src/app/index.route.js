@@ -120,18 +120,18 @@
                     "type": "boolean",
                     default: null
                   }
-                }
+                },
+                "required": [
+                  "CustomEquipment",
+                  "Usage",
+                  'EstimatedAnnualMileage',
+                  "Ownership",
+                  "orginalOwner",
+                  "yearsOwned",
+                  "addAnotherVehicle"
+                ]
               }
-            },
-            "required": [
-              "vinyesno",
-              "vin",
-              "CustomEquipment",
-              "primaryUse",
-              "ownership",
-              "annualMileage",
-              "addAnother"
-            ]
+            }
           },
           form: [
             {
@@ -144,7 +144,6 @@
                     "key": "vehicle.CustomEquipment",
                     "labelHtmlClass": "float-left",
                     "type": "radiobuttons",
-
                     "titleMap": [
                       {
                         "value": true,
@@ -154,14 +153,13 @@
                         "value": false,
                         "name": "No"
                       }
-
                     ]
                   },
                     {
                       "key": "vehicle.ValueOfCustomEquipment",
                       "labelHtmlClass": "float-left",
                       "fieldHtmlClass": "float-right form-50",
-                      "condition": "vehicle.CustomEquipment == true"
+                      "condition": "modelData.vehicle.CustomEquipment == true"
                     },
                     {
                       "key": "vehicle.Usage",
@@ -221,6 +219,12 @@
 
                 }
               ]
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick:"submitForm(ngform)"
             }
           ]
         }
