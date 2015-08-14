@@ -56,7 +56,10 @@
         resolve: {
           modelData: function ($q, $stateParams, dataModelService) {
             var vehicleId = $stateParams.vehicleId;
-            var fun = dataModelService.getModels();
+            if(!vehicleId){
+              vehicleId = 0;
+            }
+            var fun = dataModelService.getModels({vehicleId: vehicleId, driverId: null});
             var deferred = $q.defer();
             deferred.resolve(fun);
             return deferred.promise;
@@ -218,13 +221,12 @@
         }
       })
       .state('policyholder', {
-        url: '/policy-holder/{driverId}',
+        url: '/policy-holder',
         templateUrl: 'app/quote/quote.html',
         controller: 'QuoteController',
         resolve: {
           modelData: function ($q, $stateParams, dataModelService) {
-            var vehicleId = $stateParams.vehicleId;
-            var fun = dataModelService.getModels();
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
             var deferred = $q.defer();
             deferred.resolve(fun);
             return deferred.promise;
@@ -437,7 +439,8 @@
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",
                     placeholder: "Email address",
-                    title: "Email"
+                    title: "Email",
+                    copyValueTo: ["driver.EmailAddressConfirm"]
                   }]
                 }
               ]
@@ -452,13 +455,13 @@
         }
       })
       .state('driver', {
-        url: '/driver/{driverId}',
+        url: '/driver',
         templateUrl: 'app/quote/quote.html',
         controller: 'QuoteController',
         resolve: {
           modelData: function ($q, $stateParams, dataModelService) {
             var driverId = $stateParams.driverId;
-            var fun = dataModelService.getModels();
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
             var deferred = $q.defer();
             deferred.resolve(fun);
             return deferred.promise;
@@ -534,6 +537,10 @@
                       "type": "select",
                       "titleMap": [
                         {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
                           "value": "0",
                           "name": "Divorced"
                         },
@@ -559,6 +566,10 @@
                       "type": "select",
                       "titleMap": [
                         {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
                           "value": "0",
                           "name": "Own condo"
                         },
@@ -583,6 +594,10 @@
                     {"key": "driver.YearsAtCurrentResidence",
                       "type": "select",
                       "titleMap": [
+                        {
+                          "value": "",
+                          "name": "Select One"
+                        },
                         {
                           "value": "0",
                           "name": "Less than 1 year"
@@ -612,6 +627,10 @@
                     {"key": "driver.HighestLevelOfEducation",
                       "type": "select",
                       "titleMap": [
+                        {
+                          "value": "",
+                          "name": "Select One"
+                        },
                         {
                           "value": "0",
                           "name": "Lower than High School"
@@ -646,6 +665,10 @@
                       "type": "select",
                       "titleMap": [
                         {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
                           "value": "0",
                           "name": "Employed"
                         },
@@ -675,8 +698,6 @@
                         }
                       ]
                     }
-
-
                    ]
                 }
               ]
@@ -694,9 +715,257 @@
         url: '/driver-details',
         templateUrl: 'app/quote/quote.html',
         controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
         data: {
-          schema: 'dahs policy holder',
-          form: 'dahs policy form'
+          schema: {
+            "type": "object",
+            "title": "Driver Details",
+            "properties": {
+              "driver": {
+                type: "object",
+                properties: {
+                  "LicenseStatus": {
+                    "title": "Current license status",
+                    "type": "string",
+                    default: null
+                  },
+                  "AgeFirstLicensed": {
+                    "title": "Age first licensed",
+                    "type": "string"
+                  },
+                  "CurrentlyInsured": {
+                    "title": "Residence type",
+                    "type": "string"
+                  },
+                  "CurrentInsuranceStatus": {
+                    "title": "Years at residence",
+                    "type": "string"
+                  },
+                  "HighestLevelOfEducation": {
+                    "title": "Custom equipment amount",
+                    "type": "string"
+                  },
+                  "EmploymentStatus": {
+                    "title": "Employment status",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Gender",
+                  "MaritalStatus",
+                  "ResidenceOwnership",
+                  "HighestLevelOfEducation",
+                  "EmploymentStatus"
+                ]
+              }
+            }
+          },
+          form: [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{
+                    "key": "driver.Gender",
+                    "labelHtmlClass": "float-left",
+                    "type": "radiobuttons",
+                    "titleMap": [
+                      {
+                        "value": "Male",
+                        "name": "Male"
+                      },
+                      {
+                        "value": "Female",
+                        "name": "Female"
+                      }
+                    ]
+                  },
+                    {"key": "driver.MaritalStatus",
+                      "type": "select",
+                      "titleMap": [
+                        {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
+                          "value": "0",
+                          "name": "Divorced"
+                        },
+                        {
+                          "value": "1",
+                          "name": "Married"
+                        },
+                        {
+                          "value": "2",
+                          "name": "Never Married"
+                        },
+                        {
+                          "value": "3",
+                          "name": "Separated"
+                        },
+                        {
+                          "value": "4",
+                          "name": "Widowed"
+                        }
+                      ]
+                    },
+                    {"key": "driver.ResidenceOwnership",
+                      "type": "select",
+                      "titleMap": [
+                        {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
+                          "value": "0",
+                          "name": "Own condo"
+                        },
+                        {
+                          "value": "1",
+                          "name": "Own home"
+                        },
+                        {
+                          "value": "2",
+                          "name": "Own mobile home"
+                        },
+                        {
+                          "value": "3",
+                          "name": "Rent"
+                        },
+                        {
+                          "value": "4",
+                          "name": "Other"
+                        }
+                      ]
+                    },
+                    {"key": "driver.YearsAtCurrentResidence",
+                      "type": "select",
+                      "titleMap": [
+                        {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
+                          "value": "0",
+                          "name": "Less than 1 year"
+                        },
+                        {
+                          "value": "1",
+                          "name": "1 year"
+                        },
+                        {
+                          "value": "2",
+                          "name": "2 years"
+                        },
+                        {
+                          "value": "3",
+                          "name": "3 years"
+                        },
+                        {
+                          "value": "4",
+                          "name": "4 years"
+                        },
+                        {
+                          "value": "5",
+                          "name": "5 or more years"
+                        }
+                      ]
+                    },
+                    {"key": "driver.HighestLevelOfEducation",
+                      "type": "select",
+                      "titleMap": [
+                        {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
+                          "value": "0",
+                          "name": "Lower than High School"
+                        },
+                        {
+                          "value": "1",
+                          "name": "High School/GED"
+                        },
+                        {
+                          "value": "2",
+                          "name": "Vocational"
+                        },
+                        {
+                          "value": "3",
+                          "name": "Associates"
+                        },
+                        {
+                          "value": "4",
+                          "name": "Bachelors"
+                        },
+                        {
+                          "value": "5",
+                          "name": "Masters"
+                        },
+                        {
+                          "value": "6",
+                          "name": "Doctorate"
+                        }
+                      ]
+                    },
+                    {"key": "driver.EmploymentStatus",
+                      "type": "select",
+                      "titleMap": [
+                        {
+                          "value": "",
+                          "name": "Select One"
+                        },
+                        {
+                          "value": "0",
+                          "name": "Employed"
+                        },
+                        {
+                          "value": "1",
+                          "name": "Homemaker"
+                        },
+                        {
+                          "value": "2",
+                          "name": "Retired"
+                        },
+                        {
+                          "value": "3",
+                          "name": "Full-time student"
+                        },
+                        {
+                          "value": "4",
+                          "name": "Unemployed"
+                        },
+                        {
+                          "value": "5",
+                          "name": "Military - active"
+                        },
+                        {
+                          "value": "6",
+                          "name": "Military - retired"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
+            }
+          ]
         }
       });
 
