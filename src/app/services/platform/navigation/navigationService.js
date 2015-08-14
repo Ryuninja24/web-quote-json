@@ -48,15 +48,17 @@ function NavigationService() {
                                     throw String.format('NavigationService: navigating from {0} we have conditions but no model to test', currentPath);
                                 }
                                 _.each(currentState.conditions, function (condition) {
-                                    if (_.has(model, condition.test)) {
-                                        var testProp = model[condition.test];
-                                        if (testProp == condition.expected) {
-                                            if (_.isBoolean(condition.includeArgs) && !condition.includeArgs) {
-                                                args = null;
-                                            }
-                                            nextPage = condition.nextPage;
+                                  if(_.has(model, condition.model)) {
+                                    if (_.has(model[condition.model], condition.test)) {
+                                      var testProp = model[condition.model][condition.test];
+                                      if (testProp == condition.expected) {
+                                        if (_.isBoolean(condition.includeArgs) && !condition.includeArgs) {
+                                          args = null;
                                         }
+                                        nextPage = condition.nextPage;
+                                      }
                                     }
+                                  }
                                 });
                             }
                             if (nextPage) {

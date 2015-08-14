@@ -104,12 +104,14 @@
             "pageUrl": "/vehicle/",
             "conditions": [
               {
-                "test": "addAnotherVehicle",
+                "test": "AddAnotherVehicle",
+                "model":"vehicle",
                 "expected": true,
                 "nextPage": "vehicle"
               },
               {
-                "test": "addAnotherVehicle",
+                "test": "AddAnotherVehicle",
+                "model":"vehicle",
                 "expected": false,
                 "nextPage": "policyHolder"
               },
@@ -129,7 +131,7 @@
           "PolicyHolder": {
             "pageName": "policyHolder",
             "nextPage": "driver",
-            "pageUrl": "/policy-holder",
+            "pageUrl": "/policy-holder/",
             "breadCrumb": "Drivers",
             "touched": null,
             "current": false,

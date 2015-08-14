@@ -27,7 +27,6 @@ angular.module('quotes.persistence')
         HasIncidents: null,
         HighestLevelOfEducation: null,
         Id: null,
-        IdField: null,
         LastName: null,
         LicenseNumber: null,
         LicenseState: null,
@@ -57,7 +56,18 @@ angular.module('quotes.persistence')
       _.extend(this, defaults, attributes);
     };
     // Class Methods
-    _.extend(clazz.prototype, {});
+    _.extend(clazz.prototype, {
+
+      setAsPrimary: function(){
+        this.RatingStatus = 'Rated';
+        this.PrimaryDriver = true;
+      },
+
+      cleanDriverDefaults: function(){
+
+      }
+
+    });
 
     return clazz;
   }]);

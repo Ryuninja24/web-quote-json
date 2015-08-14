@@ -30,8 +30,8 @@ angular.module('schemaForm').config(
     }]);
 
 angular.module('schemaForm')
-  .controller('PostalCodeSelectorController', ['$scope', 'geoCodeDataService', 'NavigationService', 'dataModelService',
-    function ($scope, geoCodeDataService, navigationService, dataModelService) {
+  .controller('PostalCodeSelectorController', ['$scope', 'geoCodeDataService', 'NavigationService', 'dataModelService', 'AddressModel',
+    function ($scope, geoCodeDataService, navigationService, dataModelService, addressModel) {
 
     $scope.postalSummary = {
       formSubmitted: false,
@@ -54,13 +54,14 @@ angular.module('schemaForm')
               return location.County;
             });
 
-            var address = {
+            var address = new addressModel(
+            {
               City: locations[0].City,
               State: locations[0].StateAbbreviation,
               PostalCode: locations[0].PostalCode,
               AddressType: 'Physical',
               Counties: []
-            };
+            });
 
             if (locations.length > 1) {
               _.each(locations, function (location) {

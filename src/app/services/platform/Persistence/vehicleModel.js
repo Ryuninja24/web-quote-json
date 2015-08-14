@@ -5,6 +5,7 @@ angular.module('quotes.persistence')
   .factory('VehicleModel', ['$q', function ($q) {
     var clazz = function (attributes) {
       var defaults = {
+        AddAnotherVehicle:null,
         AntiTheftDevice: null,
         CostWhenNew: null,
         Coverages: [],
@@ -13,7 +14,6 @@ angular.module('quotes.persistence')
         DamageDescription: null,
         EstimatedAnnualMileage: null,
         Id: null,
-        IdField: null,
         IsDamaged: null,
         IsInLien:null,
         LienHolder: null,
@@ -36,7 +36,14 @@ angular.module('quotes.persistence')
       _.extend(this, defaults, attributes);
     };
     // Class Methods
-    _.extend(clazz.prototype, {});
+    _.extend(clazz.prototype, {
+
+      cleanVehicleDefaults: function(){
+        if(!this.CustomEquipment){
+          this.ValueOfCustomEquipment = null;
+        }
+      }
+    });
 
     return clazz;
   }]);

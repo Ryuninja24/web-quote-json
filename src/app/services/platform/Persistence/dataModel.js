@@ -5,7 +5,9 @@
   .factory('DataModel', ['$q', function ($q) {
       var clazz = function (attributes) {
         var defaults = {
-          Vehicles: []
+          Address: null,
+          Vehicles: [],
+          Drivers: []
         };
         _.extend(this, defaults, attributes);
       };
