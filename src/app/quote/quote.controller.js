@@ -10,7 +10,7 @@
 
 
     function QuoteController($scope, $state, NavigationService, dataModelService, modelData) {
-
+      $scope.isCollapsed = false;
       $scope.schema = $state.current.data.schema;
       $scope.form = $state.current.data.form;
       $scope.modelData = modelData;

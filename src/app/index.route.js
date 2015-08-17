@@ -56,7 +56,7 @@
         resolve: {
           modelData: function ($q, $stateParams, dataModelService) {
             var vehicleId = $stateParams.vehicleId;
-            if(!vehicleId){
+            if (!vehicleId) {
               vehicleId = 0;
             }
             var fun = dataModelService.getModels({vehicleId: vehicleId, driverId: null});
@@ -470,13 +470,13 @@
         data: {
           schema: {
             "type": "object",
-            "title": "Vehicle Entry",
+            "title": "Driver Stuff",
             "properties": {
               "driver": {
                 type: "object",
                 properties: {
                   "Gender": {
-                    "title": "Custom equipment",
+                    "title": "Gender",
                     "type": "string",
                     default: null
                   },
@@ -533,7 +533,8 @@
                       }
                     ]
                   },
-                    {"key": "driver.MaritalStatus",
+                    {
+                      "key": "driver.MaritalStatus",
                       "type": "select",
                       "titleMap": [
                         {
@@ -562,7 +563,8 @@
                         }
                       ]
                     },
-                    {"key": "driver.ResidenceOwnership",
+                    {
+                      "key": "driver.ResidenceOwnership",
                       "type": "select",
                       "titleMap": [
                         {
@@ -591,7 +593,8 @@
                         }
                       ]
                     },
-                    {"key": "driver.YearsAtCurrentResidence",
+                    {
+                      "key": "driver.YearsAtCurrentResidence",
                       "type": "select",
                       "titleMap": [
                         {
@@ -624,7 +627,8 @@
                         }
                       ]
                     },
-                    {"key": "driver.HighestLevelOfEducation",
+                    {
+                      "key": "driver.HighestLevelOfEducation",
                       "type": "select",
                       "titleMap": [
                         {
@@ -661,7 +665,8 @@
                         }
                       ]
                     },
-                    {"key": "driver.EmploymentStatus",
+                    {
+                      "key": "driver.EmploymentStatus",
                       "type": "select",
                       "titleMap": [
                         {
@@ -698,7 +703,7 @@
                         }
                       ]
                     }
-                   ]
+                  ]
                 }
               ]
             },
@@ -733,37 +738,57 @@
                 type: "object",
                 properties: {
                   "LicenseStatus": {
-                    "title": "Current license status",
                     "type": "string",
                     default: null
                   },
                   "AgeFirstLicensed": {
-                    "title": "Age first licensed",
                     "type": "string"
                   },
                   "CurrentlyInsured": {
-                    "title": "Residence type",
-                    "type": "string"
+                    "type": "boolean",
+                    default: null
                   },
                   "CurrentInsuranceStatus": {
-                    "title": "Years at residence",
+                    default: null,
                     "type": "string"
                   },
-                  "HighestLevelOfEducation": {
-                    "title": "Custom equipment amount",
-                    "type": "string"
+                  "PreviousLapse": {
+                    "type": "string",
+                    default: null
                   },
-                  "EmploymentStatus": {
-                    "title": "Employment status",
-                    "type": "string"
+                  "CurrentInsurer": {
+                    "type": "string",
+                    default: null
+                  },
+                  YearsWithCurrentInsurer: {
+                    "type": "string",
+                    default: null
+                  },
+                  "CurrentPremium": {
+                    "type": "string",
+                    default: null
+                  },
+                  CurrentInsuranceLimits: {
+                    "type": "string",
+                    default: null
+                  },
+                  "HasMotorcycle": {
+                    "type": "boolean",
+                    default: null
+                  },
+                  "AdditionalDrivers": {
+                    "type": "boolean",
+                    default: null
+                  },
+                  "CurrentZipCode": {
+                    "type": "boolean",
+                    default: null
                   }
                 },
                 "required": [
-                  "Gender",
-                  "MaritalStatus",
-                  "ResidenceOwnership",
-                  "HighestLevelOfEducation",
-                  "EmploymentStatus"
+                  "LicenseStatus",
+                  "AgeFirstLicensed",
+                  "CurrentlyInsured"
                 ]
               }
             }
@@ -775,23 +800,14 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{
-                    "key": "driver.Gender",
-                    "labelHtmlClass": "float-left",
-                    "type": "radiobuttons",
-                    "titleMap": [
-                      {
-                        "value": "Male",
-                        "name": "Male"
-                      },
-                      {
-                        "value": "Female",
-                        "name": "Female"
-                      }
-                    ]
-                  },
-                    {"key": "driver.MaritalStatus",
+                  "items": [
+                    {
+                      "key": "driver.LicenseStatus",
+                      "title": "Current license status",
                       "type": "select",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "htmlClass": "test",
                       "titleMap": [
                         {
                           "value": "",
@@ -799,159 +815,317 @@
                         },
                         {
                           "value": "0",
-                          "name": "Divorced"
+                          "name": "Valid"
                         },
                         {
                           "value": "1",
-                          "name": "Married"
+                          "name": "Expired"
                         },
                         {
                           "value": "2",
-                          "name": "Never Married"
+                          "name": "Non-licensed"
                         },
                         {
                           "value": "3",
-                          "name": "Separated"
+                          "name": "Non-US"
                         },
                         {
                           "value": "4",
-                          "name": "Widowed"
-                        }
-                      ]
-                    },
-                    {"key": "driver.ResidenceOwnership",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Own condo"
-                        },
-                        {
-                          "value": "1",
-                          "name": "Own home"
-                        },
-                        {
-                          "value": "2",
-                          "name": "Own mobile home"
-                        },
-                        {
-                          "value": "3",
-                          "name": "Rent"
-                        },
-                        {
-                          "value": "4",
-                          "name": "Other"
-                        }
-                      ]
-                    },
-                    {"key": "driver.YearsAtCurrentResidence",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Less than 1 year"
-                        },
-                        {
-                          "value": "1",
-                          "name": "1 year"
-                        },
-                        {
-                          "value": "2",
-                          "name": "2 years"
-                        },
-                        {
-                          "value": "3",
-                          "name": "3 years"
-                        },
-                        {
-                          "value": "4",
-                          "name": "4 years"
+                          "name": "Permit"
                         },
                         {
                           "value": "5",
-                          "name": "5 or more years"
-                        }
-                      ]
-                    },
-                    {"key": "driver.HighestLevelOfEducation",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Lower than High School"
-                        },
-                        {
-                          "value": "1",
-                          "name": "High School/GED"
-                        },
-                        {
-                          "value": "2",
-                          "name": "Vocational"
-                        },
-                        {
-                          "value": "3",
-                          "name": "Associates"
-                        },
-                        {
-                          "value": "4",
-                          "name": "Bachelors"
-                        },
-                        {
-                          "value": "5",
-                          "name": "Masters"
+                          "name": "Surrendered"
                         },
                         {
                           "value": "6",
-                          "name": "Doctorate"
+                          "name": "Suspended"
+                        },
+                        {
+                          "value": "7",
+                          "name": "Restricted"
+                        },
+                        {
+                          "value": "8",
+                          "name": "Revoked"
                         }
                       ]
                     },
-                    {"key": "driver.EmploymentStatus",
-                      "type": "select",
+                    {
+                      key: "driver.AgeFirstLicensed",
+                      placeholder: "",
+                      title: "Age first licensed",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "htmlClass": "test"
+                    },
+                    {
+                      "key": "driver.CurrentlyInsured",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "title": "Currently have auto insurance",
+                      "type": "radiobuttons",
                       "titleMap": [
                         {
-                          "value": "",
-                          "name": "Select One"
+                          "value": true,
+                          "name": "Yes"
                         },
                         {
-                          "value": "0",
-                          "name": "Employed"
+                          "value": false,
+                          "name": "No"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "el_collapse",
+                      collapseCondition: "model['driver']['CurrentlyInsured'] == null || model['driver']['CurrentlyInsured']",
+                      "htmlClass": "form-group",
+                      "items": [
+                        {
+                          "type": "conditional",
+                          "condition": "!model['driver']['CurrentlyInsured']",
+                          "items": [
+                            {
+                              "key": "driver.CurrentInsuranceStatus",
+                              "title": "Reason",
+                              "type": "select",
+                              "labelHtmlClass": "float-left",
+                              "fieldHtmlClass": "float-right form-50",
+                              "htmlClass": "test",
+                              "titleMap": [
+                                {
+                                  "value": "",
+                                  "name": "Select One"
+                                },
+                                {
+                                  "value": "0",
+                                  "name": "Deployed overseas with the military"
+                                },
+                                {
+                                  "value": "1",
+                                  "name": "My policy expired 30 days ago or less"
+                                },
+                                {
+                                  "value": "2",
+                                  "name": "My policy expired more than 30 days ago"
+                                },
+                                {
+                                  "value": "3",
+                                  "name": "No insurance required"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "el_collapse",
+                      collapseCondition: "!(model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days')",
+                      "htmlClass": "form-group",
+                      "items": [
+                        {
+                          "key": "driver.PreviousLapse",
+                          title: "Were you uninsured at any time in the past 3 years?",
+                          "type": "el_select_ngrequired",
+                          "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "htmlClass": "test",
+                          "titleMap": [
+                            {
+                              "value": "",
+                              "name": "Select One"
+                            },
+                            {
+                              "value": "0",
+                              "name": "No"
+                            },
+                            {
+                              "value": "1",
+                              "name": "Yes, 30 days or less"
+                            },
+                            {
+                              "value": "2",
+                              "name": "Yes, more than 30 days"
+                            }
+                          ]
                         },
                         {
-                          "value": "1",
-                          "name": "Homemaker"
+                          "key": "driver.CurrentInsurer",
+                          title: "Current insurance company",
+                          "type": "el_select_ngrequired",
+                          "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "htmlClass": "test",
+                          "titleMap": [
+                            {
+                              "value": "",
+                              "name": "Select One"
+                            },
+                            {
+                              "value": "0",
+                              "name": "AAA Auto Insurance"
+                            },
+                            {
+                              "value": "1",
+                              "name": "ACE Group"
+                            },
+                            {
+                              "value": "2",
+                              "name": "AIG"
+                            },
+                            {
+                              "value": "3",
+                              "name": "Allstate"
+                            },
+                            {
+                              "value": "4",
+                              "name": "American Family Insurance"
+                            },
+                            {
+                              "value": "5",
+                              "name": "Auto-Owners Insurance"
+                            },
+                            {
+                              "value": "6",
+                              "name": "CNA Financial Group"
+                            }
+                          ]
                         },
                         {
-                          "value": "2",
-                          "name": "Retired"
+                          "key": "driver.YearsWithCurrentInsurer",
+                          title: "Years with current company",
+                          "type": "el_select_ngrequired",
+                          "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "htmlClass": "test",
+                          "titleMap": [
+                            {
+                              "value": "",
+                              "name": "Select One"
+                            },
+                            {
+                              "value": "0",
+                              "name": "Less than 1 year"
+                            },
+                            {
+                              "value": "1",
+                              "name": "1 year"
+                            },
+                            {
+                              "value": "2",
+                              "name": "2 years"
+                            },
+                            {
+                              "value": "3",
+                              "name": "3 years"
+                            },
+                            {
+                              "value": "4",
+                              "name": "4 years"
+                            },
+                            {
+                              "value": "5",
+                              "name": "5 or more years"
+                            }
+                          ]
                         },
                         {
-                          "value": "3",
-                          "name": "Full-time student"
+                          key: "driver.CurrentPremium",
+                          placeholder: "",
+                          title: "Current monthly premium",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "htmlClass": "test"
                         },
                         {
-                          "value": "4",
-                          "name": "Unemployed"
+                          "key": "driver.CurrentInsuranceLimits",
+                          title: "Current bodily injury coverage limits",
+                          "type": "el_select_ngrequired",
+                          "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "htmlClass": "test",
+                          "titleMap": [
+                            {
+                              "value": "",
+                              "name": "Select One"
+                            },
+                            {
+                              "value": "0",
+                              "name": "Don't know"
+                            },
+                            {
+                              "value": "1",
+                              "name": "Minimum limit"
+                            },
+                            {
+                              "value": "2",
+                              "name": "More than minimum but less than 50/100"
+                            },
+                            {
+                              "value": "3",
+                              "name": "50/100 or more but less than 100/300"
+                            },
+                            {
+                              "value": "4",
+                              "name": "100/300 or more"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "key": "driver.HasMotorcycle",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "title": "Do you own a motorcycle",
+                      "type": "radiobuttons",
+                      "titleMap": [
+                        {
+                          "value": true,
+                          "name": "Yes"
                         },
                         {
-                          "value": "5",
-                          "name": "Military - active"
+                          "value": false,
+                          "name": "No"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "driver.AdditionalDrivers",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "title": "Other drivers in your home?",
+                      "type": "radiobuttons",
+                      "titleMap": [
+                        {
+                          "value": true,
+                          "name": "Yes"
                         },
                         {
-                          "value": "6",
-                          "name": "Military - retired"
+                          "value": false,
+                          "name": "No"
+                        }
+                      ]
+                    },
+                    {
+                      "key": "driver.CurrentZipCode",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "title": "Are all vehicles kept in ZIP ?????",
+                      "type": "radiobuttons",
+                      "titleMap": [
+                        {
+                          "value": true,
+                          "name": "Yes"
+                        },
+                        {
+                          "value": false,
+                          "name": "No"
                         }
                       ]
                     }
