@@ -788,7 +788,10 @@
                 "required": [
                   "LicenseStatus",
                   "AgeFirstLicensed",
-                  "CurrentlyInsured"
+                  "CurrentlyInsured",
+                  "HasMotorcycle",
+                  "AdditionalDrivers",
+                  "CurrentZipCode"
                 ]
               }
             }
@@ -1030,6 +1033,9 @@
                         },
                         {
                           key: "driver.CurrentPremium",
+                          "type":"default",
+                          fieldAddonLeft:"$",
+                          fieldAddonRight:".00",
                           placeholder: "",
                           title: "Current monthly premium",
                           "labelHtmlClass": "float-left",
