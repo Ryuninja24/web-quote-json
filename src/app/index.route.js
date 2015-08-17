@@ -882,38 +882,33 @@
                       "htmlClass": "form-group",
                       "items": [
                         {
-                          "type": "conditional",
-                          "condition": "!model['driver']['CurrentlyInsured']",
-                          "items": [
+                          "key": "driver.CurrentInsuranceStatus",
+                          "title": "Reason",
+                          "type": "el_select_ngrequired",
+                          "requiredCondition": "!model['driver']['CurrentlyInsured']",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "htmlClass": "test",
+                          "titleMap": [
                             {
-                              "key": "driver.CurrentInsuranceStatus",
-                              "title": "Reason",
-                              "type": "select",
-                              "labelHtmlClass": "float-left",
-                              "fieldHtmlClass": "float-right form-50",
-                              "htmlClass": "test",
-                              "titleMap": [
-                                {
-                                  "value": "",
-                                  "name": "Select One"
-                                },
-                                {
-                                  "value": "0",
-                                  "name": "Deployed overseas with the military"
-                                },
-                                {
-                                  "value": "1",
-                                  "name": "My policy expired 30 days ago or less"
-                                },
-                                {
-                                  "value": "2",
-                                  "name": "My policy expired more than 30 days ago"
-                                },
-                                {
-                                  "value": "3",
-                                  "name": "No insurance required"
-                                }
-                              ]
+                              "value": "",
+                              "name": "Select One"
+                            },
+                            {
+                              "value": "0",
+                              "name": "Deployed overseas with the military"
+                            },
+                            {
+                              "value": "1",
+                              "name": "My policy expired 30 days ago or less"
+                            },
+                            {
+                              "value": "2",
+                              "name": "My policy expired more than 30 days ago"
+                            },
+                            {
+                              "value": "3",
+                              "name": "No insurance required"
                             }
                           ]
                         }
