@@ -52,14 +52,37 @@ angular.module('quotes.persistence', [])
       };
 
       //--------------- Driver Functions  -------------------------------------------------
+      this.createDriver = function(){
+        var driver = new driverModel();
+        driver.Id = String.createGuid();
+        return driver;
+      };
+
       this.getDriver = function (id) {
         var dataModel = this.getQuoteModel();
-        var driver = _.findWhere(quoteDataModel.Drivers, {Id: id});
-        if (!driver) {
-          driver = new driverModel();
-          driver.Id = String.createGuid();
+        //Making some assumptions at this point if no id then return policyHolder, if no policyholder then create and return
+        //a new driver. If id is 0 return a new driver
+        var driver = null;
+        if(!id){
+          if(!dataModel.Drivers || dataModel.Drivers.length == 0){
+            driver = this.createDriver();
+          }else {
+            driver = _.findWhere(dataModel.Drivers, {PrimaryDriver: true});
+            if (driver) {
+              return angular.copy(driver);
+            } else {
+              driver = this.createDriver();
+            }
+          }
+        }else if(id == 0){
+          driver = this.createDriver();
+        }else {
+          driver = _.findWhere(dataModel.Drivers, {Id: id});
+          if (!driver) {
+            driver = this.createDriver();
+          }
         }
-        return driver;
+        return angular.copy(driver);
       };
 
       this.saveDriver = function (modelData, quoteDataModel) {
@@ -89,13 +112,25 @@ angular.module('quotes.persistence', [])
 
       //--------------- Vehicle Functions  -------------------------------------------------
       this.getVehicle = function (id) {
-        var dataModel = this.getQuoteModel();
-        var vehicle = _.findWhere(quoteDataModel.Vehicles, {Id: id});
-        if (!vehicle) {
+        if(id == undefined || id == null){
+          return;
+        }
+        var vehicle = null;
+        if(id == 0){
           vehicle = new vehicleModel();
           vehicle.Id = String.createGuid();
+          return angular.copy(vehicle);
+        }else {
+          var dataModel = this.getQuoteModel();
+          if(dataModel.Vehicles && dataModel.Vehicles.length > 0) {
+            var vehicle = _.findWhere(quoteDataModel.Vehicles, {Id: id});
+            if (!vehicle) {
+              vehicle = new vehicleModel();
+              vehicle.Id = String.createGuid();
+            }
+            return angular.copy(vehicle);
+          }
         }
-        return vehicle;
       };
 
       this.saveVehicle = function (modelData, quoteDataModel) {
@@ -122,10 +157,10 @@ angular.module('quotes.persistence', [])
       //--------------- End Vehicle Functions  -------------------------------------------------
 
 
-      this.getModels = function () {
+      this.getModels = function (IdObject) {
         var models = {
-          'vehicle': this.getVehicle(),
-          'driver': this.getDriver(),
+          'vehicle': this.getVehicle(IdObject.vehicleId),
+          'driver': this.getDriver(IdObject.driverId),
           'address': this.getAddress()
         };
         //models.push({'policyHolder': new policyHolderModel()});
