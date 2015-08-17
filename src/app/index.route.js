@@ -789,7 +789,6 @@
                   "LicenseStatus",
                   "AgeFirstLicensed",
                   "CurrentlyInsured",
-                  "HasMotorcycle",
                   "AdditionalDrivers",
                   "CurrentZipCode"
                 ]
