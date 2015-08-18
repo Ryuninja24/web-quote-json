@@ -717,7 +717,7 @@
         }
       })
       .state('driverDetails', {
-        url: '/driver-details',
+        url: '/driver-details/',
         templateUrl: 'app/quote/quote.html',
         controller: 'QuoteController',
         resolve: {
@@ -771,6 +771,10 @@
                   CurrentInsuranceLimits: {
                     "type": "string",
                     default: null
+                  },
+                  "policyStartDate": {
+                    type: 'string',
+                    format: 'el_policyStartDate'
                   },
                   "HasMotorcycle": {
                     "type": "boolean",
@@ -1077,6 +1081,13 @@
                           ]
                         }
                       ]
+                    },
+                    {
+                      key: "account.PolicyStartDate",
+                      type: "el_policyStartDate",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "title": "New policy start date",
                     },
                     {
                       "key": "driver.HasMotorcycle",

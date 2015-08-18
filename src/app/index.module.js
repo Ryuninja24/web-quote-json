@@ -8,6 +8,8 @@
             'restangular',
             'ui.router',
             'ui.bootstrap',
+            'ui.validate',
+            'ui.date',
             'schemaForm',
             'mgcrea.ngStrap',
             'platform.geoCodeService',

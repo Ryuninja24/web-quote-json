@@ -7,7 +7,8 @@ angular.module('quotes.persistence', [])
     'VehicleModel',
     'DriverModel',
     'AddressModel',
-    function (dataModel, vehicleModel, driverModel, addressModel) {
+    'AccountModel',
+    function (dataModel, vehicleModel, driverModel, addressModel, accountModel) {
       'use strict';
 
       var quoteDataModel = {};
@@ -29,8 +30,28 @@ angular.module('quotes.persistence', [])
           quoteDataModel = quoteData;
         }
       };
-      //--------------- End Quote ----------------------------------------------
 
+      //--------------- Account Model  -------------------------------------------------
+      this.saveAccount = function (account) {
+        if (!account) {
+          return;
+        } else {
+          var dataModel = this.getQuoteModel();
+          dataModel.Account = account;
+        }
+      };
+
+      this.getAccount = function () {
+        var dataModel = this.getQuoteModel();
+        var account = dataModel.Account;
+        if (!account) {
+          account = new accountModel();
+          account.Id = String.createGuid();
+        }
+        return account;
+      };
+
+      //--------------- Address Model  -------------------------------------------------
       this.saveAddress = function (address) {
         if (!address) {
           return;
@@ -48,7 +69,6 @@ angular.module('quotes.persistence', [])
           address.Id = String.createGuid();
         }
         return address;
-
       };
 
       //--------------- Driver Functions  -------------------------------------------------
@@ -161,10 +181,9 @@ angular.module('quotes.persistence', [])
         var models = {
           'vehicle': this.getVehicle(IdObject.vehicleId),
           'driver': this.getDriver(IdObject.driverId),
-          'address': this.getAddress()
+          'address': this.getAddress(),
+          'account': this.getAccount()
         };
-        //models.push({'policyHolder': new policyHolderModel()});
-        //models.push({'vehicle': new vehicleModel()});
         return models;
       };
 
@@ -172,7 +191,8 @@ angular.module('quotes.persistence', [])
         var quoteModel = this.getQuoteModel();
         this.saveVehicle(modelData, quoteModel);
         this.saveDriver(modelData, quoteModel);
-        this.saveAddress(modelData.address)
+        this.saveAddress(modelData.address);
+        this.saveAccount(modelData.account)
       };
 
 
