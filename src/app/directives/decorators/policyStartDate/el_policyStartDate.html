@@ -17,9 +17,7 @@
          ng-disabled="form.readonly"
          schema-validate="form"
          name="{{form.key.slice(-1)[0]}}"
-         ui-date="dateOptions"
-         ui-validate="{invalidDateFormat: 'validatePolicyStartDate($value)'}"
-         required
-         >
+         ui-date="{{form.dateOptions}}"
+         ui-validate="{invalidDateFormat: 'validatePolicyStartDate($value)'}">
     </ng-form>
 </div>

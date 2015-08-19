@@ -27,16 +27,9 @@ angular.module('schemaForm').config(
         'el_policyStartDate',
         'app/directives/decorators/policyStartDate/el_policyStartDate.html'
       );
-    }]);
-
-angular.module('schemaForm')
+    }])
   .controller('el_policyStartDateController', ['$scope',
     function ($scope) {
-
-      $scope.dateOptions = {
-        minDate: +1,
-        maxDate: "+2M"
-      };
 
       $scope.validatePolicyStartDate = function (startDate) {
         if(startDate){
@@ -46,6 +39,4 @@ angular.module('schemaForm')
         }
         return false;
       };
-
-
     }]);

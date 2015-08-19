@@ -772,7 +772,7 @@
                     "type": "string",
                     default: null
                   },
-                  "policyStartDate": {
+                  "PolicyStartDate": {
                     type: 'string',
                     format: 'el_policyStartDate'
                   },
@@ -1088,6 +1088,7 @@
                       "labelHtmlClass": "float-left",
                       "fieldHtmlClass": "float-right form-50",
                       "title": "New policy start date",
+                      "dateOptions": { minDate: +1, maxDate: "+2M" }
                     },
                     {
                       "key": "driver.HasMotorcycle",

@@ -46,9 +46,9 @@ angular.module('quotes.persistence', [])
         var account = dataModel.Account;
         if (!account) {
           account = new accountModel();
-          account.Id = String.createGuid();
+          account.init();
         }
-        return account;
+        return angular.copy(account);
       };
 
       //--------------- Address Model  -------------------------------------------------
@@ -66,15 +66,15 @@ angular.module('quotes.persistence', [])
         var address = dataModel.Address;
         if (!address) {
           address = new addressModel();
-          address.Id = String.createGuid();
+          address.init();
         }
-        return address;
+        return angular.copy(address);
       };
 
       //--------------- Driver Functions  -------------------------------------------------
       this.createDriver = function(){
         var driver = new driverModel();
-        driver.Id = String.createGuid();
+        driver.init();
         return driver;
       };
 
@@ -84,19 +84,20 @@ angular.module('quotes.persistence', [])
         //a new driver. If id is 0 return a new driver
         var driver = null;
         if(!id){
+          // No Id was passed so either return the policyholder or if there are no drivers return a new one
           if(!dataModel.Drivers || dataModel.Drivers.length == 0){
             driver = this.createDriver();
           }else {
             driver = _.findWhere(dataModel.Drivers, {PrimaryDriver: true});
-            if (driver) {
-              return angular.copy(driver);
-            } else {
+            if (!driver) {
               driver = this.createDriver();
             }
           }
         }else if(id == 0){
+          // Creates a new driver
           driver = this.createDriver();
         }else {
+          // We do have a driverID so find it and return
           driver = _.findWhere(dataModel.Drivers, {Id: id});
           if (!driver) {
             driver = this.createDriver();
@@ -138,7 +139,7 @@ angular.module('quotes.persistence', [])
         var vehicle = null;
         if(id == 0){
           vehicle = new vehicleModel();
-          vehicle.Id = String.createGuid();
+          vehicle.init();
           return angular.copy(vehicle);
         }else {
           var dataModel = this.getQuoteModel();
@@ -146,7 +147,7 @@ angular.module('quotes.persistence', [])
             var vehicle = _.findWhere(quoteDataModel.Vehicles, {Id: id});
             if (!vehicle) {
               vehicle = new vehicleModel();
-              vehicle.Id = String.createGuid();
+              vehicle.init();
             }
             return angular.copy(vehicle);
           }

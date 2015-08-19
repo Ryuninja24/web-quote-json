@@ -23,6 +23,11 @@ angular.module('quotes.persistence')
       // Class Methods
       _.extend(clazz.prototype, {
 
+        init:function(){
+          if(!this.Id){
+            this.Id = String.createGuid();
+          }
+        },
 
 
 
