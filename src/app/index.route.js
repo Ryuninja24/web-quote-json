@@ -242,8 +242,10 @@
                 properties: {
                   "FirstName": {
                     "type": "string",
-                    "pattern": "^[^/]*$",
-                    "minLength": 2
+                    "format":"inputMask",
+                    "pattern": "[\sa-zA-Z.-/]",
+                    "minLength": 2,
+                    "maxLength": 30
                   },
                   "MiddleName": {
                     "type": "string",
@@ -252,8 +254,10 @@
                   },
                   "LastName": {
                     "type": "string",
-                    "pattern": "^[^/]*$",
-                    "minLength": 2
+                    "format":"inputMask",
+                    "pattern": "[\sa-zA-Z.-/]",
+                    "minLength": 2,
+                    "maxLength": 30
                   },
                   "Suffix": {
                     "type": "string",
@@ -261,10 +265,11 @@
                   },
                   "DateOfBirth": {
                     "type": "string",
-                    "pattern": "^[^/]*$"
+                    "format":"inputMask"
                   },
                   "PhoneNumber": {
-                    "type": "string"
+                    "type": "string",
+                    "format":"inputMask"
                   },
                   "EmailAddress": {
                     "type": "string",
@@ -315,9 +320,11 @@
                   "type": "section",
                   "htmlClass": "col-xs-4",
                   "items": [{
+                    type: "el_inputMask",
                     key: "driver.FirstName",
                     placeholder: "First Name",
-                    title: "First name"
+                    title: "First name",
+                    directives:"[ { 'ucase-first' : '' } ]"
                   }]
                 },
                 {
@@ -340,9 +347,11 @@
                   "type": "section",
                   "htmlClass": "col-xs-4",
                   "items": [{
+                    type: "el_inputMask",
                     key: "driver.LastName",
                     placeholder: "Last Name",
-                    title: "Last name"
+                    title: "Last name",
+                    directives:"[ { 'ucase-first' : '' } ]"
                   }]
                 },
                 {
@@ -405,10 +414,11 @@
                   "type": "section",
                   "items": [{
                     key: "driver.DateOfBirth",
+                    type: "el_inputMask",
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",
-                    placeholder: "MM-DD-YYYY",
-                    title: "Birth date"
+                    title: "Birth date",
+                    directives:"[ { 'ui-mask' : '99-99-9999' }, {'valid_date':''}, {'min-age':'18'}, {'max-age':'98'} ]"
                   }]
                 }
               ]
@@ -421,9 +431,11 @@
                   "type": "section",
                   "items": [{
                     key: "driver.PhoneNumber",
+                    type: "el_inputMask",
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",
-                    title: "Phone number"
+                    title: "Phone number",
+                    directives:"[{ 'ui-mask' : '(999)-999-9999' }]"
                   }]
                 }
               ]
@@ -435,6 +447,7 @@
                 {
                   "type": "section",
                   "items": [{
+                    type:"email",
                     key: "driver.EmailAddress",
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",

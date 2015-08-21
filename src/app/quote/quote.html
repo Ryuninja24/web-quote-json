@@ -19,16 +19,17 @@
                 <pre ng-cloak>{{prettyMaster()}}</pre>
             </div>
 
-      {{isCollapsed}}
-            <div>
-              <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
-              <hr>
-              <div collapse="isCollapsed">
-                <div class="well well-lg">Some content</div>
-              </div>
-            </div>
+      <label class="control-label form-left hidden-xs">
+        <span>First name</span>
+      </label>
+      <input class="form-control form-md form-right" id="customerFname" maxlength="30" name="customerFname"
+             tabindex="0" type="text" ng-model="driver.FirstName" placeholder="First Name" title="First name"
+             required ng-pattern="/[\sa-zA-Z.-/]/" capitalize-first only-digits>
 
     </div>
+
+
+  </div>
   </div>
 </div>
 

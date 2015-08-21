@@ -9,11 +9,11 @@ angular.module('schemaForm').config(
       schemaFormDecoratorsProvider.addMapping(
         'bootstrapDecorator',
         'el_select_ngrequired',
-        'app/directives/decorators/el_select_ngrequired/el_select_ngrequired.html'
+        'app/directives/decorators/select_ngrequired/el_select_ngrequired.html'
       );
       schemaFormDecoratorsProvider.createDirective(
         'el_select_ngrequired',
-        'app/directives/decorators/el_select_ngrequired/el_select_ngrequired.html'
+        'app/directives/decorators/select_ngrequired/el_select_ngrequired.html'
       );
 
  }]);

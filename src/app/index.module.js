@@ -1,27 +1,28 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('webQuoteJson',
-        [
-            'ngSanitize',
-            'restangular',
-            'ui.router',
-            'ui.bootstrap',
-            'ui.validate',
-            'ui.date',
-            'schemaForm',
-            'mgcrea.ngStrap',
-            'platform.geoCodeService',
-            'platform.vinIsoService',
-            'platform.tracking',
-            'ngMessages',
-            'quotes.persistence'
-        ])
-        .provider('NavigationService', NavigationService())
-        .config(['NavigationServiceProvider', function (navigationServiceProvider) {
-            var data = $('#journey').html();
-            navigationServiceProvider.addJourney(JSON.parse(data));
-
-        }]);
+  angular
+    .module('webQuoteJson',
+    [
+      'ngSanitize',
+      'restangular',
+      'ui.router',
+      'ui.bootstrap',
+      'ui.validate',
+      'ui.date',
+      'ui.mask',
+      'schemaForm',
+      'mgcrea.ngStrap',
+      'platform.geoCodeService',
+      'platform.vinIsoService',
+      'platform.tracking',
+      'ngMessages',
+      'quotes.persistence',
+      'platform.directives'
+    ])
+    .provider('NavigationService', NavigationService())
+    .config(['NavigationServiceProvider', function (navigationServiceProvider) {
+      var data = $('#journey').html();
+      navigationServiceProvider.addJourney(JSON.parse(data))
+    }]);
 })();
