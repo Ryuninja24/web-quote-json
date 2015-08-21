@@ -71,6 +71,10 @@ angular.module('quotes.persistence')
 
       cleanDriverDefaults: function(){
 
+      },
+
+      validate: function(){
+        var fun = '';
       }
 
     });

@@ -239,10 +239,15 @@
             "properties": {
               "driver": {
                 type: "object",
+                "required": [
+                  "FirstName",
+                  "LastName",
+                  "DateOfBirth"
+                ],
                 properties: {
                   "FirstName": {
                     "type": "string",
-                    "format":"inputMask",
+                    "format": "inputMask",
                     "pattern": "[\sa-zA-Z.-/]",
                     "minLength": 2,
                     "maxLength": 30
@@ -254,7 +259,7 @@
                   },
                   "LastName": {
                     "type": "string",
-                    "format":"inputMask",
+                    "format": "inputMask",
                     "pattern": "[\sa-zA-Z.-/]",
                     "minLength": 2,
                     "maxLength": 30
@@ -265,50 +270,46 @@
                   },
                   "DateOfBirth": {
                     "type": "string",
-                    "format":"inputMask"
+                    "format": "inputMask"
                   },
                   "PhoneNumber": {
                     "type": "string",
-                    "format":"inputMask"
+                    "format": "inputMask"
                   },
                   "EmailAddress": {
                     "type": "string",
                     "minLength": 5
                   }
-                },
-                "required": [
-                  "FirstName",
-                  "LastName",
-                  "DateOfBirth"
-                ]
-              }
-            },
-            "address": {
-              type: "object",
-              properties: {
-                "AddressLine1": {
-                  type: 'string',
-                  "pattern": "/^(?=.*(\d))(?=.*[a-zA-Z])(?=.*(\W)).{5,64}$/"
-                },
-                "Apt": {
-                  type: 'string'
-                },
-                "City": {
-                  type: 'string'
-                },
-                "State": {
-                  type: 'string'
-                },
-                "PostalCode": {
-                  type: 'string'
                 }
-              },
-              "required": [
-                "AddressLine1",
-                "City",
-                "State",
-                "PostalCode"
-              ]
+              },//driver
+              "address": {
+                type: "object",
+                "title": "Address",
+                "required": [
+                  "AddressLine1",
+                  "City",
+                  "State",
+                  "PostalCode"
+                ],
+                properties: {
+                  "AddressLine1": {
+                    type: 'string',
+                    "pattern": "[0-9]+\s*([a-zA-Z]+\s*[a-zA-Z]+\s)*[0-9]*"
+                  },
+                  "Apt": {
+                    type: 'string'
+                  },
+                  "City": {
+                    type: 'string'
+                  },
+                  "State": {
+                    type: 'string'
+                  },
+                  "PostalCode": {
+                    type: 'string'
+                  }
+                }
+              }//address
             }
           },
           form: [
@@ -324,7 +325,7 @@
                     key: "driver.FirstName",
                     placeholder: "First Name",
                     title: "First name",
-                    directives:"[ { 'ucase-first' : '' } ]"
+                    directives: "[ { 'ucase-first' : '' } ]"
                   }]
                 },
                 {
@@ -351,7 +352,7 @@
                     key: "driver.LastName",
                     placeholder: "Last Name",
                     title: "Last name",
-                    directives:"[ { 'ucase-first' : '' } ]"
+                    directives: "[ { 'ucase-first' : '' } ]"
                   }]
                 },
                 {
@@ -418,7 +419,7 @@
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",
                     title: "Birth date",
-                    directives:"[ { 'ui-mask' : '99-99-9999' }, {'valid_date':''}, {'min-age':'18'}, {'max-age':'98'} ]"
+                    directives: "[ { 'ui-mask' : '99-99-9999' }, {'valid_date':''}, {'min-age':'18'}, {'max-age':'98'} ]"
                   }]
                 }
               ]
@@ -435,7 +436,7 @@
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",
                     title: "Phone number",
-                    directives:"[{ 'ui-mask' : '(999)-999-9999' }]"
+                    directives: "[{ 'ui-mask' : '(999)-999-9999' }]"
                   }]
                 }
               ]
@@ -447,7 +448,7 @@
                 {
                   "type": "section",
                   "items": [{
-                    type:"email",
+                    type: "email",
                     key: "driver.EmailAddress",
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",
@@ -1049,9 +1050,9 @@
                         },
                         {
                           key: "driver.CurrentPremium",
-                          "type":"default",
-                          fieldAddonLeft:"$",
-                          fieldAddonRight:".00",
+                          "type": "default",
+                          fieldAddonLeft: "$",
+                          fieldAddonRight: ".00",
                           placeholder: "",
                           title: "Current monthly premium",
                           "labelHtmlClass": "float-left",
@@ -1101,7 +1102,7 @@
                       "labelHtmlClass": "float-left",
                       "fieldHtmlClass": "float-right form-50",
                       "title": "New policy start date",
-                      "dateOptions": { minDate: +1, maxDate: "+2M" }
+                      "dateOptions": {minDate: +1, maxDate: "+2M"}
                     },
                     {
                       "key": "driver.HasMotorcycle",
@@ -1157,6 +1158,191 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
+            }
+          ]
+        }
+      })
+      .state('additionalDriver', {
+        url: '/additional-driver/{driverId}',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          "schema": {
+            "type": "object",
+            "required": [
+              "name",
+              "shoesizeLeft"
+            ],
+            "properties": {
+              "name": {
+                "title": "Name",
+                "description": "Gimme yea name lad",
+                "type": "string",
+                "pattern": "^[^/]*$",
+                "minLength": 2
+              },
+              "invitation": {
+                "type": "string",
+                "format": "html",
+                "title": "Invitation Design",
+                "description": "Design the invitation in full technicolor HTML"
+              },
+              "favorite": {
+                "title": "Favorite",
+                "type": "string",
+                "enum": [
+                  "undefined",
+                  "null",
+                  "NaN"
+                ]
+              },
+              "shoesizeLeft": {
+                "title": "Shoe size (left)",
+                "default": 42,
+                "type": "number"
+              },
+              "shoesizeRight": {
+                "title": "Shoe size (right)",
+                "default": 42,
+                "type": "number"
+              },
+              "attributes": {
+                "type": "object",
+                "title": "Attributes",
+                "required": [
+                  "eyecolor"
+                ],
+                "properties": {
+                  "eyecolor": {
+                    "type": "string",
+                    "format": "color",
+                    "title": "Eye color",
+                    "default": "pink"
+                  },
+                  "haircolor": {
+                    "type": "string",
+                    "title": "Hair color"
+                  },
+                  "shoulders": {
+                    "type": "object",
+                    "title": "Shoulders",
+                    "properties": {
+                      "left": {
+                        "type": "string",
+                        "title": "Left"
+                      },
+                      "right": {
+                        "type": "string",
+                        "title": "Right"
+                      }
+                    }
+                  }
+                }
+              },
+              "things": {
+                "type": "array",
+                "title": "I like...",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "clowns",
+                    "compiling",
+                    "sleeping"
+                  ]
+                }
+              },
+              "dislike": {
+                "type": "array",
+                "title": "I dislike...",
+                "items": {
+                  "type": "string",
+                  "title": "I hate"
+                }
+              },
+              "soul": {
+                "title": "Terms Of Service",
+                "description": "I agree to sell my undying <a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>soul</a>",
+                "type": "boolean",
+                "default": true
+              },
+              "soulserial": {
+                "title": "Soul Serial No",
+                "type": "string"
+              },
+              "date": {
+                "title": "Date of party",
+                "type": "string",
+                "format": "date"
+              },
+              "radio": {
+                "title": "Radio type",
+                "type": "string",
+                "enum": [
+                  "Transistor",
+                  "Tube"
+                ]
+              },
+              "radio2": {
+                "title": "My Second Radio",
+                "type": "string",
+                "enum": [
+                  "Transistor",
+                  "Tube"
+                ]
+              },
+              "radiobuttons": {
+                "type": "string",
+                "enum": [
+                  "Select me!",
+                  "No me!"
+                ]
+              }
+            }
+          },
+          "form": [
+            {
+              "type": "fieldset",
+              "title": "Stuff",
+              "items": [
+                {
+                  "key": "name",
+                  "placeholder": "Check the console",
+                  "onChange": "log(modelValue)",
+                  "feedback": "{'glyphicon': true, 'glyphicon-ok': hasSuccess(), 'glyphicon-star': !hasSuccess() }"
+                },
+                "attributes.eyecolor",
+                "attributes.haircolor",
+                {
+                  "key": "attributes.shoulders.left",
+                  "title": "Left shoulder",
+                  "description": "This value is copied to attributes.shoulders.right in the model",
+                  "copyValueTo": ["attributes.shoulders.right"]
+                },
+                {
+                  "key": "shoesizeLeft",
+                  "feedback": false,
+                  "copyValueTo": ["shoesizeRight"]
+                },
+                {
+                  "key": "shoesizeRight"
+                }
+              ]
+
             },
             {
               "type": "button",

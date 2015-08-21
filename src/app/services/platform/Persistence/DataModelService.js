@@ -177,7 +177,7 @@ angular.module('quotes.persistence', [])
       };
       //--------------- End Vehicle Functions  -------------------------------------------------
 
-
+      //--------------- Model Functions  -------------------------------------------------------
       this.getModels = function (IdObject) {
         var models = {
           'vehicle': this.getVehicle(IdObject.vehicleId),
@@ -196,7 +196,13 @@ angular.module('quotes.persistence', [])
         this.saveAccount(modelData.account)
       };
 
+      this.validateModelData = function(modelData){
+        if(modelData.driver){
+          var validatedElements = modelData.driver.validate();
+        }
+      };
 
+      //--------------- End Model Functions  ---------------------------------------------------
     }]);
 
 

@@ -33,6 +33,15 @@
       $scope.submitForm = function (form) {
         // First we broadcast an event so all fields validate themselves
         $scope.$broadcast('schemaFormValidate');
+
+        var data = {};
+        angular.forEach(form, function (value, key) {
+          if (typeof value === 'object' && value.hasOwnProperty('$modelValue'))
+            data[key] = value.$modelValue;
+        });
+
+        var modelElements = dataModelService.validateModelData($scope.modelData);
+
         // Then we check if the form is valid
         if (form.$valid) {
           dataModelService.saveModelData($scope.modelData);
