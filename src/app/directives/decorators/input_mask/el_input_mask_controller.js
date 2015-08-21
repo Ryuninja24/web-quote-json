@@ -65,51 +65,9 @@ angular.module('schemaForm')
       };
 
       return {
-        //priority: 1001, // Run before other directives e.g.  ng-repeat
+        priority: 1, // Run before other directives e.g.  ng-repeat
         terminal: true, // Stop other directives running
         link: linker
       };
     }
   ]);
-//.directive('listMasks', function ($compile) {
-//  return {
-//    restrict: 'A',
-//    replace: false,
-//    terminal: true, //this setting is important, see explanation below
-//    priority: 1000, //this setting is important, see explanation below
-//    compile: function compile(element, attrs) {
-//      element.removeAttr("list-masks");
-//      element.removeAttr("ui-masks");
-//      element.attr('ui-mask',"(999)-999-9999");
-//
-//      return {
-//        pre: function preLink(scope, iElement, iAttrs, controller) {  },
-//        post: function postLink(scope, iElement, iAttrs, controller) {
-//          $compile(iElement)(scope);
-//        }
-//      };
-//    }
-//  };
-//});
-
-//  return {
-//    restrict: 'A',
-//    replace: false,
-//    terminal: true,
-//    priority: 1000,
-//    require: '?ngModel',
-//    scope: {
-//      ngModel: '=',
-//      uiMasks: '='
-//    },
-//    link: function (scope, element, attrs, ngModel) {
-//      var fun = attrs;
-//
-//      element.removeAttr("list-masks");
-//      element.removeAttr("ui-masks");
-//      element.attr('ui-mask',"(999)-999-9999");
-//      //
-//      $compile(element)(scope);
-//    }
-//  };
-//});
