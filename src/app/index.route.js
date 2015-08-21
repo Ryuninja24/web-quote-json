@@ -877,7 +877,12 @@
                       title: "Age first licensed",
                       "labelHtmlClass": "float-left",
                       "fieldHtmlClass": "float-right form-50",
-                      "htmlClass": "test"
+                      "htmlClass": "test",
+                      validationMessage: {
+                        "notANumber": "Please enter a valid first licensed age.",
+                        "ageLowerRange": "Sorry, first licensed age cannot be lower than 14 years.",
+                        "ageUpperRange": "Sorry, first licensed age cannot exceed driver's current age."
+                      }
                     },
                     {
                       "key": "driver.CurrentlyInsured",

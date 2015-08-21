@@ -58,24 +58,46 @@ angular.module('quotes.persistence')
     // Class Methods
     _.extend(clazz.prototype, {
 
-      init:function(){
-        if(!this.Id){
+      init: function () {
+        if (!this.Id) {
           this.Id = String.createGuid();
         }
       },
 
-      setAsPrimary: function(){
+      setAsPrimary: function () {
         this.RatingStatus = 'Rated';
         this.PrimaryDriver = true;
       },
 
-      cleanDriverDefaults: function(){
+      cleanDriverDefaults: function () {
 
       },
 
-      validate: function(){
-        var fun = '';
+      //--------------- Validation Functions  -------------------------------------------------------
+
+      //Validate the Age first licensed question, we need to have DateOfBirth to make this work
+      validateAgeFirstLicensed: function (validationStates) {
+        if (this.DateOfBirth && this.AgeFirstLicensed) {
+          if (isNaN(this.AgeFirstLicensed)) {
+            validationStates.push({property:'AgeFirstLicensed', message:'notANumber', state:false});
+          }else{
+            validationStates.push({property:'AgeFirstLicensed', message:'notANumber', state:true});
+          }
+          var birthDate = new Date(this.DateOfBirth.replace(/-/g, "/"));
+          var currentDate = new Date();
+          var age = moment(currentDate).diff(birthDate, 'years');
+          validationStates.push({property:'AgeFirstLicensed', message:'ageLowerRange', state:parseInt(this.AgeFirstLicensed, 10) >= 14});
+          validationStates.push({property:'AgeFirstLicensed', message:'ageUpperRange', state:parseInt(this.AgeFirstLicensed, 10) <= age});
+        }
+      },
+
+      validate: function () {
+        var validationStates = [];
+        this.validateAgeFirstLicensed(validationStates);
+        return {model:'driver', validationItems: validationStates};
       }
+
+      //--------------- End Validation Functions  -------------------------------------------------------
 
     });
 

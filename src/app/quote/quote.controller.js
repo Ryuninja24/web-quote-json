@@ -31,6 +31,13 @@
       };
 
       $scope.submitForm = function (form) {
+
+        //var blah = 'schemaForm.error.driver.FirstName';
+        //var msg = 'userNameAlreadyTaken';
+        //
+        //$scope.$broadcast(blah, msg, false);
+
+
         // First we broadcast an event so all fields validate themselves
         $scope.$broadcast('schemaFormValidate');
 
