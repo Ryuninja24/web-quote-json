@@ -7,10 +7,9 @@
  * # Quotedataservice
  * Service in the webQuoteJson.
  */
+angular.module('quotes.services', [])
+  .service('quoteDataService', function () {
 
-function QuoteDataService() {
-
-  return [function () {
     var addresses = [];
     var bind = {};
     var ancillaryPlans = [];
@@ -53,22 +52,27 @@ function QuoteDataService() {
     };
 
 
+    //--------------- Main Model Methods ---------------------------------------------
+    this.saveMainModel = function(){
+      //create the main model the save it
+      //save the model here
+    }
     //--------------- Has Incidents  -------------------------------------------------
-    this.hasIncidents = function () {
+    this.hasIncidents = function(){
       return hasIncidents;
     };
 
-    this.setHasIncidents = function (boolVal) {
+    this.setHasIncidents = function(boolVal){
       hasIncidents = boolVal;
     };
     //--------------- End Has Incidents ----------------------------------------------
 
     //--------------- Has Convictions  -------------------------------------------------
-    this.hasConvictions = function () {
+    this.hasConvictions = function(){
       return hasConvictions;
     };
 
-    this.setHasConvictions = function (boolVal) {
+    this.setHasConvictions = function(boolVal){
       hasConvictions = boolVal;
     };
     //--------------- End Has Convictions ----------------------------------------------
@@ -78,16 +82,16 @@ function QuoteDataService() {
       leadData = leadDataResult;
     };
 
-    this.getLeadData = function () {
+    this.getLeadData = function(){
       return leadData;
     };
 
     //forces a one time read by controller name
-    this.getLeadDataByController = function (controllerName) {
-      if (!_.contains(previouslyReadLeadControllers, controllerName)) {
+    this.getLeadDataByController = function(controllerName){
+      if(!_.contains(previouslyReadLeadControllers, controllerName)) {
         previouslyReadLeadControllers.push(controllerName);
         return leadData;
-      } else {
+      }else{
         return null;
       }
     };
@@ -106,11 +110,12 @@ function QuoteDataService() {
       return LienHolders;
     };
 
-    this.getLienHolder = function (lienHolder) {
-      return _.findWhere(LienHolders, {Name: lienHolder});
+    this.getLienHolder = function(lienHolder){
+      return _.findWhere(LienHolders, {Name:lienHolder});
     };
 
     //--------------- End Lienholders ------------------------------------------
+
 
 
     //--------------- Broker Web ----------------------------------------------
@@ -351,31 +356,32 @@ function QuoteDataService() {
 
     //--------------- Vehicle ----------------------------------------------
 
-    this.saveVehicleYears = function (yearData) {
-      if (yearData) {
-        if (years && years.length > 0) {
+    this.saveVehicleYears = function(yearData){
+      if(yearData){
+        if(years && years.length > 0){
           years = [];
         }
         var tempYears = [];
-        _.each(yearData, function (yearItem) {
+        _.each(yearData, function(yearItem){
           tempYears.push(yearItem.Year);
         });
 
-        years = _.sortBy(tempYears, function (year) {
+        years = _.sortBy(tempYears, function(year) {
           return year;
         });
       }
     };
 
-    this.getVehicleYears = function () {
+    this.getVehicleYears = function(){
       return years;
     };
 
-    this.getMinVehicleYear = function () {
+    this.getMinVehicleYear = function(){
       return _.min(years);
     };
 
-    this.getMaxVehicleYear = function () {
+    this.getMaxVehicleYear = function()
+    {
       return _.max(years);
     };
 
@@ -403,10 +409,10 @@ function QuoteDataService() {
       }
     };
 
-    this.getVehicleCount = function () {
-      if (vehicles && vehicles.length > 0) {
+    this.getVehicleCount = function(){
+      if(vehicles && vehicles.length > 0){
         return vehicles.length;
-      } else {
+      }else{
         return 0;
       }
     };
@@ -453,6 +459,10 @@ function QuoteDataService() {
       } else {
         return null;
       }
+    };
+
+    this.getFirstVehicle = function(){
+      return angular.copy(_.first(vehicles));
     };
 
     //Returns all vehicles for display purposes only
@@ -530,16 +540,16 @@ function QuoteDataService() {
       }
     };
 
-    this.getLegalPlan = function () {
-      var legalPlan = _.findWhere(ancillaryPlans, {PlanId: 2});
-      if (legalPlan) {
+    this.getLegalPlan = function(){
+      var legalPlan = _.findWhere(ancillaryPlans,{PlanId: 2});
+      if(legalPlan) {
         return legalPlan;
       }
     };
 
-    this.getLifePlan = function () {
-      var lifePlan = _.findWhere(ancillaryPlans, {PlanId: 4});
-      if (lifePlan) {
+    this.getLifePlan = function(){
+      var lifePlan = _.findWhere(ancillaryPlans,{PlanId: 4});
+      if(lifePlan) {
         return angular.copy(lifePlan);
       }
     };
@@ -556,7 +566,7 @@ function QuoteDataService() {
       ancillaryPurchaseResponse = response;
     };
 
-    this.getAncillaryPlansResponse = function () {
+    this.getAncillaryPlansResponse = function(){
       return angular.copy(ancillaryPurchaseResponse);
     };
 
@@ -579,8 +589,8 @@ function QuoteDataService() {
     this.getDmsVehicles = function () {
       return dmsData.Vehicles;
     };
-  }]
-}
 
+
+  })
 
 

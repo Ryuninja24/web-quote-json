@@ -34,6 +34,10 @@
                 format: 'postalCodeSelector',
                 minLength: 5,
                 maxLength: 5
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
               }
             },
             "required": [
@@ -45,6 +49,9 @@
               key: "postalCode",
               placeholder: "Zip Code",
               notitle: true
+            },
+            {
+              key: "el_navSummary"
             }
           ]
         }
@@ -113,6 +120,7 @@
                     "type": "boolean",
                     default: null
                   }
+
                 },
                 "required": [
                   "CustomEquipment",
@@ -123,6 +131,10 @@
                   "YearsOwned",
                   "AddAnotherVehicle"
                 ]
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
               }
             }
           },
@@ -216,6 +228,9 @@
               "style": "btn-info",
               "title": "OK",
               onClick: "submitForm(ngform)"
+            },
+            {
+              key: "el_navSummary"
             }
           ]
         }
@@ -309,7 +324,11 @@
                     type: 'string'
                   }
                 }
-              }//address
+              },//address
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
+              }
             }
           },
           form: [
@@ -464,7 +483,10 @@
               "style": "btn-info",
               "title": "OK",
               onClick: "submitForm(ngform)"
-            }
+            },
+            {
+              key: "el_navSummary"
+            },
           ]
         }
       })
@@ -522,6 +544,10 @@
                   "HighestLevelOfEducation",
                   "EmploymentStatus"
                 ]
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
               }
             }
           },
@@ -726,6 +752,9 @@
               "style": "btn-info",
               "title": "OK",
               onClick: "submitForm(ngform)"
+            },
+            {
+              key: "el_navSummary"
             }
           ]
         }
@@ -810,6 +839,10 @@
                   "AdditionalDrivers",
                   "CurrentZipCode"
                 ]
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
               }
             }
           },
@@ -1169,6 +1202,9 @@
               "style": "btn-info",
               "title": "OK",
               onClick: "submitForm(ngform)"
+            },
+            {
+              key: "el_navSummary"
             }
           ]
         }
