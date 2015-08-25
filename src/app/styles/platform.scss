@@ -1,0 +1,16 @@
+/****** Platform styles *************/
+#navSummary{
+  position: fixed;
+  right: 14%;
+  top: 44px;
+  width: 240px;
+  ul li {
+    list-style: none;
+    padding: 6px 0;
+    .side-discounts{
+      li{
+        padding: 1px 0;
+      }
+    }
+  }
+}

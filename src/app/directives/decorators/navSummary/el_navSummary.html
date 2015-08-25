@@ -1,0 +1,27 @@
+<div id="navSummary" class="panel" ng-controller="el_navSummaryController">
+  <ul>
+    <li>My Quote:</li>
+    <li></li>
+  </ul>
+  <hr ng-if="navSummary.masterModel.Drivers.length > 0" />
+  <ul ng-if="navSummary.masterModel.Drivers.length > 0">
+    <li>Drivers:</li>
+    <li ng-repeat="driver in navSummary.masterModel.Drivers">
+      <span ng-if="driver.PrimaryDriver">
+        <a class="" ui-sref="policyholder">
+          {{driver.FirstName + ' ' + driver.LastName}} <i class="large material-icons" style="float:right;">mode_edit</i></a>
+      </span>
+      <span ng-if="!driver.PrimaryDriver">
+        <a class="" ui-sref="additionalDriver({driverId: vehicle.Id})">
+          {{driver.FirstName + ' ' + driver.LastName}} <i class="large material-icons" style="float:right;">mode_edit</i></a>
+      </span>
+    </li>
+  </ul>
+  <hr ng-if="navSummary.masterModel.Vehicles.length > 0" />
+  <ul ng-if="navSummary.masterModel.Vehicles.length > 0">
+    <li>Vehicles:</li>
+    <li ng-repeat="vehicle in navSummary.masterModel.Vehicles"><a ui-sref="vehicle({vehicleId: vehicle.Id})">
+      {{vehicle.Make + ' ' + vehicle.Model}} <i class="large material-icons" style="float:right;">mode_edit</i></a>
+    </li>
+  </ul>
+</div>
