@@ -197,9 +197,15 @@ angular.module('quotes.persistence', [])
       };
 
       this.validateModelData = function(modelData){
+        var validationResponse = [];
         if(modelData.driver){
-          var validatedElements = modelData.driver.validate();
+          var driverElements = modelData.driver.validate();
+          if(driverElements){
+            validationResponse.push(driverElements);
+          }
         }
+
+        return validationResponse;
       };
 
       //--------------- End Model Functions  ---------------------------------------------------

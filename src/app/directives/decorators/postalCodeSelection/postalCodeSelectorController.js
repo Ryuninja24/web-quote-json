@@ -30,8 +30,8 @@ angular.module('schemaForm').config(
     }]);
 
 angular.module('schemaForm')
-  .controller('PostalCodeSelectorController', ['$scope', 'geoCodeDataService', 'NavigationService', 'dataModelService', 'AddressModel',
-    function ($scope, geoCodeDataService, navigationService, dataModelService, addressModel) {
+  .controller('PostalCodeSelectorController', ['$scope', 'geoCodeDataService', 'NavigationService', 'dataModelService', 'AddressModel', 'callTrackerService',
+    function ($scope, geoCodeDataService, navigationService, dataModelService, addressModel, callTrackerService) {
 
     $scope.postalSummary = {
       formSubmitted: false,
@@ -43,7 +43,7 @@ angular.module('schemaForm')
       $scope.autoZipForm.customerZip.$setValidity('invalidCode', true);
       //modelValue = $scope.autoZipForm.customerZip.$modelValue.toString();
       if ($valid) {
-
+        callTrackerService.registerCallStart('waitScreen');
         geoCodeDataService.getPostalCodes($scope.autoZipForm.customerZip.$modelValue.toString()).then(function (results) {
 
           if (results.data.HasRatedLocations && results.data.RatedLocations && results.data.RatedLocations.length > 0) {

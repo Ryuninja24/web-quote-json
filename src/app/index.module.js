@@ -16,6 +16,8 @@
       'platform.geoCodeService',
       'platform.vinIsoService',
       'platform.tracking',
+      'platform.logging',
+      'platform.loading',
       'ngMessages',
       'quotes.persistence',
       'platform.directives'

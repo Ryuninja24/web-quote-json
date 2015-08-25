@@ -91,42 +91,13 @@
         "states": {
           "PostalCode": {
             "pageName": "postalCodeDetails",
-            "nextPage": "vehicle",
+            "nextPage": "policyHolder",
             "pageUrl": "/postal-code",
             "breadCrumb": "Drivers",
             "touched": null,
             "current": false,
             "conditions": [],
             "startPage": true
-          },
-          "Vehicle": {
-            "pageName": "vehicle",
-            "pageUrl": "/vehicle/",
-            "conditions": [
-              {
-                "test": "AddAnotherVehicle",
-                "model":"vehicle",
-                "expected": true,
-                "nextPage": "vehicle"
-              },
-              {
-                "test": "AddAnotherVehicle",
-                "model":"vehicle",
-                "expected": false,
-                "nextPage": "policyHolder"
-              },
-              {
-                "test": "AssignmentsNeeded",
-                "expected": true,
-                "nextPage": "driverAssignment"
-              },
-              {
-                "test": "AssignmentsNeeded",
-                "expected": false,
-                "nextPage": "discounts"
-              }
-            ],
-            "startPage": false
           },
           "PolicyHolder": {
             "pageName": "policyHolder",
@@ -210,14 +181,33 @@
             ],
             "startPage": false
           },
-          "AdditionalHistory": {
-            "pageName": "additionalHistory",
-            "nextPage": "vehicle",
-            "pageUrl": "/additional-history",
-            "breadCrumb": "Drivers",
-            "touched": null,
-            "current": false,
-            "conditions": [],
+          "Vehicle": {
+            "pageName": "vehicle",
+            "pageUrl": "/vehicle/",
+            "conditions": [
+              {
+                "test": "AddAnotherVehicle",
+                "model":"vehicle",
+                "expected": true,
+                "nextPage": "vehicle"
+              },
+              {
+                "test": "AddAnotherVehicle",
+                "model":"vehicle",
+                "expected": false,
+                "nextPage": "policyHolder"
+              },
+              {
+                "test": "AssignmentsNeeded",
+                "expected": true,
+                "nextPage": "driverAssignment"
+              },
+              {
+                "test": "AssignmentsNeeded",
+                "expected": false,
+                "nextPage": "discounts"
+              }
+            ],
             "startPage": false
           },
           "DriverAssignment": {

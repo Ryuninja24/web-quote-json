@@ -1,0 +1,8 @@
+<div class="loading-msg" ng-show="display || error">
+  <div class="wrapper" ng-show="display" >
+    <h1 class="text-center" ><img src="assets/images/LoadingAnim03.gif" style="width: 70px;"/> {{msg}}&nbsp;&nbsp;</h1>
+  </div>
+  <div class="wrapper" ng-style='position' ng-show="error">
+    <span class="hpadded">{{errorMsg}}</span>
+  </div>
+</div>

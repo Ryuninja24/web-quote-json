@@ -3,6 +3,9 @@
 
   angular
     .module('webQuoteJson')
+    .constant('logLevel', {
+      level: 'debug'
+    })
     .config(config);
 
   /** @ngInject */

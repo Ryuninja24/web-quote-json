@@ -2,7 +2,7 @@
  * Created by gabello on 8/12/2015.
  */
 angular.module('quotes.persistence')
-  .factory('DriverModel', ['$q', function ($q) {
+  .factory('DriverModel', ['$q', '$log', function ($q, $log) {
     var clazz = function (attributes) {
       var defaults = {
         AdditionalDrivers: null,
@@ -77,6 +77,7 @@ angular.module('quotes.persistence')
 
       //Validate the Age first licensed question, we need to have DateOfBirth to make this work
       validateAgeFirstLicensed: function (validationStates) {
+        $log.debug('Validation age first licensed');
         if (this.DateOfBirth && this.AgeFirstLicensed) {
           if (isNaN(this.AgeFirstLicensed)) {
             validationStates.push({property:'AgeFirstLicensed', message:'notANumber', state:false});

@@ -49,177 +49,7 @@
           ]
         }
       })
-      .state('vehicle', {
-        url: '/vehicle/{vehicleId}',
-        templateUrl: 'app/quote/quote.html',
-        controller: 'QuoteController',
-        resolve: {
-          modelData: function ($q, $stateParams, dataModelService) {
-            var vehicleId = $stateParams.vehicleId;
-            if (!vehicleId) {
-              vehicleId = 0;
-            }
-            var fun = dataModelService.getModels({vehicleId: vehicleId, driverId: null});
-            var deferred = $q.defer();
-            deferred.resolve(fun);
-            return deferred.promise;
-          }
-        },
-        data: {
-          schema: {
-            "type": "object",
-            "title": "Vehicle Entry",
-            "properties": {
-              "vehicle": {
-                type: "object",
-                properties: {
-                  "CustomEquipment": {
-                    "title": "Custom equipment",
-                    "type": "boolean",
-                    default: null
-                  },
-                  "ValueOfCustomEquipment": {
-                    "title": "Custom equipment amount",
-                    "type": "string",
-                    "enum": ["Up to $1000", "$1001 - $1500", "$1501 - $1999"]
-                  },
-                  "Usage": {
-                    "title": "Primary use",
-                    "type": "string",
-                    "enum": ["Work/School", "Business", "Pleasure"]
-                  },
-                  "Ownership": {
-                    "title": "Ownership",
-                    "type": "string",
-                    "enum": ["Paid Off", "Lease/Financed"]
-                  },
-                  "EstimatedAnnualMileage": {
-                    "title": "Annual mileage",
-                    "type": "string",
-                    "enum": ["Less than 4000", "4000 - 5999", "6000 - 7999"]
-                  },
-                  "OrginalOwner": {
-                    "title": "Are you the original owner?",
-                    "type": "boolean",
-                    default: null
-                  },
-                  "YearsOwned": {
-                    "title": "Years of ownership",
-                    "type": "string",
-                    "enum": ["Less than 4000", "4000 - 5999", "6000 - 7999"]
-                  },
-                  "AddAnotherVehicle": {
-                    "title": "Add another vehicle?",
-                    "type": "boolean",
-                    default: null
-                  }
-                },
-                "required": [
-                  "CustomEquipment",
-                  "Usage",
-                  'EstimatedAnnualMileage',
-                  "Ownership",
-                  "OrginalOwner",
-                  "YearsOwned",
-                  "AddAnotherVehicle"
-                ]
-              }
-            }
-          },
-          form: [
-            {
-              "type": "section",
-              "htmlClass": "row",
-              "items": [
-                {
-                  "type": "section",
-                  "items": [{
-                    "key": "vehicle.CustomEquipment",
-                    "labelHtmlClass": "float-left",
-                    "type": "radiobuttons",
-                    "titleMap": [
-                      {
-                        "value": true,
-                        "name": "Yes"
-                      },
-                      {
-                        "value": false,
-                        "name": "No"
-                      }
-                    ]
-                  },
-                    {
-                      "key": "vehicle.ValueOfCustomEquipment",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "condition": "modelData.vehicle.CustomEquipment == true"
-                    },
-                    {
-                      "key": "vehicle.Usage",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "htmlClass": "test"
-                    },
-                    {
-                      "key": "vehicle.Ownership",
-                      "fieldHtmlClass": "float-right form-50"
-                    },
-                    {
-                      "key": "vehicle.EstimatedAnnualMileage",
-                      "fieldHtmlClass": "float-right form-50"
-                    },
-                    {
-                      "key": "vehicle.OrginalOwner",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "type": "radiobuttons",
 
-                      "titleMap": [
-                        {
-                          "value": true,
-                          "name": "Yes"
-                        },
-                        {
-                          "value": false,
-                          "name": "No"
-                        }
-
-                      ]
-                    },
-                    {
-                      "key": "vehicle.YearsOwned",
-                      "fieldHtmlClass": "float-right form-50"
-                    },
-
-                    {
-                      "key": "vehicle.AddAnotherVehicle",
-                      "labelHtmlClass": "float-left",
-                      "type": "radiobuttons",
-
-                      "titleMap": [
-                        {
-                          "value": true,
-                          "name": "Yes"
-                        },
-                        {
-                          "value": false,
-                          "name": "No"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "button",
-              "style": "btn-info",
-              "title": "OK",
-              onClick: "submitForm(ngform)"
-            }
-          ]
-        }
-      })
       .state('policyholder', {
         url: '/policy-holder',
         templateUrl: 'app/quote/quote.html',
@@ -231,6 +61,9 @@
             deferred.resolve(fun);
             return deferred.promise;
           }
+        },
+        onEnter: function (callTrackerService) {
+          callTrackerService.registerCallSuccess('waitScreen');
         },
         data: {
           schema: {
@@ -303,10 +136,12 @@
                     type: 'string'
                   },
                   "State": {
-                    type: 'string'
+                    type: 'string',
+                    format:'label'
                   },
                   "PostalCode": {
-                    type: 'string'
+                    type: 'string',
+                    format:'label'
                   }
                 }
               }//address
@@ -397,13 +232,27 @@
               "items": [
                 {
                   "type": "section",
-                  "items": [{
+                  "items": [
+                    {
                     key: "address.City",
                     "labelHtmlClass": "float-left",
                     "fieldHtmlClass": "float-right form-50",
                     placeholder: "City",
                     title: "City"
-                  }]
+                    },
+                    {
+                      key: "address.State",
+                      type:"el_label",
+                      "labelHtmlClass": "float-left",
+                      notitle: true
+                    },
+                    {
+                      key: "address.PostalCode",
+                      type:"el_label",
+                      "labelHtmlClass": "float-left",
+                      notitle: true
+                    }
+                  ]
                 }
               ]
             },
@@ -1348,6 +1197,177 @@
                 }
               ]
 
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
+            }
+          ]
+        }
+      })
+      .state('vehicle', {
+        url: '/vehicle/{vehicleId}',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var vehicleId = $stateParams.vehicleId;
+            if (!vehicleId) {
+              vehicleId = 0;
+            }
+            var fun = dataModelService.getModels({vehicleId: vehicleId, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          schema: {
+            "type": "object",
+            "title": "Vehicle Entry",
+            "properties": {
+              "vehicle": {
+                type: "object",
+                properties: {
+                  "CustomEquipment": {
+                    "title": "Custom equipment",
+                    "type": "boolean",
+                    default: null
+                  },
+                  "ValueOfCustomEquipment": {
+                    "title": "Custom equipment amount",
+                    "type": "string",
+                    "enum": ["Up to $1000", "$1001 - $1500", "$1501 - $1999"]
+                  },
+                  "Usage": {
+                    "title": "Primary use",
+                    "type": "string",
+                    "enum": ["Work/School", "Business", "Pleasure"]
+                  },
+                  "Ownership": {
+                    "title": "Ownership",
+                    "type": "string",
+                    "enum": ["Paid Off", "Lease/Financed"]
+                  },
+                  "EstimatedAnnualMileage": {
+                    "title": "Annual mileage",
+                    "type": "string",
+                    "enum": ["Less than 4000", "4000 - 5999", "6000 - 7999"]
+                  },
+                  "OrginalOwner": {
+                    "title": "Are you the original owner?",
+                    "type": "boolean",
+                    default: null
+                  },
+                  "YearsOwned": {
+                    "title": "Years of ownership",
+                    "type": "string",
+                    "enum": ["Less than 4000", "4000 - 5999", "6000 - 7999"]
+                  },
+                  "AddAnotherVehicle": {
+                    "title": "Add another vehicle?",
+                    "type": "boolean",
+                    default: null
+                  }
+                },
+                "required": [
+                  "CustomEquipment",
+                  "Usage",
+                  'EstimatedAnnualMileage',
+                  "Ownership",
+                  "OrginalOwner",
+                  "YearsOwned",
+                  "AddAnotherVehicle"
+                ]
+              }
+            }
+          },
+          form: [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{
+                    "key": "vehicle.CustomEquipment",
+                    "labelHtmlClass": "float-left",
+                    "type": "radiobuttons",
+                    "titleMap": [
+                      {
+                        "value": true,
+                        "name": "Yes"
+                      },
+                      {
+                        "value": false,
+                        "name": "No"
+                      }
+                    ]
+                  },
+                    {
+                      "key": "vehicle.ValueOfCustomEquipment",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "condition": "modelData.vehicle.CustomEquipment == true"
+                    },
+                    {
+                      "key": "vehicle.Usage",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "htmlClass": "test"
+                    },
+                    {
+                      "key": "vehicle.Ownership",
+                      "fieldHtmlClass": "float-right form-50"
+                    },
+                    {
+                      "key": "vehicle.EstimatedAnnualMileage",
+                      "fieldHtmlClass": "float-right form-50"
+                    },
+                    {
+                      "key": "vehicle.OrginalOwner",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "type": "radiobuttons",
+
+                      "titleMap": [
+                        {
+                          "value": true,
+                          "name": "Yes"
+                        },
+                        {
+                          "value": false,
+                          "name": "No"
+                        }
+
+                      ]
+                    },
+                    {
+                      "key": "vehicle.YearsOwned",
+                      "fieldHtmlClass": "float-right form-50"
+                    },
+
+                    {
+                      "key": "vehicle.AddAnotherVehicle",
+                      "labelHtmlClass": "float-left",
+                      "type": "radiobuttons",
+
+                      "titleMap": [
+                        {
+                          "value": true,
+                          "name": "Yes"
+                        },
+                        {
+                          "value": false,
+                          "name": "No"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "button",
