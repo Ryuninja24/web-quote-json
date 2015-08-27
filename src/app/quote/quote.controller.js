@@ -9,8 +9,16 @@
     .controller('QuoteController', QuoteController);
 
 
-    function QuoteController($scope, $state, NavigationService, dataModelService, modelData) {
-      $scope.isCollapsed = false;
+    function QuoteController($scope, $state, NavigationService, dataModelService, modelData, lookupDataService) {
+
+      $scope.getLookup = function (options, search) {
+        if(options && options.lookupType){
+          var returnStuff = lookupDataService.getLookups(options.lookupType, modelData);
+          return returnStuff;
+        }
+      };
+
+
       $scope.schema = $state.current.data.schema;
       $scope.form = $state.current.data.form;
       $scope.modelData = modelData;
@@ -32,10 +40,10 @@
 
       $scope.submitForm = function (form) {
 
-        var blah = 'schemaForm.error.driver.FirstName';
-        var msg = 'userNameAlreadyTaken';
-
-        $scope.$broadcast(blah, msg, false);
+        //var blah = 'schemaForm.error.driver.FirstName';
+        //var msg = 'userNameAlreadyTaken';
+        //
+        //$scope.$broadcast(blah, msg, false);
 
         // First we broadcast an event so all fields validate themselves
         $scope.$broadcast('schemaFormValidate');

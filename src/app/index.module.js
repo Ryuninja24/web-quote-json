@@ -20,7 +20,8 @@
       'platform.loading',
       'ngMessages',
       'quotes.persistence',
-      'platform.directives'
+      'platform.directives',
+      'platform.lookupDataService'
     ])
     .provider('NavigationService', NavigationService())
     .config(['NavigationServiceProvider', function (navigationServiceProvider) {

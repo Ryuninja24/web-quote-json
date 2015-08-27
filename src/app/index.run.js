@@ -6,9 +6,10 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($log) {
+  function runBlock($log, lookupDataService) {
 
-    $log.debug('runBlock end');
+    lookupDataService.loadLookups();
+    $log.debug('lookupDataService loaded');
   }
 
 })();

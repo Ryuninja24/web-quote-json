@@ -357,8 +357,8 @@
                     default: null
                   },
                   "MaritalStatus": {
-                    "title": "Marital status",
-                    "type": "string"
+                    title: "Marital Status",
+                    type: "string"
                   },
                   "ResidenceOwnership": {
                     "title": "Residence type",
@@ -369,11 +369,19 @@
                     "type": "string"
                   },
                   "HighestLevelOfEducation": {
-                    "title": "Custom equipment amount",
+                    "title": "Education completed",
                     "type": "string"
                   },
                   "EmploymentStatus": {
                     "title": "Employment status",
+                    "type": "string"
+                  },
+                  "MilitaryBranch": {
+                    "title": "Branch",
+                    "type": "string"
+                  },
+                  "MilitaryStatus": {
+                    "title": "Rank",
                     "type": "string"
                   }
                 },
@@ -415,173 +423,78 @@
                   },
                     {
                       "key": "driver.MaritalStatus",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Divorced"
-                        },
-                        {
-                          "value": "1",
-                          "name": "Married"
-                        },
-                        {
-                          "value": "2",
-                          "name": "Never Married"
-                        },
-                        {
-                          "value": "3",
-                          "name": "Separated"
-                        },
-                        {
-                          "value": "4",
-                          "name": "Widowed"
-                        }
-                      ]
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType":"MaritalStatus",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      }
                     },
                     {
                       "key": "driver.ResidenceOwnership",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Own condo"
-                        },
-                        {
-                          "value": "1",
-                          "name": "Own home"
-                        },
-                        {
-                          "value": "2",
-                          "name": "Own mobile home"
-                        },
-                        {
-                          "value": "3",
-                          "name": "Rent"
-                        },
-                        {
-                          "value": "4",
-                          "name": "Other"
-                        }
-                      ]
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType":"ResidenceOwnershipType",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      }
                     },
                     {
                       "key": "driver.YearsAtCurrentResidence",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Less than 1 year"
-                        },
-                        {
-                          "value": "1",
-                          "name": "1 year"
-                        },
-                        {
-                          "value": "2",
-                          "name": "2 years"
-                        },
-                        {
-                          "value": "3",
-                          "name": "3 years"
-                        },
-                        {
-                          "value": "4",
-                          "name": "4 years"
-                        },
-                        {
-                          "value": "5",
-                          "name": "5 or more years"
-                        }
-                      ]
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType":"YearsAt",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      }
                     },
                     {
                       "key": "driver.HighestLevelOfEducation",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Lower than High School"
-                        },
-                        {
-                          "value": "1",
-                          "name": "High School/GED"
-                        },
-                        {
-                          "value": "2",
-                          "name": "Vocational"
-                        },
-                        {
-                          "value": "3",
-                          "name": "Associates"
-                        },
-                        {
-                          "value": "4",
-                          "name": "Bachelors"
-                        },
-                        {
-                          "value": "5",
-                          "name": "Masters"
-                        },
-                        {
-                          "value": "6",
-                          "name": "Doctorate"
-                        }
-                      ]
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType":"EducationLevelType",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      }
                     },
                     {
                       "key": "driver.EmploymentStatus",
-                      "type": "select",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Employed"
-                        },
-                        {
-                          "value": "1",
-                          "name": "Homemaker"
-                        },
-                        {
-                          "value": "2",
-                          "name": "Retired"
-                        },
-                        {
-                          "value": "3",
-                          "name": "Full-time student"
-                        },
-                        {
-                          "value": "4",
-                          "name": "Unemployed"
-                        },
-                        {
-                          "value": "5",
-                          "name": "Military - active"
-                        },
-                        {
-                          "value": "6",
-                          "name": "Military - retired"
-                        }
-                      ]
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType":"EmploymentStatusType",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      }
+                    },
+                    {
+                      "key": "driver.MilitaryBranch",
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType":"MilitaryBranch",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      },
+                      onChange: function(modelValue,form) {
+                        console.log("Password is",modelValue);
+                      },
+                      "condition":"model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'",
+                    },
+                    {
+                      "key": "driver.MilitaryStatus",
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType":"MilitaryServiceType",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      },
+                      "condition":"model['driver']['MilitaryBranch'] && model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'"
                     }
                   ]
                 }
