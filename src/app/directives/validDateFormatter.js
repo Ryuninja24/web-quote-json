@@ -32,7 +32,8 @@ function ValidDateFormatter() {
           if (valid) {
             if(attrs.maxAge > 0 && attrs.minAge > 0) {
               var age = Math.abs(m.diff(new Date(), 'years'));
-              ngModel.$setValidity('agerange', age >= attrs.minAge && age <= attrs.maxAge);
+              var ageResult = age >= attrs.minAge && age <= attrs.maxAge;
+              ngModel.$setValidity('agerange', ageResult);
             }
             return m.format("MM-DD-YYYY");
           }else {

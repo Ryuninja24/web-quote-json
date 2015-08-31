@@ -73,6 +73,121 @@ angular.module('quotes.persistence')
 
       },
 
+      driverAge: function(model){
+        if(model.DateOfBirth){
+          return moment(new Date()).diff(moment(model.DateOfBirth, 'MM-DD-YYYY'), 'years');
+        }else{
+          return 0;
+        }
+      },
+
+      isStudentAge: function(model){
+        return !!(model.driverAge(model) >= 16 && model.driverAge(model) <= 24);
+      },
+
+      showCurrentStudentEnrollment: function(model){
+        return model.EmploymentStatus == 'FullTimeStudent';
+      },
+
+      showMilitaryBranch: function(model){
+        return model.EmploymentStatus == 'Military' || model.EmploymentStatus == 'RetiredMilitary'
+      },
+
+      showMilitaryStatus: function(model){
+        return model.MilitaryBranch && model.EmploymentStatus == 'Military' || model.EmploymentStatus == 'RetiredMilitary'
+      },
+
+      showOccupation: function(model){
+        return model.EmploymentStatus == 'PrivatelyEmployed' || model.EmploymentStatus == 'Retired'
+      },
+
+      showGoodStudentDiscount: function(model){
+        return (model.CurrentStudentEnrollment && (model.MaritalStatus == 'Widowed' || model.MaritalStatus == 'Divorced' || model.MaritalStatus == 'NeverMarried')
+          && model.isStudentAge(model) && model.EmploymentStatus == 'FullTimeStudent');
+      },
+
+
+      resolveGoodStudentDiscount: function(model){
+        if(model.PrimaryDriver) {
+          if (model.EmploymentStatus != 'FullTimeStudent' || !this.isStudentAge(model) ||
+            (model.MaritalStatus != 'NeverMarried' && model.MaritalStatus != 'Widowed' && model.MaritalStatus != 'Divorced')) {
+            model.GoodStudentDiscount = null;
+            model.CurrentlyEnrolled = null;
+          }
+        }else{
+          if (!model.isStudentAge(model) ||
+            (model.MaritalStatus != 'NeverMarried' && model.MaritalStatus != 'Widowed' && model.MaritalStatus != 'Divorced')) {
+            model.GoodStudentDiscount = null;
+            model.CurrentlyEnrolled = null;
+          }
+        }
+      },
+
+      resolveEmploymentStatus: function (model) {
+        switch (this.EmploymentStatus) {
+          case "PrivatelyEmployed":
+          case "Retired":
+            model.MilitaryStatus = null;
+            model.MilitaryBranch = null;
+            model.GoodStudentDiscount = null;
+            model.CurrentlyEnrolled = null;
+            break;
+          case "Homemaker":
+            model.Occupation = '424';
+            model.MilitaryStatus = null;
+            model.MilitaryBranch = null;
+            model.GoodStudentDiscount = null;
+            model.CurrentlyEnrolled = null;
+            break;
+          case "Unemployed":
+            model.Occupation = '425';
+            model.MilitaryStatus = null;
+            model.MilitaryBranch = null;
+            model.GoodStudentDiscount = null;
+            model.CurrentlyEnrolled = null;
+            break;
+          case "FullTimeStudent":
+            model.MilitaryStatus = null;
+            model.MilitaryBranch = null;
+            break;
+          case "Military":
+          case "RetiredMilitary":
+            model.Occupation = null;
+            model.GoodStudentDiscount = null;
+            model.CurrentlyEnrolled = null;
+            break;
+          default:
+            model.Occupation = null;
+            model.MilitaryStatus = null;
+            model.MilitaryBranch = null;
+            model.GoodStudentDiscount = null;
+            model.CurrentlyEnrolled = null;
+        }
+
+        if (model.EmploymentStatus == 'FullTimeStudent') {
+          switch (model.CurrentStudentEnrollment) {
+            case 'HighSchool' :
+              model.Occupation = '427';
+              break;
+            case 'TradeSchool' :
+            case 'CollegeDegreeFor2Years':
+              model.Occupation = '428';
+              break;
+            case 'GraduateSchool' :
+              model.Occupation = '426';
+              break;
+            case 'CollegeDegreeFor4Years' :
+              model.Occupation = '429';
+              break;
+          }
+        }
+
+        if (model.CurrentlyEnrolledStudent === 'No') {
+          model.GoodStudentDiscount = 'false'
+        }
+      },
+
+
       //--------------- Validation Functions  -------------------------------------------------------
 
       //Validate the Age first licensed question, we need to have DateOfBirth to make this work

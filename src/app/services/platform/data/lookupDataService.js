@@ -1,9 +1,6 @@
 /**
  * Created by gabello on 8/26/2015.
  */
-/**
- * Created by gabello on 10/30/2014.
- */
 angular.module('platform.lookupDataService', [])
   .service('lookupDataService', ['$q', '$log', 'dataModelService',
     function ($q, $log, dataModelService) {
@@ -64,6 +61,12 @@ angular.module('platform.lookupDataService', [])
             if (modelData && modelData.driver && modelData.driver.MilitaryBranch) {
               lookupList = this.getMilitaryServiceTypeLookups(modelData.driver.MilitaryBranch);
             }
+            break;
+          case 'Occupation':
+            lookupList = this.getOccupationLookups();
+            break;
+          case 'StudentEnrollmentType':
+            lookupList = this.getStudentEnrollmentTypeLookups();
             break;
         }
 
@@ -146,8 +149,8 @@ angular.module('platform.lookupDataService', [])
 
       this.getMilitaryServiceTypeLookups = function (filter) {
         var serviceTypes = _.where(lookups, {Type: 'MilitaryServiceType'});
-        var branch = _.findWhere(this.getMilitaryBranchLookups(),{Value:filter});
-        if(branch && serviceTypes) {
+        var branch = _.findWhere(this.getMilitaryBranchLookups(), {Value: filter});
+        if (branch && serviceTypes) {
           var militaryServiceTypes = _.filter(serviceTypes, function (serviceType) {
             return serviceType.Metadata.Branch == branch.Description;
           });

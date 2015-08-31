@@ -18,6 +18,38 @@
         }
       };
 
+      $scope.onChange = function(modelValue, modelType, expression){
+        if(!modelValue){
+          return;
+        }
+        if(modelData.hasOwnProperty(modelType)){
+          if(typeof modelData[modelType][expression] === 'function')
+          {
+            var func = eval(modelData[modelType][expression]);
+            func(modelData[modelType]);
+          }
+        }
+      };
+
+      $scope.ShowIf = function(form, modelType, expression){
+        if(!form.$dirty){
+          return;
+        }
+        var retResult = false;
+        if(modelData.hasOwnProperty(modelType)){
+          if(typeof modelData[modelType][expression] === 'function')
+          {
+            var func = eval(modelData[modelType][expression]);
+            retResult = func(modelData[modelType]);
+          }
+        }
+
+        return retResult;
+      };
+
+
+
+
 
       $scope.schema = $state.current.data.schema;
       $scope.form = $state.current.data.form;

@@ -143,11 +143,11 @@
                   },
                   "State": {
                     type: 'string',
-                    format:'label'
+                    format: 'label'
                   },
                   "PostalCode": {
                     type: 'string',
-                    format:'label'
+                    format: 'label'
                   }
                 }
               },//address
@@ -244,21 +244,21 @@
                   "type": "section",
                   "items": [
                     {
-                    key: "address.City",
-                    "labelHtmlClass": "float-left",
-                    "fieldHtmlClass": "float-right form-50",
-                    placeholder: "City",
-                    title: "City"
+                      key: "address.City",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      placeholder: "City",
+                      title: "City"
                     },
                     {
                       key: "address.State",
-                      type:"el_label",
+                      type: "el_label",
                       "labelHtmlClass": "float-left",
                       notitle: true
                     },
                     {
                       key: "address.PostalCode",
-                      type:"el_label",
+                      type: "el_label",
                       "labelHtmlClass": "float-left",
                       notitle: true
                     }
@@ -383,6 +383,19 @@
                   "MilitaryStatus": {
                     "title": "Rank",
                     "type": "string"
+                  },
+                  "Occupation": {
+                    "title": "Occupation",
+                    "type": "string"
+                  },
+                  "CurrentStudentEnrollment": {
+                    "title": "Currently attend",
+                    "type": "string"
+                  },
+                  "GoodStudentDiscount": {
+                    "title": "Have they maintained a 3.0 GPA or better?",
+                    "type": "string",
+                    default: null
                   }
                 },
                 "required": [
@@ -390,7 +403,8 @@
                   "MaritalStatus",
                   "ResidenceOwnership",
                   "HighestLevelOfEducation",
-                  "EmploymentStatus"
+                  "EmploymentStatus",
+                  "MilitaryBranch"
                 ]
               },
               "el_navSummary": {
@@ -402,99 +416,151 @@
           form: [
             {
               "type": "section",
+              "title": "john",
               "htmlClass": "row",
               "items": [
                 {
                   "type": "section",
-                  "items": [{
-                    "key": "driver.Gender",
-                    "labelHtmlClass": "float-left",
-                    "type": "radiobuttons",
-                    "titleMap": [
-                      {
-                        "value": "Male",
-                        "name": "Male"
-                      },
-                      {
-                        "value": "Female",
-                        "name": "Female"
-                      }
-                    ]
-                  },
+                  "items": [
                     {
+                      //<!-- Gender -->
+                      "key": "driver.Gender",
+                      "labelHtmlClass": "float-left",
+                      "type": "radiobuttons",
+                      "titleMap": [
+                        {
+                          "value": "Male",
+                          "name": "Male"
+                        },
+                        {
+                          "value": "Female",
+                          "name": "Female"
+                        }
+                      ]
+                    },
+                    {
+                      //<!-- Marital Status -->
                       "key": "driver.MaritalStatus",
                       "type": "strapselect",
                       "placeholder": "Select One",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveGoodStudentDiscount')",
                       "options": {
-                        "callback": "getLookup",
-                        "lookupType":"MaritalStatus",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
-                      }
+                      "callback": "getLookup",
+                      "lookupType": "MaritalStatus",
+                      "map": {valueProperty: "Name", nameProperty: "Description"}
+                    }
                     },
                     {
+                      //<!-- Residence -->
                       "key": "driver.ResidenceOwnership",
                       "type": "strapselect",
                       "placeholder": "Select One",
                       "options": {
                         "callback": "getLookup",
-                        "lookupType":"ResidenceOwnershipType",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                        "lookupType": "ResidenceOwnershipType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
                       }
                     },
                     {
+                      //<!-- Years at residence -->
                       "key": "driver.YearsAtCurrentResidence",
                       "type": "strapselect",
                       "placeholder": "Select One",
                       "options": {
                         "callback": "getLookup",
-                        "lookupType":"YearsAt",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                        "lookupType": "YearsAt",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
                       }
                     },
                     {
+                      //<!-- Education Level -->
                       "key": "driver.HighestLevelOfEducation",
                       "type": "strapselect",
                       "placeholder": "Select One",
                       "options": {
                         "callback": "getLookup",
-                        "lookupType":"EducationLevelType",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                        "lookupType": "EducationLevelType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
                       }
                     },
                     {
+                      //<!-- Employment Status -->
                       "key": "driver.EmploymentStatus",
                       "type": "strapselect",
                       "placeholder": "Select One",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
                       "options": {
                         "callback": "getLookup",
-                        "lookupType":"EmploymentStatusType",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                        "lookupType": "EmploymentStatusType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
                       }
                     },
                     {
+                      //<!-- Military Branch -->
                       "key": "driver.MilitaryBranch",
                       "type": "strapselect",
                       "placeholder": "Select One",
                       "options": {
                         "callback": "getLookup",
-                        "lookupType":"MilitaryBranch",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                        "lookupType": "MilitaryBranch",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      onChange: function(modelValue,form) {
-                        console.log("Password is",modelValue);
-                      },
-                      "condition":"model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'",
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')"
                     },
                     {
+                      //<!-- Military Rank -->
                       "key": "driver.MilitaryStatus",
                       "type": "strapselect",
                       "placeholder": "Select One",
                       "options": {
                         "callback": "getLookup",
-                        "lookupType":"MilitaryServiceType",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                        "lookupType": "MilitaryServiceType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition":"model['driver']['MilitaryBranch'] && model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'"
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')"
+                    },
+                    {
+                      //<!-- Occupation -->
+                      "key": "driver.Occupation",
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "Occupation",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showOccupation')"
+                    }
+                    ,
+                    {
+                      //<!-- Currently Attending School -->
+                      "key": "driver.CurrentStudentEnrollment",
+                      "type": "strapselect",
+                      "placeholder": "Select One",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "StudentEnrollmentType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')"
+                    },
+                    {
+                      //<!-- Good Student Discount -->
+                      "key": "driver.GoodStudentDiscount",
+                      "labelHtmlClass": "float-left",
+                      "type": "radiobuttons",
+                      "titleMap": [
+                        {
+                          "value": "Male",
+                          "name": "Male"
+                        },
+                        {
+                          "value": "Female",
+                          "name": "Female"
+                        }
+                      ],
+                      "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
                     }
                   ]
                 }
