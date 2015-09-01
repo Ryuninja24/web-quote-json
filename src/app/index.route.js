@@ -394,7 +394,7 @@
                   },
                   "GoodStudentDiscount": {
                     "title": "Have they maintained a 3.0 GPA or better?",
-                    "type": "string",
+                    "type": "boolean",
                     default: null
                   }
                 },
@@ -426,6 +426,7 @@
                       //<!-- Gender -->
                       "key": "driver.Gender",
                       "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "type": "radiobuttons",
                       "titleMap": [
                         {
@@ -441,20 +442,22 @@
                     {
                       //<!-- Marital Status -->
                       "key": "driver.MaritalStatus",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "onChange": "onChange(modelValue, 'driver', 'resolveGoodStudentDiscount')",
                       "options": {
-                      "callback": "getLookup",
-                      "lookupType": "MaritalStatus",
-                      "map": {valueProperty: "Name", nameProperty: "Description"}
-                    }
+                        "callback": "getLookup",
+                        "lookupType": "MaritalStatus",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      }
                     },
                     {
                       //<!-- Residence -->
                       "key": "driver.ResidenceOwnership",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "options": {
                         "callback": "getLookup",
                         "lookupType": "ResidenceOwnershipType",
@@ -464,19 +467,21 @@
                     {
                       //<!-- Years at residence -->
                       "key": "driver.YearsAtCurrentResidence",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "options": {
                         "callback": "getLookup",
                         "lookupType": "YearsAt",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
                       }
                     },
                     {
                       //<!-- Education Level -->
                       "key": "driver.HighestLevelOfEducation",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "options": {
                         "callback": "getLookup",
                         "lookupType": "EducationLevelType",
@@ -486,8 +491,9 @@
                     {
                       //<!-- Employment Status -->
                       "key": "driver.EmploymentStatus",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
                       "options": {
                         "callback": "getLookup",
@@ -498,8 +504,9 @@
                     {
                       //<!-- Military Branch -->
                       "key": "driver.MilitaryBranch",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "options": {
                         "callback": "getLookup",
                         "lookupType": "MilitaryBranch",
@@ -510,8 +517,9 @@
                     {
                       //<!-- Military Rank -->
                       "key": "driver.MilitaryStatus",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "options": {
                         "callback": "getLookup",
                         "lookupType": "MilitaryServiceType",
@@ -522,12 +530,13 @@
                     {
                       //<!-- Occupation -->
                       "key": "driver.Occupation",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "options": {
                         "callback": "getLookup",
                         "lookupType": "Occupation",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
                       },
                       "condition": "ShowIf(ngform, 'driver','showOccupation')"
                     }
@@ -535,8 +544,9 @@
                     {
                       //<!-- Currently Attending School -->
                       "key": "driver.CurrentStudentEnrollment",
-                      "type": "strapselect",
-                      "placeholder": "Select One",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
                       "options": {
                         "callback": "getLookup",
@@ -548,16 +558,17 @@
                     {
                       //<!-- Good Student Discount -->
                       "key": "driver.GoodStudentDiscount",
-                      "labelHtmlClass": "float-left",
                       "type": "radiobuttons",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
                       "titleMap": [
                         {
-                          "value": "Male",
-                          "name": "Male"
+                          "value": true,
+                          "name": "Yes"
                         },
                         {
-                          "value": "Female",
-                          "name": "Female"
+                          "value": false,
+                          "name": "No"
                         }
                       ],
                       "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
@@ -676,52 +687,15 @@
                     {
                       "key": "driver.LicenseStatus",
                       "title": "Current license status",
-                      "type": "select",
                       "labelHtmlClass": "float-left",
                       "fieldHtmlClass": "float-right form-50",
-                      "htmlClass": "test",
-                      "titleMap": [
-                        {
-                          "value": "",
-                          "name": "Select One"
-                        },
-                        {
-                          "value": "0",
-                          "name": "Valid"
-                        },
-                        {
-                          "value": "1",
-                          "name": "Expired"
-                        },
-                        {
-                          "value": "2",
-                          "name": "Non-licensed"
-                        },
-                        {
-                          "value": "3",
-                          "name": "Non-US"
-                        },
-                        {
-                          "value": "4",
-                          "name": "Permit"
-                        },
-                        {
-                          "value": "5",
-                          "name": "Surrendered"
-                        },
-                        {
-                          "value": "6",
-                          "name": "Suspended"
-                        },
-                        {
-                          "value": "7",
-                          "name": "Restricted"
-                        },
-                        {
-                          "value": "8",
-                          "name": "Revoked"
-                        }
-                      ]
+                      "type": "elephantSelectPicker",
+                      "placeholder": "Select One",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "DriversLicenseStatusType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      }
                     },
                     {
                       key: "driver.AgeFirstLicensed",
@@ -905,17 +879,16 @@
                             }
                           ]
                         },
-                        {
-                          key: "driver.CurrentPremium",
-                          "type": "default",
-                          fieldAddonLeft: "$",
-                          fieldAddonRight: ".00",
-                          placeholder: "",
-                          title: "Current monthly premium",
-                          "labelHtmlClass": "float-left",
-                          "fieldHtmlClass": "float-right form-50",
-                          "htmlClass": "test"
-                        },
+                        //{
+                        //  key: "driver.CurrentPremium",
+                        //  //"type": "default",
+                        //  //fieldAddonLeft: "$",
+                        //  //fieldAddonRight: ".00",
+                        //  //placeholder: "",
+                        //  title: "Current monthly premium",
+                        //  "labelHtmlClass": "float-left",
+                        //  "fieldHtmlClass": "float-right form-50"
+                        //},
                         {
                           "key": "driver.CurrentInsuranceLimits",
                           title: "Current bodily injury coverage limits",

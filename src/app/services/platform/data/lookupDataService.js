@@ -68,6 +68,12 @@ angular.module('platform.lookupDataService', [])
           case 'StudentEnrollmentType':
             lookupList = this.getStudentEnrollmentTypeLookups();
             break;
+          case 'DriversLicenseStatusType':
+            lookupList = this.getLicenseStatusLookups();
+            break;
+          case 'NoCurrentInsuranceReasonType':
+            lookupList = this.getNoCurrentInsuranceReasonLookups();
+            break;
         }
 
         return lookupList;

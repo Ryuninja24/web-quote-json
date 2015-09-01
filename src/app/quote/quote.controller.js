@@ -43,13 +43,8 @@
             retResult = func(modelData[modelType]);
           }
         }
-
         return retResult;
       };
-
-
-
-
 
       $scope.schema = $state.current.data.schema;
       $scope.form = $state.current.data.form;
@@ -87,6 +82,11 @@
         });
 
         var modelElements = dataModelService.validateModelData($scope.modelData);
+
+
+
+
+
 
         // Then we check if the form is valid
         if (form.$valid) {
