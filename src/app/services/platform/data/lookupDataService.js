@@ -74,6 +74,9 @@ angular.module('platform.lookupDataService', [])
           case 'NoCurrentInsuranceReasonType':
             lookupList = this.getNoCurrentInsuranceReasonLookups();
             break;
+          case 'RelationshipToInsuredCode':
+            lookupList = this.getRelationshipToInsuredCodeLookups();
+            break;
         }
 
         return lookupList;

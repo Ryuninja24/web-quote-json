@@ -105,7 +105,11 @@ angular.module('quotes.persistence')
         return (model.CurrentStudentEnrollment && (model.MaritalStatus == 'Widowed' || model.MaritalStatus == 'Divorced' || model.MaritalStatus == 'NeverMarried')
           && model.isStudentAge(model) && model.EmploymentStatus == 'FullTimeStudent');
       },
-
+      showAdditionalDriverQuestions: function(model){
+        return (model.LicenseStatus == 'Valid' || model.LicenseStatus == 'Restricted' || model.LicenseStatus == 'Expired'
+          || model.LicenseStatus == 'Foreign' || model.LicenseStatus == 'Suspended' || model.LicenseStatus == 'Permit')
+          && (model.RelationToInsured == 'Spouse' || model.CurrentlyInsured == false || (model.CurrentlyInsured == true && model.DrivesAnyListedVehicles == true))
+      },
 
       resolveGoodStudentDiscount: function(model){
         if(model.PrimaryDriver) {

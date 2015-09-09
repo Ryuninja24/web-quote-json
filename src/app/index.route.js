@@ -502,78 +502,78 @@
                       }
                     },
                     {
-                      //<!-- Military Branch -->
-                      "key": "driver.MilitaryBranch",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "MilitaryBranch",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')"
+                  //<!-- Military Branch -->
+                  "key": "driver.MilitaryBranch",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "MilitaryBranch",
+                    "map": {valueProperty: "Name", nameProperty: "Description"}
+                  },
+                  "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')"
+                },
+                {
+                  //<!-- Military Rank -->
+                  "key": "driver.MilitaryStatus",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "MilitaryServiceType",
+                    "map": {valueProperty: "Name", nameProperty: "Description"}
+                  },
+                  "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')"
+                },
+                {
+                  //<!-- Occupation -->
+                  "key": "driver.Occupation",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "Occupation",
+                    "map": {valueProperty: "Value", nameProperty: "Description"}
+                  },
+                  "condition": "ShowIf(ngform, 'driver','showOccupation')"
+                }
+                ,
+                {
+                  //<!-- Currently Attending School -->
+                  "key": "driver.CurrentStudentEnrollment",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "StudentEnrollmentType",
+                    "map": {valueProperty: "Name", nameProperty: "Description"}
+                  },
+                  "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')"
+                },
+                {
+                  //<!-- Good Student Discount -->
+                  "key": "driver.GoodStudentDiscount",
+                  "type": "radiobuttons",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "titleMap": [
+                    {
+                      "value": true,
+                      "name": "Yes"
                     },
                     {
-                      //<!-- Military Rank -->
-                      "key": "driver.MilitaryStatus",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "MilitaryServiceType",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')"
-                    },
-                    {
-                      //<!-- Occupation -->
-                      "key": "driver.Occupation",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "Occupation",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showOccupation')"
+                      "value": false,
+                      "name": "No"
                     }
-                    ,
-                    {
-                      //<!-- Currently Attending School -->
-                      "key": "driver.CurrentStudentEnrollment",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "StudentEnrollmentType",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')"
-                    },
-                    {
-                      //<!-- Good Student Discount -->
-                      "key": "driver.GoodStudentDiscount",
-                      "type": "radiobuttons",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "titleMap": [
-                        {
-                          "value": true,
-                          "name": "Yes"
-                        },
-                        {
-                          "value": false,
-                          "name": "No"
-                        }
-                      ],
-                      "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
-                    }
-                  ]
+                  ],
+                  "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
+                }
+              ]
                 }
               ]
             },
@@ -1017,165 +1017,419 @@
         data: {
           "schema": {
             "type": "object",
-            "required": [
-              "name",
-              "shoesizeLeft"
-            ],
             "properties": {
-              "name": {
-                "title": "Name",
-                "description": "Gimme yea name lad",
-                "type": "string",
-                "pattern": "^[^/]*$",
-                "minLength": 2
-              },
-              "invitation": {
-                "type": "string",
-                "format": "html",
-                "title": "Invitation Design",
-                "description": "Design the invitation in full technicolor HTML"
-              },
-              "favorite": {
-                "title": "Favorite",
-                "type": "string",
-                "enum": [
-                  "undefined",
-                  "null",
-                  "NaN"
-                ]
-              },
-              "shoesizeLeft": {
-                "title": "Shoe size (left)",
-                "default": 42,
-                "type": "number"
-              },
-              "shoesizeRight": {
-                "title": "Shoe size (right)",
-                "default": 42,
-                "type": "number"
-              },
-              "attributes": {
+              "driver": {
                 "type": "object",
-                "title": "Attributes",
                 "required": [
-                  "eyecolor"
+                  "FirstName",
+                  "LastName",
+                  "RelationToInsured",
+                  "CurrentlyInsured",
+                  "LicenseStatus",
+                  "DrivesAnyListedVehicles"
                 ],
                 "properties": {
-                  "eyecolor": {
+                  "FirstName": {
                     "type": "string",
-                    "format": "color",
-                    "title": "Eye color",
-                    "default": "pink"
+                    "format": "inputMask",
+                    "pattern": "[\sa-zA-Z.-/]",
+                    "minLength": 2,
+                    "maxLength": 30
                   },
-                  "haircolor": {
+                  "MiddleName": {
                     "type": "string",
-                    "title": "Hair color"
+                    "minLength": 0,
+                    "maxLength": 1
                   },
-                  "shoulders": {
-                    "type": "object",
-                    "title": "Shoulders",
-                    "properties": {
-                      "left": {
-                        "type": "string",
-                        "title": "Left"
-                      },
-                      "right": {
-                        "type": "string",
-                        "title": "Right"
-                      }
-                    }
+                  "LastName": {
+                    "type": "string",
+                    "format": "inputMask",
+                    "pattern": "[\sa-zA-Z.-/]",
+                    "minLength": 2,
+                    "maxLength": 30
+                  },
+                  "Suffix": {
+                    "type": "string",
+                    "enum": ["Jr.", "Sr.", "I"]
+                  },
+                  "Gender": {
+                    "title": "Gender",
+                    "type": "string",
+                    "default": null
+                  },
+                  "RelationToInsured": {
+                    "title": "Relationship to policy holder",
+                    "type": "string",
+                    "default": null
+                  },
+                  "CurrentlyInsured": {
+                    "title": "Do they have their own vehicle and insurance?",
+                    "type": "boolean",
+                    "default": null
+                  },
+                  "LicenseStatus": {
+                    "title": "License status",
+                    "type": "string",
+                    "default": null
+                  },
+                  "DrivesAnyListedVehicles": {
+                    "title": "Do they drive any of your vehicles twice a month or more?",
+                    "type": "boolean",
+                    "default": null
+                  },
+                  "DateOfBirth": {
+                    "title": "Date of birth",
+                    "format": "inputMask",
+                    "type": "string",
+                    "default": null
+                  },
+                  "AgeFirstLicensed": {
+                    "title": "Age first licensed",
+                    "type": "string",
+                    "default": null
+                  },
+                  "MaritalStatus": {
+                    "title": "Marital Status",
+                    "type": "string",
+                    "default": null
+                  },
+                  "HighestLevelOfEducation": {
+                    "title": "Education completed",
+                    "type": "string",
+                    "default": null
+                  },
+                  "EmploymentStatus": {
+                    "title": "Employment status",
+                    "type": "string",
+                    "default": null
+                  },
+                  "MilitaryBranch": {
+                    "title": "Branch",
+                    "type": "string",
+                    "default": null
+                  },
+                  "Occupation": {
+                    "title": "Occupation",
+                    "type": "string",
+                    "default": null
+                  },
+                  "CurrentStudentEnrollment": {
+                    "title": "Currently attend",
+                    "type": "string",
+                    "default": null
+                  },
+                  "CurrentlyEnrolled": {
+                    "title": "Are they currently a student or have a Bachelor's degree?",
+                    "type": "string",
+                    "default": null
+                  },
+                  "GoodStudentDiscount": {
+                    "title": "Have they maintained a 3.0 GPA or better?",
+                    "type": "string",
+                    "default": null
+                  },
+                  "addDriver": {
+                    "title": "Add another driver?",
+                    "type": "string",
+                    "default": null
                   }
                 }
-              },
-              "things": {
-                "type": "array",
-                "title": "I like...",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "clowns",
-                    "compiling",
-                    "sleeping"
-                  ]
-                }
-              },
-              "dislike": {
-                "type": "array",
-                "title": "I dislike...",
-                "items": {
-                  "type": "string",
-                  "title": "I hate"
-                }
-              },
-              "soul": {
-                "title": "Terms Of Service",
-                "description": "I agree to sell my undying <a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>soul</a>",
-                "type": "boolean",
-                "default": true
-              },
-              "soulserial": {
-                "title": "Soul Serial No",
-                "type": "string"
-              },
-              "date": {
-                "title": "Date of party",
-                "type": "string",
-                "format": "date"
-              },
-              "radio": {
-                "title": "Radio type",
-                "type": "string",
-                "enum": [
-                  "Transistor",
-                  "Tube"
-                ]
-              },
-              "radio2": {
-                "title": "My Second Radio",
-                "type": "string",
-                "enum": [
-                  "Transistor",
-                  "Tube"
-                ]
-              },
-              "radiobuttons": {
-                "type": "string",
-                "enum": [
-                  "Select me!",
-                  "No me!"
-                ]
               }
             }
           },
           "form": [
             {
-              "type": "fieldset",
-              "title": "Stuff",
+              "type": "section",
+              "htmlClass": "row",
               "items": [
                 {
-                  "key": "name",
-                  "placeholder": "Check the console",
-                  "onChange": "log(modelValue)",
-                  "feedback": "{'glyphicon': true, 'glyphicon-ok': hasSuccess(), 'glyphicon-star': !hasSuccess() }"
-                },
-                "attributes.eyecolor",
-                "attributes.haircolor",
-                {
-                  "key": "attributes.shoulders.left",
-                  "title": "Left shoulder",
-                  "description": "This value is copied to attributes.shoulders.right in the model",
-                  "copyValueTo": ["attributes.shoulders.right"]
+                  "type": "section",
+                  "htmlClass": "col-xs-4",
+                  "items": [{
+                    type: "el_inputMask",
+                    key: "driver.FirstName",
+                    placeholder: "First Name",
+                    title: "First name",
+                    directives: "[ { 'ucase-first' : '' } ]"
+                  }]
                 },
                 {
-                  "key": "shoesizeLeft",
-                  "feedback": false,
-                  "copyValueTo": ["shoesizeRight"]
-                },
-                {
-                  "key": "shoesizeRight"
+                  "type": "section",
+                  "htmlClass": "col-xs-2",
+                  "items": [{
+                    key: "driver.MiddleName",
+                    placeholder: "M",
+                    title: "Middle name",
+                    notitle: true
+                  }]
                 }
               ]
-
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-xs-4",
+                  "items": [{
+                    type: "el_inputMask",
+                    key: "driver.LastName",
+                    placeholder: "Last Name",
+                    title: "Last name",
+                    directives: "[ { 'ucase-first' : '' } ]"
+                  }]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-xs-2",
+                  "items": [{
+                    key: "driver.Suffix",
+                    placeholder: "Suffix",
+                    title: "Suffix"
+                  }]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "items": [
+                {
+                  //<!-- Gender -->
+                  "key": "driver.Gender",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "type": "radiobuttons",
+                  "titleMap": [
+                    {
+                      "value": "Male",
+                      "name": "Male"
+                    },
+                    {
+                      "value": "Female",
+                      "name": "Female"
+                    }
+                  ]
+                },
+                {
+                  //<!-- Relationship to Insured -->
+                  "key": "driver.RelationToInsured",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "RelationshipToInsuredCode",
+                    "map": {valueProperty: "Name", nameProperty: "Description"}
+                  }
+                },
+                {
+                  //<!-- License Status -->
+                  "key": "driver.LicenseStatus",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "DriversLicenseStatusType",
+                    "map": {valueProperty: "Name", nameProperty: "Description"}
+                  }
+                },
+                {
+                  //<!-- Have insurance -->
+                  "key": "driver.CurrentlyInsured",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "type": "radiobuttons",
+                  "titleMap": [
+                    {
+                      "value": true,
+                      "name": "Yes"
+                    },
+                    {
+                      "value": false,
+                      "name": "No"
+                    }
+                  ]
+                },
+                {
+                  //<!-- Drives Listed Vehicles -->
+                  "key": "driver.DrivesAnyListedVehicles",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "type": "radiobuttons",
+                  "titleMap": [
+                    {
+                      "value": true,
+                      "name": "Yes"
+                    },
+                    {
+                      "value": false,
+                      "name": "No"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "title": "Additional Questions",
+                  "items": [
+                    {
+                      "key": "driver.DateOfBirth",
+                      "type": "el_inputMask",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "title": "Birth date",
+                      "directives": "[ { 'ui-mask' : '99-99-9999' }, {'valid_date':''}, {'min-age':'15'}, {'max-age':'98'} ]",
+                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')"
+                    },
+                    {
+                      key: "driver.AgeFirstLicensed",
+                      placeholder: "",
+                      title: "Age first licensed",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "htmlClass": "test",
+                      validationMessage: {
+                        "notANumber": "Please enter a valid first licensed age.",
+                        "ageLowerRange": "Sorry, first licensed age cannot be lower than 14 years.",
+                        "ageUpperRange": "Sorry, first licensed age cannot exceed driver's current age."
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')"
+                    },
+                    {
+                      //<!-- Marital Status -->
+                      "key": "driver.MaritalStatus",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveGoodStudentDiscount')",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "MaritalStatus",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "title": "Spouse Questions",
+                  "items": [
+                    {
+                      //<!-- Education Level -->
+                      "key": "driver.HighestLevelOfEducation",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "EducationLevelType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "driver.RelationToInsured == 'Spouse'"
+                    },
+                    {
+                      //<!-- Employment Status -->
+                      "key": "driver.EmploymentStatus",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "EmploymentStatusType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "driver.RelationToInsured == 'Spouse'"
+                    },
+                    {
+                      //<!-- Education Level -->
+                      "key": "driver.HighestLevelOfEducation",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "EducationLevelType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "driver.RelationToInsured == 'Spouse'"
+                    },
+                    {
+                      //<!-- Military Branch -->
+                      "key": "driver.MilitaryBranch",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "MilitaryBranch",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')"
+                    },
+                    {
+                      //<!-- Military Rank -->
+                      "key": "driver.MilitaryStatus",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "MilitaryServiceType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')"
+                    },
+                    {
+                      //<!-- Occupation -->
+                      "key": "driver.Occupation",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "Occupation",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showOccupation')"
+                    },
+                    {
+                      //<!-- Currently Attending School -->
+                      "key": "driver.CurrentStudentEnrollment",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "StudentEnrollmentType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')"
+                    },
+                    {
+                      //<!-- Good Student Discount -->
+                      "key": "driver.GoodStudentDiscount",
+                      "type": "radiobuttons",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "titleMap": [
+                        {
+                          "value": true,
+                          "name": "Yes"
+                        },
+                        {
+                          "value": false,
+                          "name": "No"
+                        }
+                      ],
+                      "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "button",
