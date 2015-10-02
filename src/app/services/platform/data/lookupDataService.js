@@ -74,6 +74,21 @@ angular.module('platform.lookupDataService', [])
           case 'NoCurrentInsuranceReasonType':
             lookupList = this.getNoCurrentInsuranceReasonLookups();
             break;
+          case 'InsuranceStatusType':
+            lookupList = this.getInsuranceStatusLookups();
+            break;
+          case 'InsuranceLapseCodeType':
+            lookupList = this.getInsuranceLapseCodeLookups();
+            break;
+          case 'CurrentCarrierType':
+            lookupList = this.getCurrentCarriers();
+            break;
+          case 'InsuranceLimitType':
+              lookupList = this.getInsuranceLimits();
+                break;
+          case 'IncidentType':
+                lookupList = this.getIncidents();
+                break;
           case 'RelationshipToInsuredCode':
             lookupList = this.getRelationshipToInsuredCodeLookups();
             break;
@@ -242,4 +257,87 @@ angular.module('platform.lookupDataService', [])
           {Value: "5", Description: '5 or more years'}
         ];
       };
+
+      this.getCurrentCarriers = function () {
+        return [
+          {Value: 'AAA Auto Insurance', Description: 'AAA Auto Insurance'},
+          {Value: 'ACE Group', Description: 'ACE Group'},
+          {Value: 'AIG', Description: 'AIG'},
+          {Value: 'Allstate', Description: 'Allstate'},
+          {Value: 'American Family Insurance', Description: 'American Family Insurance'},
+          {Value: 'Auto-Owners Insurance', Description: 'Auto-Owners Insurance'},
+          {Value: 'CNA Financial Group', Description: 'CNA Financial Group'},
+          {Value: 'Country Financial', Description: 'Country Financial'},
+          {Value: 'Direct Auto', Description: 'Direct Auto'},
+          {Value: 'Donegal Group', Description: 'Donegal Group'},
+          {Value: 'E-Surance', Description: 'E-Surance'},
+          {Value: 'Elephant Insurance', Description: 'Elephant Insurance'},
+          {Value: 'Erie Insurance', Description: 'Erie Insurance'},
+          {Value: 'Farmers Insurance', Description: 'Farmers Insurance'},
+          {Value: 'Fred Loya Insurance', Description: 'Fred Loya Insurance'},
+          {Value: 'Geico', Description: 'Geico'},
+          {Value: 'Kingsway Financial', Description: 'Kingsway Financial'},
+          {Value: 'Liberty Mutual', Description: 'Liberty Mutual'},
+          {Value: 'MetLife', Description: 'MetLife'},
+          {Value: 'Monument', Description: 'Monument'},
+          {Value: 'Nationwide', Description: 'Nationwide'},
+          {Value: 'Other', Description: 'Other'},
+          {Value: 'Pekin Insurance Group', Description: 'Pekin Insurance Group'},
+          {Value: 'Progressive', Description: 'Progressive'},
+          {Value: 'SafeAuto', Description: 'SafeAuto'},
+          {Value: 'Sentry Insurance', Description: 'Sentry Insurance'},
+          {Value: 'State Auto', Description: 'State Auto'},
+          {Value: 'State Farm', Description: 'State Farm'},
+          {Value: 'The General', Description: 'The General'},
+          {Value: 'The Hartford', Description: 'The Hartford'},
+          {Value: 'The Republic Group', Description: 'The Republic Group'},
+          {Value: 'Travelers', Description: 'Travelers'},
+          {Value: 'Unitrin', Description: 'Unitrin'},
+          {Value: 'USAA', Description: 'USAA'},
+          {Value: 'Virginia Farm Bureau', Description: 'Virginia Farm Bureau'}
+        ];
+      };
+
+      this.getInsuranceLimits = function(){
+        return [
+          { Value:'Don\'t know', Limit:'1', Description:'Don\'t know'},
+          { Value:'Minimum limit', Limit:'2', Description:'Minimum limit'},
+          { Value:'More than minimum but less than 50/100', Limit:'3', Description:'More than minimum but less than 50/100'},
+          { Value:'50/100 or more but less than 100/300', Limit:'4', Description:'50/100 or more but less than 100/300'},
+          { Value:'100/300 or more', Limit:'5', Description:'100/300 or more'}
+        ];
+      };
+
+      this.getIncidents = function(){
+        return[
+          { Value:'1',Description:'Accident- at fault'},
+          { Value:'2',Description:'Accident- not at fault'},
+          { Value:'3',Description:'Seatbelt or cell phone violation'},
+          { Value:'4',Description:'Speeding- less than 30mph over limit'},
+          { Value:'5',Description:'Minor traffic violation (stoplight, sign, etc.)'},
+          { Value:'6',Description:'Driving on a revoked or suspended license'},
+          { Value:'7',Description:'DUI/DWI'},
+          { Value:'8',Description:'Expired or improper license, registration or plates'},
+          { Value:'9',Description:'Equipment, cargo or littering violation'},
+          { Value:'10',Description:'Failure to obey officer/use of radar'},
+          { Value:'11',Description:'Failure to stop after accident'},
+          { Value:'12',Description:'Homicide or manslaughter'},
+          { Value:'13',Description:'Other major violation'},
+          { Value:'14',Description:'Passing stopped school bus'},
+          { Value:'15',Description:'Racing'},
+          { Value:'16',Description:'Reckless or negligent driving'},
+          { Value:'17',Description:'Speeding- 30mph or more over limit'},
+          { Value:'18',Description:'Theft of vehicle/criminal use'},
+          { Value:'20',Description:'Comprehensive (OTC Claim)'},
+          { Value:'21',Description:'Small Comprehensive Claim'},
+          { Value:'22',Description:'Minor Coverage Claim'},
+          { Value:'23',Description:'No Payout Claim'},
+          { Value:'24',Description:'Administrative Note'},
+          { Value:'25',Description:'License Suspension'},
+          { Value:'26',Description:'Police report filed'},
+          { Value:'27',Description:'Out of State Conviction'},
+          { Value:'28',Description:'Improper driving'}
+        ]
+      }
+
     }]);

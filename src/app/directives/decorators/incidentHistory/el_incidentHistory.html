@@ -1,0 +1,94 @@
+<div class="form-group" ng-controller="IncidentSelectorController">
+  <ng-form name="incidentForm">
+
+    <div class="row margin-top incidents-box">
+      <div class="col-md-12 col-xs-12" id="incidents" ng-repeat="driverIncident in driverIncidents"
+           ng-click="removeIncident(driverIncident.Id)">
+        <div class="col-md-8 col-xs-8">
+          <span>{{ driverIncident.DriverName}}</span>
+          <br/>
+          <span>{{ driverIncident.Description }}</span>
+          <br/>
+          <span>{{ driverIncident.DateOfIncident }}</span>
+        </div>
+        <div class="col-md-3 col-xs-3">
+          <i class="fa fa-times" id="incidents-remove"></i>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div>
+      <h4 style="color: #015289;">Traffic incidents</h4>
+
+      <div id="incident-top">
+
+        <div class="form-group"
+             ng-class="{true: 'has-error'}[incidentSubmitted && driverHistoryForm.driver.$invalid]">
+          <label class="control-label form-left">Driver</label>
+
+          <div ng-messages="driverHistoryForm.driver.$error" ng-if="incidentSubmitted" style="color:maroon">
+            <div ng-message="required">Please select a driver</div>
+          </div>
+          <div ng-if="drivers.length == 1">{{drivers[0].FirstName + ' ' + drivers[0].LastName}}</div>
+
+          <select ng-if="drivers.length > 1" class="form-control form-right" name="driver"
+                  ng-model="incident.DriverId"
+                  ng-options="driver.Id as driver.FirstName + ' ' + driver.LastName for driver in drivers"></select>
+        </div>
+
+        <!-- Incident Type -->
+        <div class="form-group"
+             ng-class="{true: 'has-error'}[incidentSubmitted && driverHistoryForm.incidentType.$invalid]">
+          <label class="control-label form-left">Incident type</label>
+
+          <div ng-messages="driverHistoryForm.incidentType.$error" ng-if="incidentSubmitted" style="color:maroon">
+            <div ng-message="required">Please select an incident type.</div>
+          </div>
+          <select class="form-control form-right" id="incident-type" name="incidentType"
+                  ng-model="incident.IncidentClassificationId"
+                  ng-options="a.value as a.description for a in incidents">
+            <option value="">Select</option>
+          </select>
+        </div>
+
+        <!-- Incident Date -->
+        <div class="form-group"
+             ng-class="{true: 'has-error'}[incidentSubmitted && driverHistoryForm.incidentDate.$invalid]">
+          <label class="control-label form-left">Date</label>
+
+          <div ng-messages="driverHistoryForm.incidentDate.$error" ng-if="incidentSubmitted" style="color:maroon">
+            <div ng-message="required">Please enter an incident date.</div>
+            <div ng-message="datetime">Please enter a valid date.</div>
+            <div ng-message="futureDate">Please enter a non future date.</div>
+            <div ng-message="pastDate">The incident must be within the past 5 years.</div>
+          </div>
+          <input class="form-control form-right" id="incidentDate" name="incidentDate"
+                 title="Incident Date" type="tel" ui-mask="99-99-9999"
+                 ng-model="incident.DateOfIncident" valid-date max-age="0"/>
+        </div>
+        <!--ng-required="currentDriver.HasIncidents == true"-->
+
+        <!-- Add an incident -->
+        <div class="form-group"
+             ng-class="{true: 'has-error'}[formSubmitted && driverHistoryForm.addIncident.$invalid]"
+             data-toggle="buttons">
+          <label class="control-label form-left">
+            <span>More incidents to add?</span>
+          </label>
+
+          <div title="Indicate accidents" class="radioGroup">
+            radio button start
+            <buttons-radio class="btn-group form-100 form-right" data-toggle="buttons-radio"
+                            options=trueFalseOptions></buttons-radio>
+            radio button end
+            <input type="hidden" name="addIncident.selected" ng-model="addIncident.selected">
+          </div>
+        </div>
+        <div ng-messages="driverHistoryForm.addVehicle.$error" ng-if="formSubmitted">
+          <div ng-message="required">Please choose an answer.</div>
+        </div>
+      </div>
+
+    </div>
+  </ng-form>
+</div>

@@ -8,7 +8,8 @@ angular.module('quotes.persistence')
     'DriverModel',
     'AddressModel',
     'AccountModel',
-    function (dataModel, vehicleModel, driverModel, addressModel, accountModel) {
+    'IncidentHistoryModel',
+    function (dataModel, vehicleModel, driverModel, addressModel, accountModel, incidentHistoryModel) {
       'use strict';
 
       var quoteDataModel = {};
@@ -29,6 +30,26 @@ angular.module('quotes.persistence')
         if (quoteData) {
           quoteDataModel = quoteData;
         }
+      };
+
+      //--------------- Incident Model  -------------------------------------------------
+      this.saveIncidentHistory = function (incidentHistory) {
+        if (!incidentHistory) {
+          return;
+        } else {
+          var dataModel = this.getQuoteModel();
+          dataModel.IncidentHistory = incidentHistory;
+        }
+      };
+
+      this.getIncidentHistory = function () {
+        var dataModel = this.getQuoteModel();
+        var incidentHistory = dataModel.IncidentHistory;
+        if (!incidentHistory) {
+          incidentHistory = new incidentHistoryModel();
+          incidentHistory.init();
+        }
+        return angular.copy(incidentHistory);
       };
 
       //--------------- Account Model  -------------------------------------------------
@@ -183,7 +204,8 @@ angular.module('quotes.persistence')
           'vehicle': this.getVehicle(IdObject.vehicleId),
           'driver': this.getDriver(IdObject.driverId),
           'address': this.getAddress(),
-          'account': this.getAccount()
+          'account': this.getAccount(),
+          'incidentHistory': this.getIncidentHistory()
         };
         return models;
       };
@@ -193,7 +215,8 @@ angular.module('quotes.persistence')
         this.saveVehicle(modelData, quoteModel);
         this.saveDriver(modelData, quoteModel);
         this.saveAddress(modelData.address);
-        this.saveAccount(modelData.account)
+        this.saveAccount(modelData.account);
+        this.saveIncidentHistory(modelData.incidents);
       };
 
       this.validateModelData = function(modelData){

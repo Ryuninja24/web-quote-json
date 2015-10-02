@@ -129,14 +129,16 @@
             "conditions": [
               {
                 "test": "AdditionalDrivers",
-                "expected": "Yes",
+                "expected": true,
                 "nextPage": "additionalDriver",
-                "includeArgs": false
+                "includeArgs": false,
+                "model":"driver"
               },
               {
                 "test": "AdditionalDrivers",
-                "expected": "No",
-                "nextPage": "driverHistory"
+                "expected": false,
+                "nextPage": "driverHistory",
+                "model":"driver"
               }
             ],
             "startPage": false
@@ -153,7 +155,7 @@
           },
           "DriverHistory": {
             "pageName": "driverHistory",
-            "pageUrl": "/driver-history/",
+            "pageUrl": "/driver-history",
             "breadCrumb": "Drivers",
             "touched": null,
             "current": false,

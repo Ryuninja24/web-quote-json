@@ -4,4 +4,6 @@
 angular.module('platform.directives', [])
   .directive('validDate', ValidDateFormatter())
   .directive('ucaseFirst', UcaseFirstChar())
-  .directive('onlyDigits', DigitsOnly());
+  .directive('onlyDigits', DigitsOnly())
+  .directive('buttonsRadio', ButtonsRadio());
+

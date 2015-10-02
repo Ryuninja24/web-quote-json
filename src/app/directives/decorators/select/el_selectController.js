@@ -63,6 +63,11 @@ angular.module('schemaForm')
       $scope.getCallback = function (callback) {
         if (typeof(callback) == "string") {
           var _result = $scope.$parent.evalExpr(callback);
+          //In the case where the control is in a child of the parent i.e. collapseable
+          //this is probably not the best way to handle this but for now it will do
+          if(!_result){
+            _result = $scope.$parent.$parent.evalExpr(callback)
+          }
           if (typeof(_result) == "function") {
             return _result;
           }

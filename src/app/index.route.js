@@ -241,28 +241,19 @@
               "htmlClass": "row",
               "items": [
                 {
-                  "type": "section",
-                  "items": [
-                    {
-                      key: "address.City",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      placeholder: "City",
-                      title: "City"
-                    },
-                    {
-                      key: "address.State",
-                      type: "el_label",
-                      "labelHtmlClass": "float-left",
-                      notitle: true
-                    },
-                    {
-                      key: "address.PostalCode",
-                      type: "el_label",
-                      "labelHtmlClass": "float-left",
-                      notitle: true
-                    }
-                  ]
+                  key: "address.City",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  placeholder: "City",
+                  title: "City"
+                },
+                {
+                  "type": "template",
+                  "template": "<div>{{model.address.State}}</div>"
+                },
+                {
+                  "type": "template",
+                  "template": "<div>{{model.address.PostalCode}}</div>"
                 }
               ]
             },
@@ -638,8 +629,7 @@
                     default: null
                   },
                   "CurrentPremium": {
-                    "type": "string",
-                    default: null
+                    "type": "string"
                   },
                   CurrentInsuranceLimits: {
                     "type": "string",
@@ -729,200 +719,93 @@
                     },
                     {
                       "type": "el_collapse",
-                      collapseCondition: "model['driver']['CurrentlyInsured'] == null || model['driver']['CurrentlyInsured']",
+                      condition: "model['driver']['CurrentlyInsured'] != null && model['driver']['CurrentlyInsured'] == false",
                       "htmlClass": "form-group",
                       "items": [
                         {
                           "key": "driver.CurrentInsuranceStatus",
                           "title": "Reason",
-                          "type": "el_select_ngrequired",
-                          "requiredCondition": "!model['driver']['CurrentlyInsured']",
+                          "type": "elephantSelectPicker",
+                          //"requiredCondition": "!model['driver']['CurrentlyInsured']",
                           "labelHtmlClass": "float-left",
                           "fieldHtmlClass": "float-right form-50",
                           "htmlClass": "test",
-                          "titleMap": [
-                            {
-                              "value": "",
-                              "name": "Select One"
-                            },
-                            {
-                              "value": "0",
-                              "name": "Deployed overseas with the military"
-                            },
-                            {
-                              "value": "1",
-                              "name": "My policy expired 30 days ago or less"
-                            },
-                            {
-                              "value": "2",
-                              "name": "My policy expired more than 30 days ago"
-                            },
-                            {
-                              "value": "3",
-                              "name": "No insurance required"
-                            }
-                          ]
+                          "options": {
+                            "callback": "getLookup",
+                            "lookupType": "InsuranceStatusType",
+                            "map": {valueProperty: "Name", nameProperty: "Description"}
+                          }
                         }
                       ]
                     },
                     {
                       "type": "el_collapse",
-                      collapseCondition: "!(model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days')",
+                      condition: "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
                       "htmlClass": "form-group",
                       "items": [
                         {
                           "key": "driver.PreviousLapse",
                           title: "Were you uninsured at any time in the past 3 years?",
-                          "type": "el_select_ngrequired",
-                          "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
+                          "type": "elephantSelectPicker",
+                         // "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
                           "labelHtmlClass": "float-left",
                           "fieldHtmlClass": "float-right form-50",
                           "htmlClass": "test",
-                          "titleMap": [
-                            {
-                              "value": "",
-                              "name": "Select One"
-                            },
-                            {
-                              "value": "0",
-                              "name": "No"
-                            },
-                            {
-                              "value": "1",
-                              "name": "Yes, 30 days or less"
-                            },
-                            {
-                              "value": "2",
-                              "name": "Yes, more than 30 days"
-                            }
-                          ]
+                          "options": {
+                            "callback": "getLookup",
+                            "lookupType": "InsuranceLapseCodeType",
+                            "map": {valueProperty: "Name", nameProperty: "Description"}
+                          }
                         },
                         {
                           "key": "driver.CurrentInsurer",
                           title: "Current insurance company",
-                          "type": "el_select_ngrequired",
+                          "type": "elephantSelectPicker",
                           "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
                           "labelHtmlClass": "float-left",
                           "fieldHtmlClass": "float-right form-50",
                           "htmlClass": "test",
-                          "titleMap": [
-                            {
-                              "value": "",
-                              "name": "Select One"
-                            },
-                            {
-                              "value": "0",
-                              "name": "AAA Auto Insurance"
-                            },
-                            {
-                              "value": "1",
-                              "name": "ACE Group"
-                            },
-                            {
-                              "value": "2",
-                              "name": "AIG"
-                            },
-                            {
-                              "value": "3",
-                              "name": "Allstate"
-                            },
-                            {
-                              "value": "4",
-                              "name": "American Family Insurance"
-                            },
-                            {
-                              "value": "5",
-                              "name": "Auto-Owners Insurance"
-                            },
-                            {
-                              "value": "6",
-                              "name": "CNA Financial Group"
-                            }
-                          ]
+                          "options": {
+                            "callback": "getLookup",
+                            "lookupType": "CurrentCarrierType",
+                            "map": {valueProperty: "Value", nameProperty: "Description"}
+                          }
                         },
                         {
                           "key": "driver.YearsWithCurrentInsurer",
                           title: "Years with current company",
-                          "type": "el_select_ngrequired",
                           "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
+                          "type": "elephantSelectPicker",
                           "labelHtmlClass": "float-left",
                           "fieldHtmlClass": "float-right form-50",
-                          "htmlClass": "test",
-                          "titleMap": [
-                            {
-                              "value": "",
-                              "name": "Select One"
-                            },
-                            {
-                              "value": "0",
-                              "name": "Less than 1 year"
-                            },
-                            {
-                              "value": "1",
-                              "name": "1 year"
-                            },
-                            {
-                              "value": "2",
-                              "name": "2 years"
-                            },
-                            {
-                              "value": "3",
-                              "name": "3 years"
-                            },
-                            {
-                              "value": "4",
-                              "name": "4 years"
-                            },
-                            {
-                              "value": "5",
-                              "name": "5 or more years"
-                            }
-                          ]
+                          "options": {
+                            "callback": "getLookup",
+                            "lookupType": "YearsAt",
+                            "map": {valueProperty: "Value", nameProperty: "Description"}
+                          }
                         },
                         //{
-                        //  key: "driver.CurrentPremium",
-                        //  //"type": "default",
-                        //  //fieldAddonLeft: "$",
-                        //  //fieldAddonRight: ".00",
+                        //  "key": "driver.CurrentPremium",
+                        //  "fieldAddonLeft": "$",
+                        //  "fieldAddonRight": ".00",
                         //  //placeholder: "",
-                        //  title: "Current monthly premium",
-                        //  "labelHtmlClass": "float-left",
-                        //  "fieldHtmlClass": "float-right form-50"
+                        //  "title": "Current monthly premium",
+                        //  //"labelHtmlClass": "float-left",
+                        //  //"fieldHtmlClass": "float-right form-50"
                         //},
                         {
                           "key": "driver.CurrentInsuranceLimits",
                           title: "Current bodily injury coverage limits",
-                          "type": "el_select_ngrequired",
+                          "type": "elephantSelectPicker",
                           "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
                           "labelHtmlClass": "float-left",
                           "fieldHtmlClass": "float-right form-50",
                           "htmlClass": "test",
-                          "titleMap": [
-                            {
-                              "value": "",
-                              "name": "Select One"
-                            },
-                            {
-                              "value": "0",
-                              "name": "Don't know"
-                            },
-                            {
-                              "value": "1",
-                              "name": "Minimum limit"
-                            },
-                            {
-                              "value": "2",
-                              "name": "More than minimum but less than 50/100"
-                            },
-                            {
-                              "value": "3",
-                              "name": "50/100 or more but less than 100/300"
-                            },
-                            {
-                              "value": "4",
-                              "name": "100/300 or more"
-                            }
-                          ]
+                          "options": {
+                            "callback": "getLookup",
+                            "lookupType": "InsuranceLimitType",
+                            "map": {valueProperty: "Value", nameProperty: "Description"}
+                          }
                         }
                       ]
                     },
@@ -969,19 +852,29 @@
                       ]
                     },
                     {
-                      "key": "driver.CurrentZipCode",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "title": "Are all vehicles kept in ZIP ?????",
-                      "type": "radiobuttons",
-                      "titleMap": [
+                      "type": "section",
+                      "htmlClass": "row",
+                      "items": [
                         {
-                          "value": true,
-                          "name": "Yes"
+                          "type": "template",
+                          "template": "<div>Are all vehicles kept in ZIP {{model.address.PostalCode}}?</div>"
                         },
                         {
-                          "value": false,
-                          "name": "No"
+                          "key": "driver.CurrentZipCode",
+                          "labelHtmlClass": "float-left",
+                          "fieldHtmlClass": "float-right form-50",
+                          "notitle": true,
+                          "type": "radiobuttons",
+                          "titleMap": [
+                            {
+                              "value": true,
+                              "name": "Yes"
+                            },
+                            {
+                              "value": false,
+                              "name": "No"
+                            }
+                          ]
                         }
                       ]
                     }
@@ -1607,6 +1500,95 @@
               "style": "btn-info",
               "title": "OK",
               onClick: "submitForm(ngform)"
+            }
+          ]
+        }
+      })
+      .state('incidents', {
+        url: '/driver-history',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          "schema": {
+            "type": "object",
+            "title": "Comment",
+            "properties": {
+              "HasIncidents": {
+                "title": "Have any drivers had any accidents, violations or claims during the past 5 years?",
+                "type": "boolean",
+                default: null
+              },
+              "HasConvictions": {
+                "title": "Have any drivers been convicted of any non-traffic related crimes in the past 7 years?",
+                "type": "string",
+                default: null
+              },
+              "Incidents": {
+                "notitle": true,
+                "type": "string",
+                "format":"incidentHistory",
+                default: null
+              }
+            }
+          },
+          "form": [
+            {
+              "key": "HasIncidents",
+              "type": "radiobuttons",
+              "labelHtmlClass": "float-left",
+              "fieldHtmlClass": "float-right form-50",
+              "titleMap": [
+                {
+                  "value": true,
+                  "name": "Yes"
+                },
+                {
+                  "value": false,
+                  "name": "No"
+                }
+              ]
+            },
+            {
+              "type": "help",
+              "helpvalue": "<hr/>"
+            },
+            {
+              "key": "HasConvictions",
+              "type": "radiobuttons",
+              "labelHtmlClass": "float-left",
+              "fieldHtmlClass": "float-right form-50",
+              "titleMap": [
+                {
+                  "value": "Yes",
+                  "name": "Yes"
+                },
+                {
+                  "value": "No",
+                  "name": "No"
+                },
+                {
+                  "value": "Unsure",
+                  "name": "Unsure"
+                }
+              ]
+            },
+            {
+              "key": "Incidents"
+
+            },
+            {
+              "type": "submit",
+              "style": "btn-default",
+              "title": "OK"
             }
           ]
         }
