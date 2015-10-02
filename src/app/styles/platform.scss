@@ -1,3 +1,18 @@
+/**** mixins ****/
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+@mixin transition($transition ) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  transition: $transition;
+}
+/**** end mixins ****/
+
 /****** Platform styles *************/
 #navSummary{
   position: fixed;
@@ -11,6 +26,27 @@
       li{
         padding: 1px 0;
       }
+    }
+  }
+}
+#driver-overview{
+  .card-outer{
+    width: 160px;
+    height: 170px;
+    float: left;
+    padding: 0 10px;
+  }
+  .card-inner{
+    border: 1pt solid #CCCCCC;
+    border-radius: 1px;
+    /*padding: 16px;*/
+    text-align: center;height: 100%;
+    @include transition(all .1s linear);
+    &:hover{
+      @include transition(all .2s linear);
+      box-shadow: rgba(0, 0, 0, 0.4) 0 6px 14px 0;
+      border: none;
+
     }
   }
 }

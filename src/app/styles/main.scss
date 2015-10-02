@@ -43,6 +43,7 @@ body{
   background-size: 2000px;
   color: rgba(0, 0, 0, .87);
   height: 100%;
+  font-family: 'Roboto', sans-serif;
 
 }
 .panel{
@@ -80,6 +81,14 @@ hr{
 }
 .float-left{
   float: left;
+}
+
+.el-button-main{
+  padding: .7em 1.5em .7em 1.5em;
+  background-color: #009D59;
+  color: white;
+  border-radius: 1px;
+  box-shadow: rgba(0,0,0,.4) 0px 3px 6px 0px;
 }
 .snackbar {
   background-color: #323232;

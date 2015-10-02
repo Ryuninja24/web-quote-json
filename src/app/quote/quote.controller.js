@@ -99,7 +99,7 @@
         // Then we check if the form is valid
         if (form.$valid) {
           dataModelService.saveModelData($scope.modelData);
-          NavigationService.getNextStep($scope.modelData, null);
+          NavigationService.getNextStep($scope.modelData, dataModelService, null);
         }
       };
 

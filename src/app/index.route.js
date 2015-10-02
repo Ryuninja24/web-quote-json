@@ -894,6 +894,49 @@
           ]
         }
       })
+      .state('driverOverview', {
+        url: '/driver-overview',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data:{
+          "schema": {
+            "type": "object",
+            "properties": {
+              "el_driverOverview": {
+                "type": "string",
+                "format": "el_driverOverview"
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
+              }
+            }
+          },
+          "form": [
+            {
+              "key": "el_driverOverview"
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
+            },
+            {
+              key: "el_navSummary"
+            }
+          ]
+        }
+      })
       .state('additionalDriver', {
         url: '/additional-driver/{driverId}',
         templateUrl: 'app/quote/quote.html',
@@ -901,7 +944,7 @@
         resolve: {
           modelData: function ($q, $stateParams, dataModelService) {
             var driverId = $stateParams.driverId;
-            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var fun = dataModelService.getModels({vehicleId: null, driverId: driverId});
             var deferred = $q.defer();
             deferred.resolve(fun);
             return deferred.promise;
@@ -919,7 +962,7 @@
                   "RelationToInsured",
                   "CurrentlyInsured",
                   "LicenseStatus",
-                  "DrivesAnyListedVehicles"
+                  "DrivesAnyListedVehicles",
                 ],
                 "properties": {
                   "FirstName": {
@@ -1165,6 +1208,10 @@
                 {
                   "type": "section",
                   "title": "Additional Questions",
+                  "collapseCondition": "(driver.LicenseStatus == 'Valid' || driver.LicenseStatus == 'Restricted' " +
+                  "|| driver.LicenseStatus == 'Expired' || driver.LicenseStatus == 'Foreign' || driver.LicenseStatus" +
+                  " == 'Suspended' || driver.LicenseStatus == 'Permit') && (driver.RelationToInsured == 'Spouse' || " +
+                  "driver.CurrentlyInsured == false || (driver.CurrentlyInsured == true && driver.DrivesAnyListedVehicles == true))",
                   "items": [
                     {
                       "key": "driver.DateOfBirth",
@@ -1173,7 +1220,9 @@
                       "fieldHtmlClass": "float-right form-50",
                       "title": "Birth date",
                       "directives": "[ { 'ui-mask' : '99-99-9999' }, {'valid_date':''}, {'min-age':'15'}, {'max-age':'98'} ]",
-                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')"
+                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')",
+                      "requiredCondition": "true"
+
                     },
                     {
                       key: "driver.AgeFirstLicensed",
@@ -1187,11 +1236,29 @@
                         "ageLowerRange": "Sorry, first licensed age cannot be lower than 14 years.",
                         "ageUpperRange": "Sorry, first licensed age cannot exceed driver's current age."
                       },
-                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')"
+                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Marital Status -->
                       "key": "driver.MaritalStatus",
+                      "type": "inputOrString",
+                      "inputType": "select",
+                      //"displayString": "driver"
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveGoodStudentDiscount')",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "MaritalStatus",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')",
+                      "requiredCondition": "true"
+                    },
+                    {
+                      //<!-- Marital Rank -->
+                      "key": "driver.MilitaryRank",
                       "type": "elephantSelectPicker",
                       "labelHtmlClass": "float-left",
                       "fieldHtmlClass": "float-right form-50",
@@ -1201,7 +1268,8 @@
                         "lookupType": "MaritalStatus",
                         "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition": "ShowIf(ngform, 'driver','showAdditionalDriverQuestions')"
+                      "condition": "driver.EmploymentStatus == 'Military' || driver.EmploymentStatus == 'RetiredMilitary'",
+                      "requiredCondition": "true"
                     }
                   ]
                 },
@@ -1220,7 +1288,8 @@
                         "lookupType": "EducationLevelType",
                         "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition": "driver.RelationToInsured == 'Spouse'"
+                      "condition": "driver.RelationToInsured == 'Spouse'",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Employment Status -->
@@ -1234,7 +1303,8 @@
                         "lookupType": "EmploymentStatusType",
                         "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition": "driver.RelationToInsured == 'Spouse'"
+                      "condition": "driver.RelationToInsured == 'Spouse'",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Education Level -->
@@ -1247,7 +1317,8 @@
                         "lookupType": "EducationLevelType",
                         "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition": "driver.RelationToInsured == 'Spouse'"
+                      "condition": "driver.RelationToInsured == 'Spouse'",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Military Branch -->
@@ -1260,7 +1331,8 @@
                         "lookupType": "MilitaryBranch",
                         "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')"
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Military Rank -->
@@ -1273,7 +1345,8 @@
                         "lookupType": "MilitaryServiceType",
                         "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')"
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Occupation -->
@@ -1286,7 +1359,8 @@
                         "lookupType": "Occupation",
                         "map": {valueProperty: "Value", nameProperty: "Description"}
                       },
-                      "condition": "ShowIf(ngform, 'driver','showOccupation')"
+                      "condition": "ShowIf(ngform, 'driver','showOccupation')",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Currently Attending School -->
@@ -1300,7 +1374,8 @@
                         "lookupType": "StudentEnrollmentType",
                         "map": {valueProperty: "Name", nameProperty: "Description"}
                       },
-                      "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')"
+                      "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')",
+                      "requiredCondition": "true"
                     },
                     {
                       //<!-- Good Student Discount -->

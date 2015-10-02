@@ -99,6 +99,11 @@ angular.module('quotes.persistence')
         return driver;
       };
 
+      this.getAllDrivers = function(){
+        if(quoteDataModel){
+          return angular.copy(quoteDataModel.Drivers)
+        }
+      }
       this.getDriver = function (id) {
         var dataModel = this.getQuoteModel();
         //Making some assumptions at this point if no id then return policyHolder, if no policyholder then create and return
@@ -132,6 +137,7 @@ angular.module('quotes.persistence')
         if (driverCopy) {
           //Find the original if it exists
           driverCopy.cleanDriverDefaults();
+          quoteDataModel = quoteDataModel || this.getQuoteModel();
           var driver = _.findWhere(quoteDataModel.Drivers, {Id: driverCopy.Id});
           if (driver) {
             //we have found a matching driver so replace it
@@ -150,6 +156,7 @@ angular.module('quotes.persistence')
           }
         }
       };
+
       //--------------- End Driver Functions  -------------------------------------------------
 
       //--------------- Vehicle Functions  -------------------------------------------------

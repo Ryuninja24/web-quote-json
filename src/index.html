@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <!-- build:css({.tmp/serve,src}) styles/app.css -->
     <!-- inject:css -->
     <!-- css files will be automatically insert here -->
@@ -122,35 +123,48 @@
           },
           "DriverDetails": {
             "pageName": "driverDetails",
+            "nextPage": "driverOverView",
             "pageUrl": "/driver-details/",
             "breadCrumb": "Drivers",
             "touched": null,
             "current": false,
             "conditions": [
               {
-                "test": "AdditionalDrivers",
+                "test": "test",
+                "model": "driver",
                 "expected": true,
-                "nextPage": "additionalDriver",
-                "includeArgs": false,
-                "model":"driver"
+                "nextPage": "driverOverView"
               },
               {
-                "test": "AdditionalDrivers",
-                "expected": false,
-                "nextPage": "driverHistory",
-                "model":"driver"
+                "test": "(function(){var drivers = dataModelService.getQuoteModel().Drivers;if(drivers.length == 1 && drivers[0].MaritalStatus){var modalData = {driver: dataModelService.createDriver()};modalData.driver.MaritalStatus = 'Married';modalData.driver.RelationToInsured = 'Spouse';dataModelService.saveDriver(modalData);return true;}else{return false;}})",
+                "model":"driver",
+                "expected": true,
+                "nextPage": "additionalDriver"
               }
+
             ],
             "startPage": false
           },
-          "AdditionalDriver": {
-            "pageName": "additionalDriver",
+          "DriverOverView": {
+            "pageName": "driverOverView",
             "nextPage": "driverHistory",
-            "pageUrl": "/additional-driver/",
+            "pageUrl": "/driver-overview",
             "breadCrumb": "Drivers",
             "touched": null,
             "current": false,
             "conditions": [],
+            "startPage": false
+          },
+          "AdditionalDriver": {
+            "pageName": "additionalDriver",
+            "nextPage": "driverOverView",
+            "pageUrl": "/additional-driver/",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [
+
+            ],
             "startPage": false
           },
           "DriverHistory": {

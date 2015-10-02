@@ -1,0 +1,34 @@
+<div ng-controller="driverOverviewCtrl" id="driver-overview">
+  <div>
+    <div ng-repeat="driver in driverOverviewSummary.drivers" class="card-outer">
+      <a class="" ui-sref="additionalDriver({driverId: driver.Id})">
+        <div class="card-inner">
+          <div style="padding:8px 0 8px 0;background: #005288;color: #ffffff;">{{driver.FirstName + ' ' +
+            driver.LastName}}
+          </div>
+          <i class="large material-icons" style="color: #757575;font-size: 7em;">person</i>
+
+
+          <span style="display: block;font-weight: 600;text-decoration: none;color: #757575;">Edit
+          Driver</span>
+        </div>
+      </a>
+
+      <div class="clearfix"></div>
+    </div>
+    <div class="card-outer">
+      <a ui-sref="additionalDriver({driverId: 0})" style="text-decoration: none;">
+        <div class="card-inner" style="padding: 16px;">
+          <!--<div style="padding:8px 0 8px 0;background:#43ADDB;color: #ffffff;">Add Driver</div>-->
+
+          <i class="large material-icons" style="color: #757575;font-size: 6em;margin-top: 10px;">control_point</i>
+          <span style="display: block;font-weight: 600;color: #757575;">Add Driver</span>
+
+        </div>
+      </a>
+
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<hr/>
