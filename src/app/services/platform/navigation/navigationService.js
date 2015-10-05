@@ -35,7 +35,7 @@ function NavigationService() {
                     getAllStates: function(){
                         return journeyStates;
                     },
-                    getNextStep: function(model, args){
+                    getNextStep: function(model, dataModelService, args){
                         var nextPage;
                         var currentPath = this.getCurrentPath();
 
@@ -48,6 +48,7 @@ function NavigationService() {
                                     throw String.format('NavigationService: navigating from {0} we have conditions but no model to test', currentPath);
                                 }
                                 _.each(currentState.conditions, function (condition) {
+
                                   if(_.has(model, condition.model)) {
                                     if (_.has(model[condition.model], condition.test)) {
                                       var testProp = model[condition.model][condition.test];
@@ -56,6 +57,29 @@ function NavigationService() {
                                           args = null;
                                         }
                                         nextPage = condition.nextPage;
+                                      }
+                                    }
+                                    //Make sure the input from the route condition isn't just some garbage
+                                    if(eval("typeof " + condition.test +" === 'function'")){
+                                      var response = eval(condition.test)();
+                                      if(typeof response === 'object'){
+                                        if(_.has(response, 'args')){
+                                          args = response.args;
+                                        }
+                                        if(response.condition == condition.expected){
+                                          if(_.isBoolean(condition.includeArgs) && !condition.includeArgs){
+                                            args = null;
+                                          }
+                                          nextPage = condition.nextPage;
+                                        }
+                                      }
+                                      else if(typeof response === 'boolean'){
+                                        if(response == condition.expected){
+                                          if(_.isBoolean(condition.includeArgs) && !condition.includeArgs){
+                                            args = null;
+                                          }
+                                          nextPage = condition.nextPage;
+                                        }
                                       }
                                     }
                                   }

@@ -31,16 +31,23 @@ angular.module('schemaForm')
       );
 
     }])
-  .controller('driverOverviewCtrl', ['$scope', 'dataModelService', '$location', function($scope, dataModelService, $location){
-    //$scope.driverOverviewSummary = {
-    //  drivers: dataModelService.getAllDrivers()
-    //}
-    //if($scope.driverOverviewSummary.drivers.length == 1 &&
-    //  $scope.driverOverviewSummary.drivers[0].MaritalStatus == 'Married'){
-    //  var modalData = {driver: dataModelService.createDriver()};
-    //  modalData.driver.MaritalStatus = 'Married';
-    //  modalData.driver.RelationToInsured = 'Spouse';
-    //  dataModelService.saveDriver(modalData)
-    //  return $location.path('/additional-driver/' + modalData.driver.Id);
-    //}
+  .controller('driverOverviewCtrl', ['$scope', 'dataModelService', '$location', 'NavigationService', function($scope, dataModelService, $location, NavigationService){
+    $scope.driverOverviewSummary = {
+      drivers: dataModelService.getAllDrivers(),
+      formSubmitted: null,
+      validateForm: function(){
+        this.formSubmitted = true;
+        if(this.drivers.length == 1 && this.drivers[0].MaritalStatus == 'Married'){
+          //  invalidate the form
+          return $scope.driverOverviewForm.continue.$setValidity('required', false)
+        }
+        else if(this.drivers[0].MaritalStatus == 'Married' && !_.findWhere(this.drivers, {RelationToInsured: 'Spouse', MaritalStatus: 'Married'})){
+          return $scope.driverOverviewForm.continue.$setValidity('required', false)
+        }
+        else{
+          $scope.driverOverviewForm.continue.$setValidity('required', true)
+          return NavigationService.getNextStep($scope.modelData, dataModelService, null);
+        }
+      }
+    }
   }])

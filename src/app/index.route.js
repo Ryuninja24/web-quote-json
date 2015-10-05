@@ -643,10 +643,6 @@
                     "type": "boolean",
                     default: null
                   },
-                  "AdditionalDrivers": {
-                    "type": "boolean",
-                    default: null
-                  },
                   "CurrentZipCode": {
                     "type": "boolean",
                     default: null
@@ -835,23 +831,6 @@
                       ]
                     },
                     {
-                      "key": "driver.AdditionalDrivers",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "title": "Other drivers in your home?",
-                      "type": "radiobuttons",
-                      "titleMap": [
-                        {
-                          "value": true,
-                          "name": "Yes"
-                        },
-                        {
-                          "value": false,
-                          "name": "No"
-                        }
-                      ]
-                    },
-                    {
                       "type": "section",
                       "htmlClass": "row",
                       "items": [
@@ -924,12 +903,6 @@
           "form": [
             {
               "key": "el_driverOverview"
-            },
-            {
-              "type": "button",
-              "style": "btn-info",
-              "title": "OK",
-              onClick: "submitForm(ngform)"
             },
             {
               key: "el_navSummary"
@@ -1408,6 +1381,43 @@
           ]
         }
       })
+      .state('vehicleOverview', {
+        url: '/vehicle-overview',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data:{
+          "schema": {
+            "type": "object",
+            "properties": {
+              "el_vehicleOverview": {
+                "type": "string",
+                "format": "el_vehicleOverview"
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
+              }
+            }
+          },
+          "form": [
+            {
+              "key": "el_vehicleOverview"
+            },
+            {
+              key: "el_navSummary"
+            }
+          ]
+        }
+      })
       .state('vehicle', {
         url: '/vehicle/{vehicleId}',
         templateUrl: 'app/quote/quote.html',
@@ -1466,11 +1476,6 @@
                     "title": "Years of ownership",
                     "type": "string",
                     "enum": ["Less than 4000", "4000 - 5999", "6000 - 7999"]
-                  },
-                  "AddAnotherVehicle": {
-                    "title": "Add another vehicle?",
-                    "type": "boolean",
-                    default: null
                   }
                 },
                 "required": [
@@ -1548,23 +1553,6 @@
                     {
                       "key": "vehicle.YearsOwned",
                       "fieldHtmlClass": "float-right form-50"
-                    },
-
-                    {
-                      "key": "vehicle.AddAnotherVehicle",
-                      "labelHtmlClass": "float-left",
-                      "type": "radiobuttons",
-
-                      "titleMap": [
-                        {
-                          "value": true,
-                          "name": "Yes"
-                        },
-                        {
-                          "value": false,
-                          "name": "No"
-                        }
-                      ]
                     }
                   ]
                 }

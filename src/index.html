@@ -129,18 +129,7 @@
             "touched": null,
             "current": false,
             "conditions": [
-              {
-                "test": "test",
-                "model": "driver",
-                "expected": true,
-                "nextPage": "driverOverView"
-              },
-              {
-                "test": "(function(){var drivers = dataModelService.getQuoteModel().Drivers;if(drivers.length == 1 && drivers[0].MaritalStatus){var modalData = {driver: dataModelService.createDriver()};modalData.driver.MaritalStatus = 'Married';modalData.driver.RelationToInsured = 'Spouse';dataModelService.saveDriver(modalData);return true;}else{return false;}})",
-                "model":"driver",
-                "expected": true,
-                "nextPage": "additionalDriver"
-              }
+
 
             ],
             "startPage": false
@@ -183,48 +172,33 @@
               {
                 "test": "HasConviction",
                 "expected": "No",
-                "nextPage": "vehicle"
+                "nextPage": "vehicleOverview"
               },
               {
                 "test": "HasConviction",
                 "expected": null,
-                "nextPage": "vehicle"
+                "nextPage": "vehicleOverview"
               },
               {
                 "test": "HasConviction",
                 "expected": "Unsure",
-                "nextPage": "vehicle"
+                "nextPage": "vehicleOverview"
               }
             ],
+            "startPage": false
+          },
+          "VehicleOverview": {
+            "pageName": "vehicleOverview",
+            "pageUrl": "/vehicle-overview",
+            "nextPage": "driverAssignment",
+            "conditions": [],
             "startPage": false
           },
           "Vehicle": {
             "pageName": "vehicle",
             "pageUrl": "/vehicle/",
-            "conditions": [
-              {
-                "test": "AddAnotherVehicle",
-                "model":"vehicle",
-                "expected": true,
-                "nextPage": "vehicle"
-              },
-              {
-                "test": "AddAnotherVehicle",
-                "model":"vehicle",
-                "expected": false,
-                "nextPage": "policyHolder"
-              },
-              {
-                "test": "AssignmentsNeeded",
-                "expected": true,
-                "nextPage": "driverAssignment"
-              },
-              {
-                "test": "AssignmentsNeeded",
-                "expected": false,
-                "nextPage": "discounts"
-              }
-            ],
+            "nextPage": "vehicleOverview",
+            "conditions": [],
             "startPage": false
           },
           "DriverAssignment": {

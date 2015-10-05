@@ -181,6 +181,11 @@ angular.module('quotes.persistence')
           }
         }
       };
+      this.getAllVehicles = function(){
+        if(quoteDataModel){
+          return angular.copy(quoteDataModel.Vehicles);
+        }
+      };
 
       this.saveVehicle = function (modelData, quoteDataModel) {
         var vehicleCopy = modelData.vehicle;

@@ -1,43 +1,43 @@
-<div ng-controller="driverOverviewCtrl" id="driver-overview">
+<div ng-controller="vehicleOverviewCtrl" id="vehicle-overview">
   <div>
-    <div ng-repeat="driver in driverOverviewSummary.drivers" class="card-outer">
-      <a class="" ui-sref="additionalDriver({driverId: driver.Id})">
+    <div ng-repeat="vehicle in vehicleOverviewSummary.vehicles" class="card-outer">
+      <a class="" ui-sref="vehicle({vehicleId: vehicle.Id})">
         <div class="card-inner">
-          <div style="padding:8px 0 8px 0;background: #005288;color: #ffffff;">{{driver.FirstName + ' ' +
-            driver.LastName}}
+          <div style="padding:8px 0 8px 0;background: #005288;color: #ffffff;">{{vehicle.Year + ' ' +
+            vehicle.Make}}
           </div>
-          <i class="large material-icons" style="color: #757575;font-size: 7em;">person</i>
+          <i class="large material-icons" style="color: #757575;font-size: 7em;">directions_car</i>
 
 
           <span style="display: block;font-weight: 600;text-decoration: none;color: #757575;">Edit
-          Driver</span>
+          Vehicle</span>
         </div>
       </a>
 
       <div class="clearfix"></div>
     </div>
     <div class="card-outer">
-      <a ui-sref="additionalDriver({driverId: 0})" style="text-decoration: none;">
+      <a ui-sref="vehicle({vehicleId: 0})" style="text-decoration: none;">
         <div class="card-inner" style="padding: 16px;">
-          <!--<div style="padding:8px 0 8px 0;background:#43ADDB;color: #ffffff;">Add Driver</div>-->
+          <!--<div style="padding:8px 0 8px 0;background:#43ADDB;color: #ffffff;">Add Vehicle</div>-->
 
           <i class="large material-icons" style="color: #757575;font-size: 6em;margin-top: 10px;">control_point</i>
-          <span style="display: block;font-weight: 600;color: #757575;">Add Driver</span>
+          <span style="display: block;font-weight: 600;color: #757575;">Add Vehicle</span>
 
         </div>
       </a>
 
     </div>
     <div class="clearfix"></div>
-    <ng-form name="driverOverviewForm">
+    <ng-form name="vehicleOverviewForm">
       <div id="step-postal-code">
         <div id="postal-code" class="">
           <div class="input-group">
             <div class="form-group"
-                 ng-class="{true: 'has-error'}[postalSummary.formSubmitted && driverOverviewForm.continue.$invalid]">
+                 ng-class="{true: 'has-error'}[postalSummary.formSubmitted && vehicleOverviewForm.continue.$invalid]">
 
-              <div ng-messages="driverOverviewForm.continue.$error" ng-if="driverOverviewSummary.formSubmitted">
-                <div ng-message="required">Please add your spouse</div>
+              <div ng-messages="vehicleOverviewForm.continue.$error" ng-if="vehicleOverviewSummary.formSubmitted">
+                <div ng-message="required">Please add a vehicle</div>
               </div>
               <input id="customerZip" name="continue" class="form-control {{form.fieldHtmlClass}}"
                      type="hidden"
@@ -49,7 +49,7 @@
             </div>
             <div class="button-continue">
               <button class="" style="font-size:20px;" id="btnStartMe"
-                      ng-click="driverOverviewSummary.validateForm()">
+                      ng-click="vehicleOverviewSummary.validateForm(vehicleOverviewForm.$valid)">
                 <span>Start Me</span>
               </button>
             </div>
@@ -60,3 +60,4 @@
   </div>
 </div>
 <hr/>
+

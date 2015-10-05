@@ -204,7 +204,7 @@ angular.module('platform.lookupDataService', [])
 
       this.getRelationshipToInsuredCodeLookups = function () {
         var relationShips = _.where(lookups, {Type: 'RelationshipToInsuredCode'});
-        var allowedCodes = ['Child', 'Parent', 'OtherRelative', 'Other'];
+        var allowedCodes = ['Spouse', 'Child', 'Parent', 'OtherRelative', 'Other'];
         return _.filter(relationShips, function (relationShip) {
           return _.contains(allowedCodes, relationShip.Name);
         })
