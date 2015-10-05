@@ -1585,28 +1585,43 @@
             "type": "object",
             "title": "Comment",
             "properties": {
-              "HasIncidents": {
-                "title": "Have any drivers had any accidents, violations or claims during the past 5 years?",
-                "type": "boolean",
-                default: null
+              "quoteIntent": {
+                type:"object",
+                "properties": {
+                  "HasIncidents": {
+                    "title": "Have any drivers had any accidents, violations or claims during the past 5 years?",
+                    "type": "boolean",
+                    default: null
+                  },
+                  "HasConvictions": {
+                    "title": "Have any drivers been convicted of any non-traffic related crimes in the past 7 years?",
+                    "type": "string",
+                    default: null
+                  },
+                  "AdditionalIncidents": {
+                    "title": "More incidents to add?",
+                    "type": "boolean",
+                    default: null
+                  }
+                },
+                "required": [
+                  "HasIncidents",
+                  "HasConvictions"
+                ]
               },
-              "HasConvictions": {
-                "title": "Have any drivers been convicted of any non-traffic related crimes in the past 7 years?",
-                "type": "string",
-                default: null
-              },
-              "Incidents": {
+              "incidents": {
                 "notitle": true,
                 "type": "string",
-                "format":"incidentHistory",
+                "format": "incidentHistory",
                 default: null
               }
             }
           },
           "form": [
             {
-              "key": "HasIncidents",
+              "key": "quoteIntent.HasIncidents",
               "type": "radiobuttons",
+              "disableSuccessState":true,
               "labelHtmlClass": "float-left",
               "fieldHtmlClass": "float-right form-50",
               "titleMap": [
@@ -1625,8 +1640,9 @@
               "helpvalue": "<hr/>"
             },
             {
-              "key": "HasConvictions",
+              "key": "quoteIntent.HasConvictions",
               "type": "radiobuttons",
+              "disableSuccessState":true,
               "labelHtmlClass": "float-left",
               "fieldHtmlClass": "float-right form-50",
               "titleMap": [
@@ -1645,13 +1661,32 @@
               ]
             },
             {
-              "key": "Incidents"
-
+              "key": "incidents",
+              "condition": "modelData.quoteIntent.HasIncidents == true"
             },
             {
-              "type": "submit",
-              "style": "btn-default",
-              "title": "OK"
+              "key": "quoteIntent.AdditionalIncidents",
+              "condition": "modelData.quoteIntent.HasIncidents == true",
+              "type": "radiobuttons",
+              "disableSuccessState":true,
+              "labelHtmlClass": "float-left",
+              "fieldHtmlClass": "float-right form-50",
+              "titleMap": [
+                {
+                  "value": true,
+                  "name": "Yes"
+                },
+                {
+                  "value": false,
+                  "name": "No"
+                }
+              ]
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
             }
           ]
         }

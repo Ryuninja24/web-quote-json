@@ -31,14 +31,6 @@
         }
       };
 
-
-      $scope.tabArrayChanged = function(modelValue, form, stuff, index){
-        //if (modelValue && modelValue.length > 2) {
-        //  modelValue.splice(-1, 1);
-        //}
-        var fun = '';
-      };
-
       $scope.ShowIf = function(form, modelType, expression){
         if(!form.$dirty){
           return;

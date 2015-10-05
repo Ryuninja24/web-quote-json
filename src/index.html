@@ -71,6 +71,7 @@
       </div>
     </div>
 
+    <script src="app/directives/buttons-radio.js"></script>
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->
     <!-- run `gulp inject` to automatically populate bower script dependencies -->
@@ -163,6 +164,13 @@
             "touched": null,
             "current": false,
             "conditions": [
+              {
+                "test": "AdditionalIncidents",
+                "model":"quoteIntent",
+                "expected": "true",
+                "nextPage": "driverHistory",
+                "includeArgs": false
+              },
               {
                 "test": "HasConviction",
                 "expected": "Yes",

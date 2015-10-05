@@ -2,12 +2,23 @@
  * Created by gabello on 8/18/2015.
  */
 angular.module('quotes.persistence')
-  .factory('AccountModel', ['$q',
+  .factory('QuoteIntentModel', ['$q',
     function ($q) {
       var clazz = function (attributes) {
         var defaults = {
           PolicyStartDate:null,
-          Id:null
+          HasIncidents: null,
+          HasConvictions:null,
+          AdditionalIncidents:null,
+          Id:null,
+          QuoteIdentifier: null,
+          State: null,
+          MVRClueCalled: false,
+          WrittenDate: null,
+          BadDebtsFlag: null,
+          MaterialMisrep: null,
+          HasMotorcycle: null,
+          IsUWPhotoReviewExist:null
         };
         _.extend(this, defaults, attributes);
       };

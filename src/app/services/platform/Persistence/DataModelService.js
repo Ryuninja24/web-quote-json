@@ -7,15 +7,24 @@ angular.module('quotes.persistence')
     'VehicleModel',
     'DriverModel',
     'AddressModel',
-    'AccountModel',
-    'IncidentHistoryModel',
-    function (dataModel, vehicleModel, driverModel, addressModel, accountModel, incidentHistoryModel) {
+    'QuoteIntentModel',
+    'IncidentModel',
+    function (dataModel, vehicleModel, driverModel, addressModel, quoteIntentModel, incidentModel) {
       'use strict';
 
       var quoteDataModel = {};
 
       this.init = function () {
-        quoteDataModel = {}
+        quoteDataModel = {};
+
+        var driver = this.createDriver();
+        driver.FirstName = 'Nick';
+        driver.LastName = 'Gabello';
+        driver.RatingStatus = 'Rated';
+        if(!quoteDataModel.Drivers){
+          quoteDataModel.Drivers = [];
+        }
+        quoteDataModel.Drivers.push(driver);
       };
 
       //--------------- Quote Model  -------------------------------------------------
@@ -33,43 +42,57 @@ angular.module('quotes.persistence')
       };
 
       //--------------- Incident Model  -------------------------------------------------
-      this.saveIncidentHistory = function (incidentHistory) {
-        if (!incidentHistory) {
-          return;
-        } else {
-          var dataModel = this.getQuoteModel();
-          dataModel.IncidentHistory = incidentHistory;
+      this.saveIncident = function (incidentData) {
+        if (incidentData) {
+          var quoteModel = this.getQuoteModel();
+          if(!quoteModel.Incidents)
+          {
+            quoteModel.Incidents = [];
+          }
+          quoteModel.Incidents.push(incidentData);
         }
       };
 
-      this.getIncidentHistory = function () {
-        var dataModel = this.getQuoteModel();
-        var incidentHistory = dataModel.IncidentHistory;
-        if (!incidentHistory) {
-          incidentHistory = new incidentHistoryModel();
-          incidentHistory.init();
-        }
-        return angular.copy(incidentHistory);
+      this.removeIncident = function (incidentId) {
+        this.getQuoteModel().Incidents.splice(_.indexOf(this.getQuoteModel().Incidents, _.findWhere(this.getQuoteModel().Incidents, {Id: incidentId})), 1);
       };
+
+      this.getIncidents = function () {
+        return this.getQuoteModel().Incidents;
+      };
+
+      this.getNewIncident = function(){
+        var incident = new incidentModel();
+        incident.init();
+        return incident;
+      };
+
+      this.getIncidentById = function (id) {
+        if(!id){return this.getNewIncident();}
+        var incident =  _.findWhere(this.getQuoteModel().Incidents, {Id: id});
+        if(!incident){
+          return this.getNewIncident();
+        }
+        return incident;
+      };
+
 
       //--------------- Account Model  -------------------------------------------------
-      this.saveAccount = function (account) {
-        if (!account) {
+      this.saveQuoteIntent = function (quoteIntent) {
+        if (!quoteIntent) {
           return;
         } else {
-          var dataModel = this.getQuoteModel();
-          dataModel.Account = account;
+          this.getQuoteModel().QuoteIntent = quoteIntent;
         }
       };
 
-      this.getAccount = function () {
-        var dataModel = this.getQuoteModel();
-        var account = dataModel.Account;
-        if (!account) {
-          account = new accountModel();
-          account.init();
+      this.getQuoteIntent = function () {
+        var quoteIntent = this.getQuoteModel().QuoteIntent;
+        if (!quoteIntent) {
+          quoteIntent = new quoteIntentModel();
+          quoteIntent.init();
         }
-        return angular.copy(account);
+        return angular.copy(quoteIntent);
       };
 
       //--------------- Address Model  -------------------------------------------------
@@ -77,8 +100,7 @@ angular.module('quotes.persistence')
         if (!address) {
           return;
         } else {
-          var dataModel = this.getQuoteModel();
-          dataModel.Address = address;
+          this.getQuoteModel().Address = address;
         }
       };
 
@@ -93,7 +115,7 @@ angular.module('quotes.persistence')
       };
 
       //--------------- Driver Functions  -------------------------------------------------
-      this.createDriver = function(){
+      this.createDriver = function () {
         var driver = new driverModel();
         driver.init();
         return driver;
@@ -109,20 +131,20 @@ angular.module('quotes.persistence')
         //Making some assumptions at this point if no id then return policyHolder, if no policyholder then create and return
         //a new driver. If id is 0 return a new driver
         var driver = null;
-        if(!id){
+        if (!id) {
           // No Id was passed so either return the policyholder or if there are no drivers return a new one
-          if(!dataModel.Drivers || dataModel.Drivers.length == 0){
+          if (!dataModel.Drivers || dataModel.Drivers.length == 0) {
             driver = this.createDriver();
-          }else {
+          } else {
             driver = _.findWhere(dataModel.Drivers, {PrimaryDriver: true});
             if (!driver) {
               driver = this.createDriver();
             }
           }
-        }else if(id == 0){
+        } else if (id == 0) {
           // Creates a new driver
           driver = this.createDriver();
-        }else {
+        } else {
           // We do have a driverID so find it and return
           driver = _.findWhere(dataModel.Drivers, {Id: id});
           if (!driver) {
@@ -130,6 +152,28 @@ angular.module('quotes.persistence')
           }
         }
         return angular.copy(driver);
+      };
+
+      this.prefillDrivers = function(){
+
+        var driver = this.createDriver();
+        driver.FirstName = 'Nick';
+        driver.LastName = 'Gabello';
+        driver.RatingStatus = 'Rated';
+        if(!quoteDataModel.Drivers){
+          quoteDataModel.Drivers = [];
+        }
+        quoteDataModel.Drivers.push(driver);
+      };
+
+      this.getRatedDrivers = function () {
+
+        var ratedDriverCopies = [];
+        var ratedDrivers = _.where(quoteDataModel.Drivers, {RatingStatus: 'Rated'});
+        _.each(ratedDrivers, function (driver) {
+          ratedDriverCopies.push(angular.copy(driver));
+        });
+        return ratedDriverCopies;
       };
 
       this.saveDriver = function (modelData, quoteDataModel) {
@@ -161,17 +205,17 @@ angular.module('quotes.persistence')
 
       //--------------- Vehicle Functions  -------------------------------------------------
       this.getVehicle = function (id) {
-        if(id == undefined || id == null){
+        if (id == undefined || id == null) {
           return;
         }
         var vehicle = null;
-        if(id == 0){
+        if (id == 0) {
           vehicle = new vehicleModel();
           vehicle.init();
           return angular.copy(vehicle);
-        }else {
+        } else {
           var dataModel = this.getQuoteModel();
-          if(dataModel.Vehicles && dataModel.Vehicles.length > 0) {
+          if (dataModel.Vehicles && dataModel.Vehicles.length > 0) {
             var vehicle = _.findWhere(quoteDataModel.Vehicles, {Id: id});
             if (!vehicle) {
               vehicle = new vehicleModel();
@@ -216,8 +260,7 @@ angular.module('quotes.persistence')
           'vehicle': this.getVehicle(IdObject.vehicleId),
           'driver': this.getDriver(IdObject.driverId),
           'address': this.getAddress(),
-          'account': this.getAccount(),
-          'incidentHistory': this.getIncidentHistory()
+          'quoteIntent': this.getQuoteIntent()
         };
         return models;
       };
@@ -227,15 +270,14 @@ angular.module('quotes.persistence')
         this.saveVehicle(modelData, quoteModel);
         this.saveDriver(modelData, quoteModel);
         this.saveAddress(modelData.address);
-        this.saveAccount(modelData.account);
-        this.saveIncidentHistory(modelData.incidents);
+        this.saveQuoteIntent(modelData.quoteIntent);
       };
 
-      this.validateModelData = function(modelData){
+      this.validateModelData = function (modelData) {
         var validationResponse = [];
-        if(modelData.driver){
+        if (modelData.driver) {
           var driverElements = modelData.driver.validate();
-          if(driverElements){
+          if (driverElements) {
             validationResponse.push(driverElements);
           }
         }

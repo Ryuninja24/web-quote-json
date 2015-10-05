@@ -20,7 +20,7 @@ function ButtonsRadio(){
           return option['description']
         }
       }],
-      template: "blahblahb<label class='btn btn-default btn-sm form-50' "+
+      template: "<label class='btn btn-default btn-sm form-50' "+
       "ng-class='{active: isActive(option)}'"+
       "ng-repeat='option in options' "+
       "ng-click='activate(option)'analytics-on='click' analytics-event='primary driver {{getDescription(option)}}'>{{getDescription(option)}} "+
