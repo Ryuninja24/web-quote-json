@@ -7,7 +7,9 @@ angular.module('quotes.persistence')
       var clazz = function (attributes) {
         var defaults = {
           DateOfIncident: null,
+          Description: null,
           DriverId: null,
+          DriverName: null,
           Id: null,
           IncidentClassificationId: null
         };

@@ -17,14 +17,6 @@ angular.module('quotes.persistence')
       this.init = function () {
         quoteDataModel = {};
 
-        var driver = this.createDriver();
-        driver.FirstName = 'Nick';
-        driver.LastName = 'Gabello';
-        driver.RatingStatus = 'Rated';
-        if(!quoteDataModel.Drivers){
-          quoteDataModel.Drivers = [];
-        }
-        quoteDataModel.Drivers.push(driver);
       };
 
       //--------------- Quote Model  -------------------------------------------------
@@ -48,8 +40,14 @@ angular.module('quotes.persistence')
           if(!quoteModel.Incidents)
           {
             quoteModel.Incidents = [];
+            quoteModel.Incidents.push(incidentData);
+          }else{
+            //Prevent duplicates
+            var incident =  _.findWhere(this.getQuoteModel().Incidents, {DateOfIncident: incidentData.DateOfIncident, DriverId: incidentData.DriverId, IncidentClassificationId: incidentData.IncidentClassificationId});
+            if(!incident){
+              quoteModel.Incidents.push(incidentData);
+            }
           }
-          quoteModel.Incidents.push(incidentData);
         }
       };
 
@@ -77,7 +75,7 @@ angular.module('quotes.persistence')
       };
 
 
-      //--------------- Account Model  -------------------------------------------------
+      //--------------- QuoteIntent Model  -------------------------------------------------
       this.saveQuoteIntent = function (quoteIntent) {
         if (!quoteIntent) {
           return;
@@ -87,12 +85,14 @@ angular.module('quotes.persistence')
       };
 
       this.getQuoteIntent = function () {
-        var quoteIntent = this.getQuoteModel().QuoteIntent;
+        var dataModel = this.getQuoteModel();
+        var quoteIntent = dataModel.QuoteIntent;
         if (!quoteIntent) {
           quoteIntent = new quoteIntentModel();
           quoteIntent.init();
+          dataModel.QuoteIntent = quoteIntent;
         }
-        return angular.copy(quoteIntent);
+        return quoteIntent;
       };
 
       //--------------- Address Model  -------------------------------------------------

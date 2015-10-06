@@ -33,8 +33,10 @@ angular.module('schemaForm')
   .controller('IncidentSelectorController', ['$scope', 'dataModelService', 'lookupDataService', function ($scope, dataModelService, lookupDataService) {
     "use strict";
 
-
     dataModelService.prefillDrivers();
+    var address = dataModelService.getAddress();
+    address.State = 'VA';
+    dataModelService.saveAddress(address);
 
     $scope.driverInfractions = {
       trueFalseOptions: [{value: true, description: 'Yes'},{value: false, description: 'No'}],
@@ -45,12 +47,48 @@ angular.module('schemaForm')
       incidentSubmitted: false
     };
 
+    //Adds the Incident to the DataModel Service
+    var addIncident = function () {
+      //Construct the driver portion of the incident for display
+      var driver = _.findWhere($scope.driverInfractions.drivers, {Id: $scope.driverInfractions.currentIncident.DriverId});
+      if (driver) {
+        $scope.driverInfractions.currentIncident.DriverName = driver.FirstName + ' ' + driver.LastName;
+        $scope.driverInfractions.currentIncident.Description = _.findWhere($scope.driverInfractions.incidentTypes, {Value: $scope.driverInfractions.currentIncident.IncidentClassificationId}).Description;
+        dataModelService.saveIncident($scope.driverInfractions.currentIncident);
+      }
+    };
+
+    var fun = function(){
+      var quoteIntent = dataModelService.getQuoteIntent();
+      if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.AdditionalIncidents){
+        var vehicles = dataModelService.getAllVehicles();
+        if (!(!vehicles || vehicles.length < 1)) {
+          return false;
+        } else {
+          return {args: '0', condition: true}
+        }
+
+      }else{
+        throw 'Invalid state occurred'
+      }
+    };
+
+
+    //Removes the Incident from the DataModel Service
+    $scope.removeIncident = function (incidentId) {
+      if(incidentId) {
+        dataModelService.removeIncident(incidentId);
+        $scope.driverInfractions.driverIncidents = dataModelService.getIncidents();
+      }
+    };
+
     //Default the DriverID for all incidents if there is only one driver
     if ($scope.driverInfractions.drivers.length == 1) {
       $scope.driverInfractions.currentIncident.DriverId = $scope.driverInfractions.drivers[0].Id;
     }
 
-
+    //Validates the CurrentIncident and saves if the entire form is valid, called from
+    //quotes.controller when the 'OK' button is pressed
     $scope.$on('schemaFormValidate', function() {
       $scope.driverInfractions.incidentSubmitted = true;
 
@@ -101,9 +139,19 @@ angular.module('schemaForm')
 
       //Make sure the entire form is valid before saving
       if ($scope.incidentForm.$$parentForm && $scope.incidentForm.$$parentForm.$valid) {
-        dataModelService.saveIncident($scope.driverInfractions.currentIncident);
+        addIncident();
+        fun();
+        var quoteIntent = dataModelService.getQuoteIntent();
+        //If there are more incidents to add then reset controls and refresh the incident list
+        if(quoteIntent && quoteIntent.AdditionalIncidents){
+          $scope.driverInfractions.currentIncident = dataModelService.getIncidentById();
+          $scope.driverInfractions.driverIncidents = dataModelService.getIncidents();
+        }
       }
+
+
+
 
     });
 
-  }]);
+}]);

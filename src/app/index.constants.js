@@ -7,6 +7,14 @@
         .constant('malarkey', malarkey)
         .constant('toastr', toastr)
         .constant('moment', moment)
+        .constant('elephantContactInfo', {
+          phone: '1-877-321-2096',
+          legalphone:'1-800-728-5768',
+          quoteIssuePhone:'1-877-321-2096',
+          exoticVehiclePhone:'1-866-884-6167',
+          sales:'1-877-321-9911',
+          policy: '1-866-218-7865'
+        })
         .constant('environmentLink', {
             //QA1
             internalApi: "https://eia-qa1.qa-elephant.com/api",

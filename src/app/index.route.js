@@ -13,6 +13,11 @@
         templateUrl: 'app/main/main.html',
         controller: 'MainController'
       })
+      .state('quoteTermination', {
+        url: '/quote-termination?state&id',
+        templateUrl: 'app/quote/quoteTermination/quoteTermination.html',
+        controller: 'QuoteTerminationController'
+      })
       .state('postalCodeDetails', {
         url: '/postal-code',
         templateUrl: 'app/quote/quote.html',

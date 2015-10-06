@@ -1,0 +1,70 @@
+<div class="row">
+  <div id="quote-termination"
+       class="customer customer2 col-sm-12 col-md-offset-3 col-lg-offset-3 col-md-7 col-lg-5 margin animated fadeIn"
+       refresh="">
+    <div>
+      <div ng-if="quoteTerminationSummary.errorId == 1246 || quoteTerminationSummary.errorId == 1011">
+        <h3 class="section-header"><i class="fa fa-tag fa-fw"></i> Call us to complete your quote.</h3>
+
+        <p>We cannot complete your quote online at this time. Please contact a sales representative
+          at {{quoteTerminationSummary.salesPhone}} if you wish to continue</p>
+      </div>
+      <div ng-if="quoteTerminationSummary.errorId == 1348 || quoteTerminationSummary.errorId == 0">
+        <h3 class="section-header"><i class="fa fa-tag fa-fw"></i> Thank you for your interest in Elephant Insurance.
+        </h3>
+
+        <div style="font-size: .9em;">
+          <p id="discount-message">
+            Every insurer determines its own criteria regarding which potential policyholders to insure.
+            <strong>Unfortunately, based upon the information you supplied we are not able to offer you a quote at this
+              time because
+              of the following:</strong>
+
+          <ul>
+            <li>The information you have provided does not meet our minimum underwriting standards.</li>
+          </ul>
+
+          </p>
+        </div>
+        <div class="span12" ng-switch on="quoteTerminationSummary.state" style="font-size: .9em;">
+          <div ng-if="quoteTerminationSummary.state == 'VA' || quoteTerminationSummary.state == 'IL'">
+            <p>You have the right to receive the specific reason(s) for this decision upon written request to us made
+              within 90 days of the date of this notification. You also have a right to be made aware of the name
+              and addresses of the sources upon which this decision was made so you have the opportunity to
+              correct, amend, or delete any information that we may have. Please refer to our Privacy Policy for
+              more information. </p>
+          </div>
+          <div ng-if="quoteTerminationSummary.state == 'VA'">
+            <p>You may be able to obtain insurance through another company. However, should you have difficulty
+              in obtaining insurance, the Virginia Automobile Insurance Plan may be able to help you. Since all
+              companies in your state participate in this Plan, any licensed agent or broker can provide you with
+              more information.</p>
+          </div>
+          <div ng-if="quoteTerminationSummary.state == 'MD'">
+            <p>You may be able to obtain insurance through another company. However, should you have difficulty
+              in obtaining insurance, the Maryland Automobile Insurance Fund (MAIF) may be able to help
+              you. Please contact your agent or broker for more information or contact the MAIF directly at the
+              contact information below:
+
+              1750 Forest Drive
+              Annapolis, Maryland 21401
+              (410) 269-1680
+              www.MAIF.net
+            </p>
+          </div>
+          <div ng-if="quoteTerminationSummary.state == 'IL'">
+            <p>Pursuant to the provisions of section 143.20 of the Illinois insurance code, we are required to notify
+              you that you may be eligible for automobile insurance under the Illinois insurance plan. </p>
+          </div>
+        </div>
+        <div class="button-continue btn-margin">
+          <button id="btnContinue" ng-click="launchAd()">
+            Additional providers
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
