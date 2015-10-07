@@ -165,13 +165,15 @@
             "current": false,
             "conditions": [
               {
+                "priority":1,
                 "description":"Either more than 2 dui''s or more than 3 at faults per driver",
-                "test": "(function () { var dt = new Date(); var pastDate = dt.setMonth(dt.getMonth() - 36); var incidents = dataModelService.getIncidents();  var recentIncidents = _.filter(incidents, function (incident) { var incidentDate = new Date(incident.DateOfIncident); return incidentDate >= pastDate; }); var atFaultIncidents = _.where(recentIncidents, {IncidentClassificationId: '1'});  var atFaultGroups; if (atFaultIncidents && atFaultIncidents.length > 3) { atFaultGroups = _.groupBy(atFaultIncidents, function (incident) {return incident.DriverId; })} var isFaulted = _.find(atFaultGroups, function (group) { return group.length > 3 }); if(isFaulted){ $log.debug('Found a driver with more than 3 at fault accidents '); return {args:String.format('?state={0}&id=0', dataModelService.getAddress().State), condition: true}} var duiIncidents = _.where(recentIncidents, {IncidentClassificationId: '7'}); if(duiIncidents && duiIncidents.length > 2){ $log.debug('Found more than 2 duiIncidents ' + duiIncidents.length); return {args:String.format('?state={0}&id=0', dataModelService.getAddress().State), condition: true}}else{ return {args:null, condition: false}; }})",
+                "test": "(function () { var dt = new Date(); var pastDate = dt.setMonth(dt.getMonth() - 36); var incidents = dataModelService.getIncidents();  var recentIncidents = _.filter(incidents, function (incident) { var incidentDate = new Date(incident.DateOfIncident); return incidentDate >= pastDate; }); var atFaultIncidents = _.where(recentIncidents, {IncidentClassificationId: '1'});  var atFaultGroups; if (atFaultIncidents && atFaultIncidents.length > 3) { atFaultGroups = _.groupBy(atFaultIncidents, function (incident) {return incident.DriverId; })} var isFaulted = _.find(atFaultGroups, function (group) { return group.length > 3 }); if(isFaulted){ return {args:String.format('?state={0}&id=0', dataModelService.getAddress().State), condition: true}} var duiIncidents = _.where(recentIncidents, {IncidentClassificationId: '7'}); if(duiIncidents && duiIncidents.length > 2){ return {args:String.format('?state={0}&id=0', dataModelService.getAddress().State), condition: true}}else{ return {args:null, condition: false}; }})",
                 "expected": true,
                 "nextPage": "quoteTermination",
                 "includeArgs": true
               },
               {
+                "priority":2,
                 "description":"AdditionalIncidents is true",
                 "test": "AdditionalIncidents",
                 "model":"quoteIntent",
@@ -180,6 +182,7 @@
                 "includeArgs": false
               },
               {
+                "priority":3,
                 "description":"HasConvictions == 'Yes'",
                 "test": "HasConviction",
                 "model":"quoteIntent",
@@ -188,15 +191,17 @@
                 "includeArgs": false
               },
               {
+                "priority":4,
                 "description":"No convictions and no more incidents and no vehicles",
-                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); console.dir(vehicles); if(!vehicles || vehicles.length == 0){ return {args:'0', condition: true}}else{ return false; }}else{ throw 'Invalid state occurred'}})",
+                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); console.dir(vehicles); if(!vehicles || vehicles.length == 0){ return {args:'0', condition: true}}else{ return false; }}else{ throw 'Invalid state occurred 1'}})",
                 "expected": true,
                 "nextPage": "vehicle",
                 "includeArgs": true
               },
               {
+                "priority":5,
                 "description":"No convictions and no more incidents and there is more than one vehicle",
-                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); return !!(vehicles && vehicles.length > 0); }else{ throw 'Invalid state occurred'}})",
+                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); return !!(vehicles && vehicles.length > 0); }else{ throw 'Invalid state occurred 2'}})",
                 "model":"quoteIntent",
                 "expected": true,
                 "nextPage": "vehicleOverview"

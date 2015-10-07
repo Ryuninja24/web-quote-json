@@ -67,9 +67,6 @@ angular.module('schemaForm')
         } else {
           return {args: '0', condition: true}
         }
-
-      }else{
-        throw 'Invalid state occurred'
       }
     };
 
@@ -140,7 +137,7 @@ angular.module('schemaForm')
       //Make sure the entire form is valid before saving
       if ($scope.incidentForm.$$parentForm && $scope.incidentForm.$$parentForm.$valid) {
         addIncident();
-        fun();
+        //fun();
         var quoteIntent = dataModelService.getQuoteIntent();
         //If there are more incidents to add then reset controls and refresh the incident list
         if(quoteIntent && quoteIntent.AdditionalIncidents){
