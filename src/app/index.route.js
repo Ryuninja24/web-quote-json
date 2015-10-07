@@ -498,78 +498,78 @@
                       }
                     },
                     {
-                  //<!-- Military Branch -->
-                  "key": "driver.MilitaryBranch",
-                  "type": "elephantSelectPicker",
-                  "labelHtmlClass": "float-left",
-                  "fieldHtmlClass": "float-right form-50",
-                  "options": {
-                    "callback": "getLookup",
-                    "lookupType": "MilitaryBranch",
-                    "map": {valueProperty: "Name", nameProperty: "Description"}
-                  },
-                  "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')"
-                },
-                {
-                  //<!-- Military Rank -->
-                  "key": "driver.MilitaryStatus",
-                  "type": "elephantSelectPicker",
-                  "labelHtmlClass": "float-left",
-                  "fieldHtmlClass": "float-right form-50",
-                  "options": {
-                    "callback": "getLookup",
-                    "lookupType": "MilitaryServiceType",
-                    "map": {valueProperty: "Name", nameProperty: "Description"}
-                  },
-                  "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')"
-                },
-                {
-                  //<!-- Occupation -->
-                  "key": "driver.Occupation",
-                  "type": "elephantSelectPicker",
-                  "labelHtmlClass": "float-left",
-                  "fieldHtmlClass": "float-right form-50",
-                  "options": {
-                    "callback": "getLookup",
-                    "lookupType": "Occupation",
-                    "map": {valueProperty: "Value", nameProperty: "Description"}
-                  },
-                  "condition": "ShowIf(ngform, 'driver','showOccupation')"
-                }
-                ,
-                {
-                  //<!-- Currently Attending School -->
-                  "key": "driver.CurrentStudentEnrollment",
-                  "type": "elephantSelectPicker",
-                  "labelHtmlClass": "float-left",
-                  "fieldHtmlClass": "float-right form-50",
-                  "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
-                  "options": {
-                    "callback": "getLookup",
-                    "lookupType": "StudentEnrollmentType",
-                    "map": {valueProperty: "Name", nameProperty: "Description"}
-                  },
-                  "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')"
-                },
-                {
-                  //<!-- Good Student Discount -->
-                  "key": "driver.GoodStudentDiscount",
-                  "type": "radiobuttons",
-                  "labelHtmlClass": "float-left",
-                  "fieldHtmlClass": "float-right form-50",
-                  "titleMap": [
-                    {
-                      "value": true,
-                      "name": "Yes"
+                      //<!-- Military Branch -->
+                      "key": "driver.MilitaryBranch",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "MilitaryBranch",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')"
                     },
                     {
-                      "value": false,
-                      "name": "No"
+                      //<!-- Military Rank -->
+                      "key": "driver.MilitaryStatus",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "MilitaryServiceType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')"
+                    },
+                    {
+                      //<!-- Occupation -->
+                      "key": "driver.Occupation",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "Occupation",
+                        "map": {valueProperty: "Value", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showOccupation')"
                     }
-                  ],
-                  "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
-                }
-              ]
+                    ,
+                    {
+                      //<!-- Currently Attending School -->
+                      "key": "driver.CurrentStudentEnrollment",
+                      "type": "elephantSelectPicker",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
+                      "options": {
+                        "callback": "getLookup",
+                        "lookupType": "StudentEnrollmentType",
+                        "map": {valueProperty: "Name", nameProperty: "Description"}
+                      },
+                      "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')"
+                    },
+                    {
+                      //<!-- Good Student Discount -->
+                      "key": "driver.GoodStudentDiscount",
+                      "type": "radiobuttons",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "titleMap": [
+                        {
+                          "value": true,
+                          "name": "Yes"
+                        },
+                        {
+                          "value": false,
+                          "name": "No"
+                        }
+                      ],
+                      "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
+                    }
+                  ]
                 }
               ]
             },
@@ -748,7 +748,7 @@
                           "key": "driver.PreviousLapse",
                           title: "Were you uninsured at any time in the past 3 years?",
                           "type": "elephantSelectPicker",
-                         // "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
+                          // "requiredCondition": "model['driver']['CurrentlyInsured'] || model['driver']['CurrentInsuranceStatus'] == 'Military' || model['driver']['CurrentInsuranceStatus'] == 'PolicyExpiredWithin30Days'",
                           "labelHtmlClass": "float-left",
                           "fieldHtmlClass": "float-right form-50",
                           "htmlClass": "test",
@@ -891,7 +891,7 @@
             return deferred.promise;
           }
         },
-        data:{
+        data: {
           "schema": {
             "type": "object",
             "properties": {
@@ -1399,7 +1399,7 @@
             return deferred.promise;
           }
         },
-        data:{
+        data: {
           "schema": {
             "type": "object",
             "properties": {
@@ -1591,7 +1591,7 @@
             "title": "Comment",
             "properties": {
               "quoteIntent": {
-                type:"object",
+                type: "object",
                 "properties": {
                   "HasIncidents": {
                     "title": "Have any drivers had any accidents, violations or claims during the past 5 years?",
@@ -1626,7 +1626,7 @@
             {
               "key": "quoteIntent.HasIncidents",
               "type": "radiobuttons",
-              "disableSuccessState":true,
+              "disableSuccessState": true,
               "labelHtmlClass": "float-left",
               "fieldHtmlClass": "float-right form-50",
               "titleMap": [
@@ -1647,7 +1647,7 @@
             {
               "key": "quoteIntent.HasConvictions",
               "type": "radiobuttons",
-              "disableSuccessState":true,
+              "disableSuccessState": true,
               "labelHtmlClass": "float-left",
               "fieldHtmlClass": "float-right form-50",
               "titleMap": [
@@ -1673,7 +1673,7 @@
               "key": "quoteIntent.AdditionalIncidents",
               "condition": "modelData.quoteIntent.HasIncidents == true",
               "type": "radiobuttons",
-              "disableSuccessState":true,
+              "disableSuccessState": true,
               "labelHtmlClass": "float-left",
               "fieldHtmlClass": "float-right form-50",
               "titleMap": [
@@ -1695,7 +1695,121 @@
             }
           ]
         }
-      });
+      })
+      .state('additionalHistory', {
+        url: '/additional-history',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          "schema": {
+            "type": "object",
+            "title": "Comment",
+            "properties": {
+              "quoteIntent": {
+                type: "object",
+                "properties": {
+                  "Misdemeanors": {
+                    "title": "Number of misdemeanors",
+                    "type": "string"
+                  },
+                  "Felonies": {
+                    "title": "Number of felonies",
+                    "type": "string"
+                  }
+                },
+                "required": []
+              }
+            }
+          },
+          form: [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "items": [{
+                    "key": "quoteIntent.Misdemeanors",
+                    "type": "select",
+                    "disableSuccessState": true,
+                    "labelHtmlClass": "float-left",
+                    "fieldHtmlClass": "float-right form-50",
+                    "titleMap": [
+                      {
+                        "value": "0",
+                        "name": "0"
+                      },
+                      {
+                        "value": "1",
+                        "name": "1"
+                      },
+                      {
+                        "value": "2",
+                        "name": "2"
+                      },
+                      {
+                        "value": "3+",
+                        "name": "3+"
+                      },
+                      {
+                        "value": "Unsure",
+                        "name": "Unsure"
+                      }
+                    ]
+                  },
+                    {
+                      "key": "quoteIntent.Felonies",
+                      "type": "select",
+                      "disableSuccessState": true,
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "titleMap": [
+                        {
+                          "value": "0",
+                          "name": "0"
+                        },
+                        {
+                          "value": "1",
+                          "name": "1"
+                        },
+                        {
+                          "value": "2",
+                          "name": "2"
+                        },
+                        {
+                          "value": "3+",
+                          "name": "3+"
+                        },
+                        {
+                          "value": "Unsure",
+                          "name": "Unsure"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
+            }
+          ]
+        }
+      })
+    ;
+
 
     $urlRouterProvider.otherwise('/postal-code');
   }
