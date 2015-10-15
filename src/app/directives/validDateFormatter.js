@@ -55,3 +55,5 @@ function ValidDateFormatter() {
     };
   }]
 }
+angular.module('platform.directives', [])
+  .directive('validDate', ValidDateFormatter());

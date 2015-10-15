@@ -26,3 +26,5 @@ function UcaseFirstChar() {
     };
   }]
 }
+angular.module('platform.directives')
+  .directive('ucaseFirst', UcaseFirstChar());

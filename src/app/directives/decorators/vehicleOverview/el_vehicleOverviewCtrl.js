@@ -31,15 +31,16 @@ angular.module('schemaForm')
       );
 
     }])
-  .controller('vehicleOverviewCtrl', ['$scope', 'dataModelService', '$location', 'NavigationService', function($scope, dataModelService, $location, NavigationService){
+  .controller('vehicleOverviewCtrl', ['$scope', 'dataModelService', '$location', 'NavigationService', function ($scope, dataModelService, $location, NavigationService) {
     $scope.vehicleOverviewSummary = {
       vehicles: dataModelService.getAllVehicles(),
       formSubmitted: null,
-      validateForm: function(){
+      validateForm: function () {
         this.formSubmitted = true;
-        if($valid){
-          return NavigationService.getNextStep($scope.modelData, dataModelService, null);
+        if (this.vehicles.length < 1) {
+          $scope.vehicleOverviewForm.continue.$setValidity('required', false)
         }
+        return NavigationService.getNextStep($scope.modelData, dataModelService, null);
       }
     }
   }])

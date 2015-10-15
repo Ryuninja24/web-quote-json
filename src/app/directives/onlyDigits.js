@@ -26,3 +26,5 @@ function DigitsOnly() {
     };
   }
 }
+angular.module('platform.directives')
+  .directive('onlyDigits', DigitsOnly());

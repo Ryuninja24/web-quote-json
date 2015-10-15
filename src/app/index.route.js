@@ -1572,6 +1572,43 @@
           ]
         }
       })
+      .state('incidentOverview', {
+        url: '/incident-overview',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data:{
+          "schema": {
+            "type": "object",
+            "properties": {
+              "el_incidentOverview": {
+                "type": "string",
+                "format": "el_incidentOverview"
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
+              }
+            }
+          },
+          "form": [
+            {
+              "key": "el_incidentOverview"
+            },
+            {
+              key: "el_navSummary"
+            }
+          ]
+        }
+      })
       .state('incidents', {
         url: '/driver-history',
         templateUrl: 'app/quote/quote.html',
@@ -1808,8 +1845,43 @@
           ]
         }
       })
-    ;
-
+      .state('driverAssignment', {
+        url: '/driver-assignment',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data:{
+          "schema": {
+            "type": "object",
+            "properties": {
+              "el_driverAssignment": {
+                "type": "string",
+                "format": "el_driverAssignment"
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
+              }
+            }
+          },
+          "form": [
+            {
+              "key": "el_driverAssignment"
+            },
+            {
+              key: "el_navSummary"
+            }
+          ]
+        }
+      })
 
     $urlRouterProvider.otherwise('/postal-code');
   }

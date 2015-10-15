@@ -201,6 +201,20 @@ angular.module('quotes.persistence')
         }
       };
 
+      this.saveMultipleDrivers = function(modelData){
+        if(modelData && Array.isArray(modelData)){
+          var current = this;
+          _.each(modelData, function(item){
+            var quoteModel = current.getQuoteModel();
+            var driver = _.findWhere(quoteModel.Drivers, {Id: item.Id});
+            if(driver){
+              var index = _.indexOf(quoteModel.Drivers, driver);
+              quoteDataModel.Drivers[index] = item;
+            }
+          })
+        }
+      }
+
       //--------------- End Driver Functions  -------------------------------------------------
 
       //--------------- Vehicle Functions  -------------------------------------------------

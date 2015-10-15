@@ -54,6 +54,10 @@ function NavigationService() {
                 }
               }
             }
+            //Default navigation
+            else if(typeof condition.test === 'boolean' && condition.test === true){
+              testResult = true;
+            }
             else {
               throw String.format("NavigationService: TestCondition, Test condition is invalid {0}", condition.test);
             }
