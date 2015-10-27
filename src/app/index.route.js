@@ -1690,7 +1690,7 @@
                   "type": "elephantSelectPicker",
                   "labelHtmlClass": "float-left",
                   "fieldHtmlClass": "float-right form-50",
-                  "watcher": "driver.MilitaryBranch",
+                  "watcher": "model['driver']['MilitaryBranch']",
                   "options": {
                     "callback": "getLookup",
                     "lookupType": "MilitaryServiceType",

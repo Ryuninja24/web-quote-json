@@ -32,6 +32,20 @@ angular.module('schemaForm').config(
 angular.module('schemaForm')
   .controller('elephantSelectController', ['$scope', '$http', '$timeout', function ($scope, $http) {
 
+    var _form = $scope.$parent.form;
+    //In the case where the control is in a child of the parent i.e. collapseable
+    //this is probably not the best way to handle this but for now it will do
+    if(!_form){
+      _form = $scope.$parent.$parent.form;
+    }
+
+    if(_form.watcher) {
+      $scope.$watch(_form.watcher, function () {
+        $scope.populateTitleMap(_form);
+      });
+    }
+
+
     $scope.finalizeTitleMap = function (form, data, newOptions) {
       // Remap the data
       if(!data){

@@ -13,6 +13,7 @@
             schema-validate="form"
             ng-options="item.value as item.name group by item.group for item in form.titleMap"
             name="{{form.key.slice(-1)[0]}}"
+            watcher="{{form.watcher}}"
             ng-required="{{form.requiredCondition}}">
       <option value="">-- Select --</option>
     </select>
