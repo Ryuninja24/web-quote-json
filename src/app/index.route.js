@@ -1414,10 +1414,10 @@
                 "required": [
                   "FirstName",
                   "LastName",
-                  "RelationToInsured",
-                  "CurrentlyInsured",
+                  "Gender",
                   "LicenseStatus",
-                  "DrivesAnyListedVehicles",
+                  "HighestLevelOfEducation",
+                  "EmploymentStatus"
                 ],
                 "properties": {
                   "FirstName": {
@@ -1445,11 +1445,6 @@
                   },
                   "Gender": {
                     "title": "Gender",
-                    "type": "string",
-                    "default": null
-                  },
-                  "RelationToInsured": {
-                    "title": "Relationship to policy holder",
                     "type": "string",
                     "default": null
                   },
@@ -1516,7 +1511,11 @@
                     key: "driver.FirstName",
                     placeholder: "First Name",
                     title: "First name",
-                    directives: "[ { 'ucase-first' : '' } ]"
+                    directives: "[ { 'ucase-first' : '' } ]",
+                    validationMessage: {
+                      "302": "Please enter a first name.",
+                      "202": "First name is in an invalid format."
+                    }
                   }]
                 },
                 {
@@ -1543,7 +1542,11 @@
                     key: "driver.LastName",
                     placeholder: "Last Name",
                     title: "Last name",
-                    directives: "[ { 'ucase-first' : '' } ]"
+                    directives: "[ { 'ucase-first' : '' } ]",
+                    validationMessage: {
+                      "302": "Please enter a last name.",
+                      "202": "Last name is in an invalid format."
+                    }
                   }]
                 },
                 {
@@ -1575,7 +1578,10 @@
                       "value": "Female",
                       "name": "Female"
                     }
-                  ]
+                  ],
+                  validationMessage: {
+                    "302": "Please choose a gender."
+                  }
                 },
                 {
                   "type": "template",
@@ -1598,7 +1604,10 @@
                     { "value":"7", "name":"Suspended" },
                     { "value":"8", "name":"Restricted" },
                     { "value":"9", "name":"Revoked" }
-                  ]
+                  ],
+                  validationMessage: {
+                    "302": "Please choose a license status."
+                  }
                 },
                 {
                   "type": "template",
@@ -1616,8 +1625,12 @@
                       "fieldHtmlClass": "float-right form-50",
                       "title": "Birth date",
                       "directives": "[ { 'ui-mask' : '99-99-9999' }, {'valid_date':''}, {'min-age':'15'}, {'max-age':'98'} ]",
-                      "requiredCondition": "true"
-
+                      "requiredCondition": "true",
+                      validationMessage: {
+                        "required": "Please enter a birthdate.",
+                        "datetime": "Please enter a valid date.",
+                        "agerange": "Driver age must be between 16 and 98."
+                      }
                     },
                     {
                       key: "driver.AgeFirstLicensed",
@@ -1650,7 +1663,10 @@
                     { "value":"5", "name": "Bachelors" },
                     { "value":"6", "name": "Masters" },
                     { "value":"7", "name": "Doctorate" }
-                  ]
+                  ],
+                  validationMessage: {
+                    "302": "Please choose an education level."
+                  }
                 },
                 {
                   //<!-- Employment Status -->
@@ -1667,7 +1683,10 @@
                     { "value":"5", "name": "Unemployed" },
                     { "value":"6", "name": "Military - active" },
                     { "value":"7", "name": "Military - retired" }
-                  ]
+                  ],
+                  validationMessage: {
+                    "302": "Please choose an employment status."
+                  }
                 },
                 {
                   //<!-- Military Branch -->
@@ -1682,7 +1701,10 @@
                     "map": {valueProperty: "Value", nameProperty: "Description"}
                   },
                   "condition": "model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'",
-                  "requiredCondition": "true"
+                  "requiredCondition": "true",
+                  validationMessage: {
+                    "302": "Please choose a military branch."
+                  }
                 },
                 {
                   //<!-- Military Rank -->
@@ -1697,7 +1719,10 @@
                     "map": {valueProperty: "Value", nameProperty: "Description"}
                   },
                   "condition": "model['driver']['MilitaryBranch'] && model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'",
-                  "requiredCondition": "true"
+                  "requiredCondition": "true",
+                  validationMessage: {
+                    "302": "Please choose a military rank."
+                  }
                 },
                 {
                   //<!-- Occupation -->
@@ -1711,7 +1736,10 @@
                     "map": {valueProperty: "Value", nameProperty: "Description"}
                   },
                   "condition": "model['driver']['EmploymentStatus'] == '1' || model['driver']['EmploymentStatus'] == '3'",
-                  "requiredCondition": "true"
+                  "requiredCondition": "true",
+                  validationMessage: {
+                    "302": "Please choose an occupation."
+                  }
                 },
                 {
                   //<!-- Currently Attending School -->
@@ -1726,7 +1754,10 @@
                     "map": {valueProperty: "Name", nameProperty: "Description"}
                   },
                   "condition": "model['driver']['EmploymentStatus'] == '4'",
-                  "requiredCondition": "true"
+                  "requiredCondition": "true",
+                  validationMessage: {
+                    "302": "Your answer is required."
+                  }
                 }
               ]
             },
