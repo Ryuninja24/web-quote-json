@@ -85,6 +85,10 @@ angular.module('quotes.persistence')
         return !!(model.driverAge(model) >= 16 && model.driverAge(model) <= 24);
       },
 
+      resetMilitaryStatus: function(model){
+        model.MilitaryStatus = null;
+      },
+
       showCurrentStudentEnrollment: function(model){
         return model.EmploymentStatus == 'FullTimeStudent';
       },

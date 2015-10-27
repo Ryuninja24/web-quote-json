@@ -34,24 +34,11 @@
         <div id="postal-code" class="">
           <div class="input-group">
             <div class="form-group"
-                 ng-class="{true: 'has-error'}[postalSummary.formSubmitted && driverOverviewForm.continue.$invalid]">
-
+                 ng-class="{true: 'has-error'}[driverOverviewSummary.formSubmitted && driverOverviewForm.continue.$invalid]">
               <div ng-messages="driverOverviewForm.continue.$error" ng-if="driverOverviewSummary.formSubmitted">
                 <div ng-message="required">Please add your spouse</div>
               </div>
-              <input id="customerZip" name="continue" class="form-control {{form.fieldHtmlClass}}"
-                     type="hidden"
-                     placeholder="{{form.placeholder}}"
-                     ng-disabled="form.readonly"
-                     ng-model-options="form.ngModelOptions"
-                     ng-model="$$value$$"
-                     required>
-            </div>
-            <div class="button-continue">
-              <button class="" style="font-size:20px;" id="btnStartMe"
-                      ng-click="driverOverviewSummary.validateForm()">
-                <span>Start Me</span>
-              </button>
+              <input type="hidden" name="continue" type="text">
             </div>
           </div>
         </div>

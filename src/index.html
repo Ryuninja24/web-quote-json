@@ -208,7 +208,7 @@
               {
                 "priority":4,
                 "description":"No convictions and no more incidents and no vehicles",
-                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); console.dir(vehicles); if(!vehicles || vehicles.length == 0){ return {args:'0', condition: true}}else{ return false; }}else{ throw 'Invalid state occurred 1'}})",
+                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); if(!vehicles || vehicles.length == 0){ return {args:'0', condition: true}}else{ return false; }}})",
                 "expected": true,
                 "nextPage": "vehicle",
                 "includeArgs": true
@@ -216,12 +216,22 @@
               {
                 "priority":5,
                 "description":"No convictions and no more incidents and there is more than one vehicle",
-                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); return !!(vehicles && vehicles.length > 0); }else{ throw 'Invalid state occurred 2'}})",
+                "test": "(function(){ var quoteIntent = dataModelService.getQuoteIntent(); if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.HasIncidents){ var vehicles = dataModelService.getAllVehicles(); return !!(vehicles && vehicles.length > 0); }})",
                 "model":"quoteIntent",
                 "expected": true,
                 "nextPage": "vehicleOverview"
               }
             ],
+            "startPage": false
+          },
+          "AdditionalHistory": {
+            "pageName": "additionalHistory",
+            "nextPage": "vehicle",
+            "pageUrl": "/additional-history",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [],
             "startPage": false
           },
           "VehicleOverview": {

@@ -58,19 +58,6 @@ angular.module('schemaForm')
       }
     };
 
-    var fun = function(){
-      var quoteIntent = dataModelService.getQuoteIntent();
-      if((quoteIntent.HasConvictions == 'No' || quoteIntent.HasConvictions == 'Unsure') && !quoteIntent.AdditionalIncidents){
-        var vehicles = dataModelService.getAllVehicles();
-        if (!(!vehicles || vehicles.length < 1)) {
-          return false;
-        } else {
-          return {args: '0', condition: true}
-        }
-      }
-    };
-
-
     //Removes the Incident from the DataModel Service
     $scope.removeIncident = function (incidentId) {
       if(incidentId) {
@@ -145,10 +132,6 @@ angular.module('schemaForm')
           $scope.driverInfractions.driverIncidents = dataModelService.getIncidents();
         }
       }
-
-
-
-
     });
 
 }]);

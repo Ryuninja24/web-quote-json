@@ -911,6 +911,12 @@
             },
             {
               key: "el_navSummary"
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
             }
           ]
         }
@@ -1374,6 +1380,353 @@
                       "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              onClick: "submitForm(ngform)"
+            }
+          ]
+        }
+      })
+      .state('spouse', {
+        url: '/spouse/{driverId}',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: driverId});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "driver": {
+                "type": "object",
+                "required": [
+                  "FirstName",
+                  "LastName",
+                  "RelationToInsured",
+                  "CurrentlyInsured",
+                  "LicenseStatus",
+                  "DrivesAnyListedVehicles",
+                ],
+                "properties": {
+                  "FirstName": {
+                    "type": "string",
+                    "format": "inputMask",
+                    "pattern": "[\sa-zA-Z.-/]",
+                    "minLength": 2,
+                    "maxLength": 30
+                  },
+                  "MiddleName": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 1
+                  },
+                  "LastName": {
+                    "type": "string",
+                    "format": "inputMask",
+                    "pattern": "[\sa-zA-Z.-/]",
+                    "minLength": 2,
+                    "maxLength": 30
+                  },
+                  "Suffix": {
+                    "type": "string",
+                    "enum": ["Jr.", "Sr.", "I"]
+                  },
+                  "Gender": {
+                    "title": "Gender",
+                    "type": "string",
+                    "default": null
+                  },
+                  "RelationToInsured": {
+                    "title": "Relationship to policy holder",
+                    "type": "string",
+                    "default": null
+                  },
+                  "LicenseStatus": {
+                    "title": "Current license status",
+                    "type": "string",
+                    "default": null
+                  },
+                  "DateOfBirth": {
+                    "title": "Date of birth",
+                    "format": "inputMask",
+                    "type": "string",
+                    "default": null
+                  },
+                  "AgeFirstLicensed": {
+                    "title": "Age first licensed",
+                    "type": "string",
+                    "default": null
+                  },
+                  "HighestLevelOfEducation": {
+                    "title": "Education completed",
+                    "type": "string",
+                    "default": null
+                  },
+                  "EmploymentStatus": {
+                    "title": "Employment status",
+                    "type": "string",
+                    "default": null
+                  },
+                  "MilitaryBranch": {
+                    "title": "Branch",
+                    "type": "string",
+                    "default": null
+                  },
+                  "MilitaryStatus": {
+                    "title": "Rank",
+                    "type": "string",
+                    "default": null
+                  },
+                  "Occupation": {
+                    "title": "Occupation",
+                    "type": "string",
+                    "default": null
+                  },
+                  "CurrentStudentEnrollment": {
+                    "title": "Currently attend",
+                    "type": "string",
+                    "default": null
+                  }
+                }
+              }
+            }
+          },
+          "form": [
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-xs-4",
+                  "items": [{
+                    type: "el_inputMask",
+                    key: "driver.FirstName",
+                    placeholder: "First Name",
+                    title: "First name",
+                    directives: "[ { 'ucase-first' : '' } ]"
+                  }]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-xs-2",
+                  "items": [{
+                    key: "driver.MiddleName",
+                    placeholder: "M",
+                    title: "Middle name",
+                    notitle: true
+                  }]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "htmlClass": "row",
+              "items": [
+                {
+                  "type": "section",
+                  "htmlClass": "col-xs-4",
+                  "items": [{
+                    type: "el_inputMask",
+                    key: "driver.LastName",
+                    placeholder: "Last Name",
+                    title: "Last name",
+                    directives: "[ { 'ucase-first' : '' } ]"
+                  }]
+                },
+                {
+                  "type": "section",
+                  "htmlClass": "col-xs-2",
+                  "items": [{
+                    key: "driver.Suffix",
+                    placeholder: "Suffix",
+                    title: "Suffix"
+                  }]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "items": [
+                {
+                  //<!-- Gender -->
+                  "key": "driver.Gender",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "type": "radiobuttons",
+                  "titleMap": [
+                    {
+                      "value": "Male",
+                      "name": "Male"
+                    },
+                    {
+                      "value": "Female",
+                      "name": "Female"
+                    }
+                  ]
+                },
+                {
+                  "type": "template",
+                  "template": "<div class='form-group'><label class='control-label form-left'>Relationship to policyholder</label><div class='control-label form-right'>Spouse</div></div>"
+                },
+                {
+                  //<!-- License Status -->
+                  "key": "driver.LicenseStatus",
+                  "type": "select",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "titleMap": [
+                    { "value":null, "name": "Select One" },
+                    { "value":"1", "name": "Valid" },
+                    { "value":"2", "name":"Expired" },
+                    { "value":"3", "name":"Unlicensed" },
+                    { "value":"4", "name": "Foreign" },
+                    { "value":"5", "name":"LearnersPermit" },
+                    { "value":"6", "name":"Surrendered" },
+                    { "value":"7", "name":"Suspended" },
+                    { "value":"8", "name":"Restricted" },
+                    { "value":"9", "name":"Revoked" }
+                  ]
+                },
+                {
+                  "type": "template",
+                  "template": "<div class='form-group'>{{'License status is ' + model.driver.LicenseStatus}}</div>"
+                },
+                {
+                  "type": "el_collapse",
+                  "htmlClass": "form-group",
+                  condition: "model['driver']['LicenseStatus'] == '1' || model['driver']['LicenseStatus'] == '8' || model['driver']['LicenseStatus'] == '2' || model['driver']['LicenseStatus'] == '4' || model['driver']['LicenseStatus'] == '7' || model['driver']['LicenseStatus'] == '5'",
+                  "items": [
+                    {
+                      "key": "driver.DateOfBirth",
+                      "type": "el_inputMask",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "title": "Birth date",
+                      "directives": "[ { 'ui-mask' : '99-99-9999' }, {'valid_date':''}, {'min-age':'15'}, {'max-age':'98'} ]",
+                      "requiredCondition": "true"
+
+                    },
+                    {
+                      key: "driver.AgeFirstLicensed",
+                      placeholder: "",
+                      title: "Age first licensed",
+                      "labelHtmlClass": "float-left",
+                      "fieldHtmlClass": "float-right form-50",
+                      "htmlClass": "test",
+                      validationMessage: {
+                        "notANumber": "Please enter a valid first licensed age.",
+                        "ageLowerRange": "Sorry, first licensed age cannot be lower than 14 years.",
+                        "ageUpperRange": "Sorry, first licensed age cannot exceed driver's current age."
+                      },
+                      "requiredCondition": "true"
+                    }
+                  ]
+                },
+                {
+                  //<!-- Education Level -->
+                  "key": "driver.HighestLevelOfEducation",
+                  "type": "select",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "titleMap": [
+                    { "value":null, "name": "Select One" },
+                    { "value":"1", "name": "Lower than High School" },
+                    { "value":"2", "name": "High School/GED" },
+                    { "value":"3", "name": "Vocational" },
+                    { "value":"4", "name": "Associates" },
+                    { "value":"5", "name": "Bachelors" },
+                    { "value":"6", "name": "Masters" },
+                    { "value":"7", "name": "Doctorate" }
+                  ]
+                },
+                {
+                  //<!-- Employment Status -->
+                  "key": "driver.EmploymentStatus",
+                  "type": "select",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "titleMap": [
+                    { "value":null, "name": "Select One" },
+                    { "value":"1", "name": "Employed" },
+                    { "value":"2", "name": "Homemaker" },
+                    { "value":"3", "name": "Retired" },
+                    { "value":"4", "name": "Full-time student" },
+                    { "value":"5", "name": "Unemployed" },
+                    { "value":"6", "name": "Military - active" },
+                    { "value":"7", "name": "Military - retired" }
+                  ]
+                },
+                {
+                  //<!-- Military Branch -->
+                  "key": "driver.MilitaryBranch",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "onChange": "onChange(modelValue, 'driver', 'resetMilitaryStatus')",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "MilitaryBranch",
+                    "map": {valueProperty: "Value", nameProperty: "Description"}
+                  },
+                  "condition": "model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'",
+                  "requiredCondition": "true"
+                },
+                {
+                  //<!-- Military Rank -->
+                  "key": "driver.MilitaryStatus",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "watcher": "driver.MilitaryBranch",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "MilitaryServiceType",
+                    "map": {valueProperty: "Value", nameProperty: "Description"}
+                  },
+                  "condition": "model['driver']['MilitaryBranch'] && model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'",
+                  "requiredCondition": "true"
+                },
+                {
+                  //<!-- Occupation -->
+                  "key": "driver.Occupation",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "Occupation",
+                    "map": {valueProperty: "Value", nameProperty: "Description"}
+                  },
+                  "condition": "model['driver']['EmploymentStatus'] == '1' || model['driver']['EmploymentStatus'] == '3'",
+                  "requiredCondition": "true"
+                },
+                {
+                  //<!-- Currently Attending School -->
+                  "key": "driver.CurrentStudentEnrollment",
+                  "type": "elephantSelectPicker",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50",
+                  "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
+                  "options": {
+                    "callback": "getLookup",
+                    "lookupType": "StudentEnrollmentType",
+                    "map": {valueProperty: "Name", nameProperty: "Description"}
+                  },
+                  "condition": "model['driver']['EmploymentStatus'] == '4'",
+                  "requiredCondition": "true"
                 }
               ]
             },
