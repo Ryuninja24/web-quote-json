@@ -135,7 +135,7 @@
                 "description": "Primary driver is married, send to additional driver page",
                 "test": "(function () {var drivers = dataModelService.getQuoteModel().Drivers;if(drivers) {if (drivers.length == 1 && drivers[0].MaritalStatus == 'Married') {return {args: '0', condition: true};}else {return false;}}else{throw 'No drivers found'}})",
                 "expected": true,
-                "nextPage": "additionalDriver",
+                "nextPage": "spouse",
                 "includeArgs": true
               },
               {
@@ -148,6 +148,16 @@
               }
 
             ],
+            "startPage": false
+          },
+          "Spouse": {
+            "pageName": "spouse",
+            "nextPage": "driverOverview",
+            "pageUrl": "/spouse/",
+            "breadCrumb": "Drivers",
+            "touched": null,
+            "current": false,
+            "conditions": [],
             "startPage": false
           },
           "DriverOverview": {
@@ -168,7 +178,6 @@
             "touched": null,
             "current": false,
             "conditions": [
-
             ],
             "startPage": false
           },
@@ -238,7 +247,23 @@
             "pageName": "vehicleOverview",
             "pageUrl": "/vehicle-overview",
             "nextPage": "driverAssignment",
-            "conditions": [],
+            "conditions": [
+              {
+                "priority": 1,
+                "description": "If there is only one driver and a primary vehicle has already been assigned skip the driver assignment page",
+                "test": "(function(){var drivers = dataModelService.getRatedDrivers();if(drivers === 1 && drivers[0].PrimaryVehicleId !== null){return { condition: true}}else{return false;}})",
+                "expected": true,
+                "nextPage": "discounts"
+              },
+              {
+                "priority": 2,
+                "description": "Default",
+                "test": true,
+                "expected": true,
+                "nextPage": "driverAssignment",
+                "includeArgs": false
+              }
+            ],
             "startPage": false
           },
           "Vehicle": {

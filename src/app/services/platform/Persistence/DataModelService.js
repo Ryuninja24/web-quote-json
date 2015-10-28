@@ -120,13 +120,23 @@ angular.module('quotes.persistence')
         driver.init();
         return driver;
       };
+      this.createSpouse = function(){
+        var driver = new driverModel({RelationToInsured: 'Spouse', MaritalStatus: 'Married'});
+        driver.init();
+        return driver;
+      }
 
       this.getAllDrivers = function(){
         if(quoteDataModel){
           return angular.copy(quoteDataModel.Drivers)
         }
       }
-      this.getDriver = function (id) {
+      this.getDriver = function (data) {
+        if(data){
+          var id = data.driverId;
+          var spouse = data.spouse;
+        }
+
         var dataModel = this.getQuoteModel();
         //Making some assumptions at this point if no id then return policyHolder, if no policyholder then create and return
         //a new driver. If id is 0 return a new driver
@@ -143,7 +153,11 @@ angular.module('quotes.persistence')
           }
         } else if (id == 0) {
           // Creates a new driver
-          driver = this.createDriver();
+          if(spouse){
+            driver = this.createSpouse();
+          }else {
+            driver = this.createDriver()
+          }
         } else {
           // We do have a driverID so find it and return
           driver = _.findWhere(dataModel.Drivers, {Id: id});
@@ -272,7 +286,7 @@ angular.module('quotes.persistence')
       this.getModels = function (IdObject) {
         var models = {
           'vehicle': this.getVehicle(IdObject.vehicleId),
-          'driver': this.getDriver(IdObject.driverId),
+          'driver': this.getDriver(IdObject),
           'address': this.getAddress(),
           'quoteIntent': this.getQuoteIntent()
         };

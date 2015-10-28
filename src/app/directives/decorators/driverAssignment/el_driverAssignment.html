@@ -4,17 +4,16 @@
       <small class="help-block">Select which car each driver operates most.</small>
     </div>
 
-    <div class="input-group">
+    <div class="">
       <div class="form-group" ng-repeat="driver in driverAssignmentSummary.assignedList">
 
-        <label class="control-label form-left">{{ driver.Name }}</label>
+        <label class="control-label form-left">{{ driver.getFullName() }}</label>
 
-        <div ng-messages="driverAssignmentForm.driverAssignment.$error" ng-if="formSubmitted">
+        <div ng-messages="driverAssignmentForm.driverAssignment.$error" ng-if="driverAssignmentSummary.formSubmitted">
           <div ng-message="required">primary driver is required</div>
         </div>
         <select class="form-control form-right" id="driver" ng-model="driver.PrimaryVehicleId" name="driverAssignment"
-                ng-options="vehicle.Id as vehicle.Year + ' ' + vehicle.Make + ' ' + vehicle.Model for vehicle in driverAssignmentSummary.vehicles"
-                required>
+                ng-options="vehicle.Id as vehicle.Year + ' ' + vehicle.Make + ' ' + vehicle.Model for vehicle in driverAssignmentSummary.vehicles">
           <option value="">Select</option>
         </select>
       </div>

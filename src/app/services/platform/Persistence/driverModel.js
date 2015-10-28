@@ -63,7 +63,9 @@ angular.module('quotes.persistence')
           this.Id = String.createGuid();
         }
       },
-
+      getFullName: function(){
+        return this.FirstName + ' ' + this.LastName;
+      },
       setAsPrimary: function () {
         this.RatingStatus = 'Rated';
         this.PrimaryDriver = true;

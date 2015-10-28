@@ -45,8 +45,13 @@ angular.module('schemaForm')
         var assignmentObj = this;
         this.formSubmitted = true;
         if(isValid){
-          dataModelService.saveMultipleDrivers(this.assignedList);
-          NavigationService.getNextStep()
+          if($scope.driverAssignmentForm.driverAssignment.$modelValue === null){
+            $scope.driverAssignmentForm.driverAssignment.$setValidity('required', false);
+          }else {
+            $scope.driverAssignmentForm.driverAssignment.$setValidity('required', true);
+            dataModelService.saveMultipleDrivers(this.assignedList);
+            NavigationService.getNextStep()
+          }
         }
         console.log('working')
       }

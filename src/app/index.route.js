@@ -1256,130 +1256,6 @@
                       "requiredCondition": "true"
                     }
                   ]
-                },
-                {
-                  "type": "section",
-                  "title": "Spouse Questions",
-                  "items": [
-                    {
-                      //<!-- Education Level -->
-                      "key": "driver.HighestLevelOfEducation",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "EducationLevelType",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "driver.RelationToInsured == 'Spouse'",
-                      "requiredCondition": "true"
-                    },
-                    {
-                      //<!-- Employment Status -->
-                      "key": "driver.EmploymentStatus",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "EmploymentStatusType",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "driver.RelationToInsured == 'Spouse'",
-                      "requiredCondition": "true"
-                    },
-                    {
-                      //<!-- Education Level -->
-                      "key": "driver.HighestLevelOfEducation",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "EducationLevelType",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "driver.RelationToInsured == 'Spouse'",
-                      "requiredCondition": "true"
-                    },
-                    {
-                      //<!-- Military Branch -->
-                      "key": "driver.MilitaryBranch",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "MilitaryBranch",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showMilitaryBranch')",
-                      "requiredCondition": "true"
-                    },
-                    {
-                      //<!-- Military Rank -->
-                      "key": "driver.MilitaryStatus",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "MilitaryServiceType",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showMilitaryStatus')",
-                      "requiredCondition": "true"
-                    },
-                    {
-                      //<!-- Occupation -->
-                      "key": "driver.Occupation",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "Occupation",
-                        "map": {valueProperty: "Value", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showOccupation')",
-                      "requiredCondition": "true"
-                    },
-                    {
-                      //<!-- Currently Attending School -->
-                      "key": "driver.CurrentStudentEnrollment",
-                      "type": "elephantSelectPicker",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
-                      "options": {
-                        "callback": "getLookup",
-                        "lookupType": "StudentEnrollmentType",
-                        "map": {valueProperty: "Name", nameProperty: "Description"}
-                      },
-                      "condition": "ShowIf(ngform, 'driver','showCurrentStudentEnrollment')",
-                      "requiredCondition": "true"
-                    },
-                    {
-                      //<!-- Good Student Discount -->
-                      "key": "driver.GoodStudentDiscount",
-                      "type": "radiobuttons",
-                      "labelHtmlClass": "float-left",
-                      "fieldHtmlClass": "float-right form-50",
-                      "titleMap": [
-                        {
-                          "value": true,
-                          "name": "Yes"
-                        },
-                        {
-                          "value": false,
-                          "name": "No"
-                        }
-                      ],
-                      "condition": "ShowIf(ngform, 'driver','showGoodStudentDiscount')"
-                    }
-                  ]
                 }
               ]
             },
@@ -1399,7 +1275,7 @@
         resolve: {
           modelData: function ($q, $stateParams, dataModelService) {
             var driverId = $stateParams.driverId;
-            var fun = dataModelService.getModels({vehicleId: null, driverId: driverId});
+            var fun = dataModelService.getModels({vehicleId: null, driverId: driverId, spouse: true});
             var deferred = $q.defer();
             deferred.resolve(fun);
             return deferred.promise;
@@ -1445,6 +1321,11 @@
                   },
                   "Gender": {
                     "title": "Gender",
+                    "type": "string",
+                    "default": null
+                  },
+                  "RelationToInsured": {
+                    "Relationship to Insured": "Gender",
                     "type": "string",
                     "default": null
                   },
@@ -1584,8 +1465,10 @@
                   }
                 },
                 {
+                  "key": "driver.RelationToInsured",
                   "type": "template",
-                  "template": "<div class='form-group'><label class='control-label form-left'>Relationship to policyholder</label><div class='control-label form-right'>Spouse</div></div>"
+                  "template": "<div class='form-group'><label class='control-label form-left'>Relationship to policyholder</label>" +
+                  "<div class='control-label form-right'>{{ model['driver']['RelationToInsured'] }}</div></div>"
                 },
                 {
                   //<!-- License Status -->
@@ -2259,6 +2142,109 @@
           "form": [
             {
               "key": "el_driverAssignment"
+            },
+            {
+              key: "el_navSummary"
+            }
+          ]
+        }
+      })
+      .state('discounts', {
+        url: '/discounts',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "drivers": {
+                "type": "object",
+                "properties": {
+                  "Email": {
+                    "type": "string",
+                    "minLength": 5
+                  },
+                  "EmailAddressConfirm": {
+                    "type": "string",
+                    "format": "inputMask",
+                    "minLength": 5
+                  }
+                }
+              }
+            }
+
+          },
+          "form": [
+            {
+              "type": "email",
+              "key": "driver.EmailAddress",
+              "labelHtmlClass": "float-left",
+              "fieldHtmlClass": "float-right form-50",
+              "placeholder": "Email address",
+              "title": "Email"
+            },
+            {
+              "type": "el_inputMask",
+              "key": "driver.EmailAddressConfirm",
+              "labelHtmlClass": "float-left",
+              "fieldHtmlClass": "float-right form-50",
+              "placeholder": "Confirm email address",
+              "title": "Confirm email address",
+              "directives": "[ { 'confirm-email' : '' } ]"
+
+
+            },
+            {
+              "type": "button",
+              "style": "btn-info",
+              "title": "OK",
+              "onClick": "submitForm(ngform)"
+            },
+            {
+              "key": "el_navSummary"
+            },
+          ]
+        }
+      })
+      .state('quote', {
+        url: '/quote',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "el_quotePrice": {
+                "type": "string",
+                "format": "el_quotePrice"
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
+              }
+            }
+          },
+          "form": [
+            {
+              "key": "el_quotePrice"
             },
             {
               key: "el_navSummary"
