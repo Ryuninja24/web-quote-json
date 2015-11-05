@@ -1,0 +1,28 @@
+<div ng-controller="elRepeaterCtrl">
+  <ng-form name="repeaterForm">
+    <div ng-repeat="item in repeatSummary.dataModel[form.repeater]">
+      <span>{{ item[form['heading']]() }}</span>
+
+      <div ng-repeat="input in form.properties" class="form-group">
+        <label class="control-label {{input.labelHtmlClass}}">{{input.label}}</label>
+        <input ng-if="input.type === 'input'"
+               class="form-control {{input.fieldHtmlClass}}"
+               ng-model="item[input.name]"
+               ng-disabled="input.readonly"
+               name="{{input.name}}"
+               ng-required="{{input.requiredCondition}}"/>
+
+        <select ng-if="input.type === 'select'"
+                class="form-control {{input.fieldHtmlClass}}"
+                ng-model="item[input.name]"
+                ng-disabled="input.readonly"
+                ng-options="item.value as item.name group by item.group for item in input.titleMap"
+                name="{{input.name}}"
+                ng-required="{{input.requiredCondition}}">
+          <option value="">-- Select --</option>
+        </select>
+      </div>
+    </div>
+    <button ng-click="saveItems">Ok</button>
+  </ng-form>
+</div>

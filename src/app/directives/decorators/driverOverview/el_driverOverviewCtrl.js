@@ -36,14 +36,14 @@ angular.module('schemaForm')
       drivers: dataModelService.getAllDrivers(),
       formSubmitted: null
     };
-
+    var summary = $scope.driverOverviewSummary;
     $scope.$on('schemaFormValidate', function() {
       $scope.driverOverviewSummary.formSubmitted = true;
-      if(this.drivers.length == 1 && this.drivers[0].MaritalStatus == 'Married'){
+      if(summary.drivers.length == 1 && summary.drivers[0].MaritalStatus == 'Married'){
         //  invalidate the form
         return $scope.driverOverviewForm.continue.$setValidity('required', false)
       }
-      else if(this.drivers[0].MaritalStatus == 'Married' && !_.findWhere(this.drivers, {RelationToInsured: 'Spouse', MaritalStatus: 'Married'})){
+      else if(summary.drivers[0].MaritalStatus == 'Married' && !_.findWhere(summary.drivers, {RelationToInsured: 'Spouse', MaritalStatus: 'Married'})){
         return $scope.driverOverviewForm.continue.$setValidity('required', false)
       }
       else{
