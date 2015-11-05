@@ -2301,6 +2301,55 @@
           ]
         }
       })
+      .state('confirmVehicle', {
+        url: '/confirm-vehicle',
+        templateUrl: 'app/quote/quote.html',
+        controller: 'QuoteController',
+        resolve: {
+          modelData: function ($q, $stateParams, dataModelService) {
+            var driverId = $stateParams.driverId;
+            var fun = dataModelService.getModels({vehicleId: null, driverId: null});
+            var deferred = $q.defer();
+            deferred.resolve(fun);
+            return deferred.promise;
+          }
+        },
+        data: {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "el_repeater": {
+                "type": "string",
+                "format": "el_repeater"
+              },
+              "el_navSummary": {
+                type: 'string',
+                format: 'el_navSummary'
+              }
+            }
+          },
+          "form": [
+            {
+              "key": "el_repeater",
+              "repeater": "Vehicles",
+              "heading": "getMakeModel",
+              "properties": [
+                {
+                  "label":"Vin Number",
+                  "name": "Vin",
+                  "type": "input",
+                  "labelHtmlClass": "float-left",
+                  "fieldHtmlClass": "float-right form-50"
+                }
+              ]
+
+            },
+            {
+              key: "el_navSummary"
+            }
+          ]
+        }
+      })
 
     $urlRouterProvider.otherwise('/postal-code');
   }

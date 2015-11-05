@@ -48,6 +48,9 @@ angular.module('quotes.persistence')
         if(!this.CustomEquipment){
           this.ValueOfCustomEquipment = null;
         }
+      },
+      getMakeModel: function(){
+        return this.Make + ' ' + this.Model;
       }
     });
 
