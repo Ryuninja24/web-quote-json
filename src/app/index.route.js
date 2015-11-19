@@ -1293,7 +1293,10 @@
                   "Gender",
                   "LicenseStatus",
                   "HighestLevelOfEducation",
-                  "EmploymentStatus"
+                  "EmploymentStatus",
+                  "Occupation",
+                  "CurrentStudentEnrollment",
+                  "MilitaryBranch"
                 ],
                 "properties": {
                   "FirstName": {
@@ -1492,10 +1495,10 @@
                     "302": "Please choose a license status."
                   }
                 },
-                {
-                  "type": "template",
-                  "template": "<div class='form-group'>{{'License status is ' + model.driver.LicenseStatus}}</div>"
-                },
+                //{
+                //  "type": "template",
+                //  "template": "<div class='form-group'>{{'License status is ' + model.driver.LicenseStatus}}</div>"
+                //},
                 {
                   "type": "el_collapse",
                   "htmlClass": "form-group",
@@ -1524,7 +1527,7 @@
                       "htmlClass": "test",
                       validationMessage: {
                         "notANumber": "Please enter a valid first licensed age.",
-                        "ageLowerRange": "Sorry, first licensed age cannot be lower than 14 years.",
+                        "ageLowerRange": "Sorry, first licensed age cannot be lower than 15 years.",
                         "ageUpperRange": "Sorry, first licensed age cannot exceed driver's current age."
                       },
                       "requiredCondition": "true"
@@ -1557,6 +1560,7 @@
                   "type": "select",
                   "labelHtmlClass": "float-left",
                   "fieldHtmlClass": "float-right form-50",
+                  "onChange": "onChange(modelValue, 'driver', 'resolveEmploymentStatus')",
                   "titleMap": [
                     { "value":null, "name": "Select One" },
                     { "value":"1", "name": "Employed" },
@@ -1584,7 +1588,6 @@
                     "map": {valueProperty: "Value", nameProperty: "Description"}
                   },
                   "condition": "model['driver']['EmploymentStatus'] == '6' || model['driver']['EmploymentStatus'] == '7'",
-                  "requiredCondition": "true",
                   validationMessage: {
                     "302": "Please choose a military branch."
                   }
@@ -1619,9 +1622,8 @@
                     "map": {valueProperty: "Value", nameProperty: "Description"}
                   },
                   "condition": "model['driver']['EmploymentStatus'] == '1' || model['driver']['EmploymentStatus'] == '3'",
-                  "requiredCondition": "true",
-                  validationMessage: {
-                    "302": "Please choose an occupation."
+                  validationMessage: function(ctx) {
+                    return "Please enter an occupation";
                   }
                 },
                 {

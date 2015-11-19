@@ -6,7 +6,7 @@ angular.module('schemaForm').config(
     function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider) {
 
       var elephantSelector = function (name, schema, options) {
-        if ((schema.type === 'string') && schema.format == 'postalCodeSelector') {
+        if ((schema.type === 'string')) {
           var f = schemaFormProvider.stdFormObj(name, schema, options);
           f.key = options.path;
           f.type = 'elephantSelectPicker';
